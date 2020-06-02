@@ -1,0 +1,7 @@
+# PostgreSQL
+# ------------------------------------------------------------------------------
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=teamspirit
+POSTGRES_USER=FNirwhxJFYKPGDnmRKlixGmRkFihyOCm
+POSTGRES_PASSWORD=Z74LJV4maCei097zBP73j57vc3iNC2i8dqXSmfRaAGd4TgN3EySFMWk84X6eiH5O
