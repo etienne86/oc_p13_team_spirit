@@ -68,7 +68,6 @@ target/
 .venv
 venv/
 ENV/
-.envs/
 
 # Rope project settings
 .ropeproject
@@ -284,7 +283,7 @@ teamspirit/media/
 
 .pytest_cache/
 
-
 .env
 .envs/*
-!.envs/.local/
+
+.vscode/
