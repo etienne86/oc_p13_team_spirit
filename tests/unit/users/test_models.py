@@ -3,17 +3,18 @@ This module contains the unit tests related to
 the models in app ``users``.
 """
 
+from django.contrib.auth.hashers import check_password
 from django.test import TestCase
 
 from teamspirit.users.models import User
 
 
-def create_user_toto(email="toto@mail.com"):
-    return User.objects.create_user(email=email)
+def create_user_toto(email="toto@mail.com", password="Password123"):
+    return User.objects.create_user(email=email, password=password)
 
 
-def create_superuser_toto(email="super_toto@mail.com"):
-    return User.objects.create_superuser(email=email)
+def create_superuser_toto(email="super_toto@mail.com", password="Password456"):
+    return User.objects.create_superuser(email=email, password=password)
 
 
 class UserModelTestsCase(TestCase):
@@ -96,3 +97,20 @@ class UserModelTestsCase(TestCase):
         Test that the superuser is admin.
         """
         self.assertTrue(self.super_toto.is_admin)
+
+    def test_user_has_right_password(self):
+        """Unit test - app ``users`` - #11
+
+        Test that the user has the right password.
+        """
+        self.assertTrue(check_password("Password123", self.toto.password))
+
+    def test_superuser_has_right_password(self):
+        """Unit test - app ``users`` - #12
+
+        Test that the superuser has the right password.
+        """
+        self.assertTrue(check_password(
+            "Password456",
+            self.super_toto.password)
+        )
