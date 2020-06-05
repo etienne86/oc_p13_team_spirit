@@ -5,14 +5,14 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import DetailView, RedirectView, UpdateView
 
-User = get_user_model()
+from teamspirit.users.models import User
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
 
     model = User
-    slug_field = "username"
-    slug_url_kwarg = "username"
+    slug_field = "email"
+    slug_url_kwarg = "email"
 
 
 user_detail_view = UserDetailView.as_view()
@@ -25,11 +25,11 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse(
-            "users:detail", kwargs={"username": self.request.user.username}
+            "users:detail", kwargs={"email": self.request.user.email}
         )
 
     def get_object(self):
-        return User.objects.get(username=self.request.user.username)
+        return User.objects.get(email=self.request.user.email)
 
     def form_valid(self, form):
         messages.add_message(
@@ -47,7 +47,7 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
 
     def get_redirect_url(self):
         return reverse(
-            "users:detail", kwargs={"username": self.request.user.username}
+            "users:detail", kwargs={"email": self.request.user.email}
         )
 
 

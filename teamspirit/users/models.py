@@ -1,15 +1,42 @@
 from django.contrib.auth.base_user import AbstractBaseUser
-from django.db.models import CharField
-# from django.urls import reverse
+from django.contrib.auth.models import PermissionsMixin
+from django.db import models
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
+from teamspirit.users.managers import UserManager
 
-class User(AbstractBaseUser):
 
-    # First Name and Last Name do not cover name patterns
-    # around the globe.
+class User(AbstractBaseUser, PermissionsMixin):
 
-    name = CharField(_("Name of User"), blank=True, max_length=255)
+    email = models.EmailField(
+        verbose_name=_("Email"),
+        unique=True,
+        error_messages={
+            'unique': _("A user with that email already exists."),
+        }
+    )
 
-    # def get_absolute_url(self):
-    #     return reverse("users:detail", kwargs={"username": self.username})
+    USERNAME_FIELD = 'email'
+
+    objects = UserManager()
+
+    is_active = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"User '{self.email}''"
+
+    def has_perm(self, perm, obj=None):
+        "Does the user have a specific permission?"
+        # Simplest possible answer: Yes, always
+        return True
+
+    def has_module_perms(self, app_label):
+        "Does the user have permissions to view the app `app_label`?"
+        # Simplest possible answer: Yes, always
+        return True
+
+    def get_absolute_url(self):
+        return reverse("users:detail", kwargs={"email": self.email})
