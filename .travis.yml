@@ -4,6 +4,10 @@ language: python
 python:
   - "3.8"
 
+branches:
+  only:
+    - dev
+
 services:
   - postgresql
 jobs:
@@ -28,4 +32,5 @@ jobs:
       install:
         - pip install -r requirements/local.txt
       script:
-        - "pytest"
+        - ./manage.py test
+        # - "pytest"
