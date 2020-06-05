@@ -1,7 +1,7 @@
 import pytest
 
 from teamspirit.users.models import User
-from teamspirit.users.tests.factories import UserFactory
+from tests.unit.users.factories import UserFactory
 
 
 @pytest.fixture(autouse=True)
