@@ -12,11 +12,11 @@ services:
   - postgresql
 jobs:
   include:
-    - name: "Linter"
-      before_script:
-        - pip install -q flake8
-      script:
-        - "flake8"
+    # - name: "Linter"
+    #   before_script:
+    #     - pip install -q flake8
+    #   script:
+    #     - "flake8"
 
     - name: "Django Test"
       before_install:

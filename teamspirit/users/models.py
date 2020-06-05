@@ -1,6 +1,6 @@
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.db.models import CharField
-from django.urls import reverse
+# from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 
