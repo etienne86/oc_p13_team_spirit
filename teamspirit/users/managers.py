@@ -1,7 +1,7 @@
 """This module contains managers for models in app ``users``."""
 
-from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import BaseUserManager
+from django.utils.translation import ugettext_lazy as _
 
 
 class UserManager(BaseUserManager):

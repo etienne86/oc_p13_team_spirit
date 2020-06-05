@@ -1,16 +1,13 @@
 from django import forms as django_forms
-from django.contrib.auth import forms  #, get_user_model
+from django.contrib.auth import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
 from teamspirit.users.models import User
 
 
-# User = get_user_model()
-
-
 class UserChangeForm(forms.UserChangeForm):
-    
+
     class Meta(forms.UserChangeForm.Meta):
         model = User
         fields = ("email",)

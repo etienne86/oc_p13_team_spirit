@@ -11,6 +11,7 @@ from teamspirit.users.models import User
 def create_user_toto(email="toto@mail.com"):
     return User.objects.create_user(email=email)
 
+
 def create_superuser_toto(email="super_toto@mail.com"):
     return User.objects.create_superuser(email=email)
 
