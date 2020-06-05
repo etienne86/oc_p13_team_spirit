@@ -1,14 +1,14 @@
-import pytest
+# import pytest
 
-from teamspirit.users.models import User
-from tests.unit.users.factories import UserFactory
-
-
-@pytest.fixture(autouse=True)
-def media_storage(settings, tmpdir):
-    settings.MEDIA_ROOT = tmpdir.strpath
+# from tests.unit.users.factories import UserFactory  # noqa I001
+# from teamspirit.users.models import User
 
 
-@pytest.fixture
-def user() -> User:
-    return UserFactory()
+# @pytest.fixture(autouse=True)
+# def media_storage(settings, tmpdir):
+#     settings.MEDIA_ROOT = tmpdir.strpath
+
+
+# @pytest.fixture
+# def user() -> User:
+#     return UserFactory()
