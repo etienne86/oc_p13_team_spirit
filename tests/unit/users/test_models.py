@@ -9,22 +9,20 @@ from django.test import TestCase
 from teamspirit.users.models import User
 
 
-def create_user_toto(email="toto@mail.com", password="Password123"):
-    return User.objects.create_user(email=email, password=password)
-
-
-def create_superuser_toto(email="super_toto@mail.com", password="Password456"):
-    return User.objects.create_superuser(email=email, password=password)
-
-
 class UserModelTestsCase(TestCase):
     """Test the model ``User``."""
 
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.toto = create_user_toto()
-        cls.super_toto = create_superuser_toto()
+        cls.toto = User.objects.create_user(
+            email="toto@mail.com",
+            password="Password123"
+        )
+        cls.super_toto = User.objects.create_superuser(
+            email="super_toto@mail.com",
+            password="Password456"
+        )
 
     def test_create_user(self):
         """Unit test - app ``users`` - #1
