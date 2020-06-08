@@ -20,6 +20,7 @@ class PersonalModelTestsCase(TestCase):
             city="Paris",
             country="France"
         )
+        cls.address.save()
         cls.personal_public = Personal(
             first_name="Foo",
             last_name="Dejoy",
