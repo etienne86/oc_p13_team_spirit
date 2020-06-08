@@ -74,8 +74,18 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
-    "teamspirit.users.apps.UsersConfig",
-    # Your stuff: custom apps go here
+    "teamspirit.budgets",
+    "teamspirit.calendars",
+    "teamspirit.catalogs",
+    "teamspirit.core",
+    "teamspirit.events",
+    "teamspirit.files",
+    "teamspirit.management",
+    "teamspirit.pages",
+    "teamspirit.preorders",
+    "teamspirit.profiles",
+    "teamspirit.trainings",
+    "teamspirit.users",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
