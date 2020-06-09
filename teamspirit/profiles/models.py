@@ -24,7 +24,7 @@ class Personal(models.Model):
         verbose_name=_('Phone number')
     )
     address = models.ForeignKey(
-        Address,
+        to=Address,
         on_delete=models.CASCADE,
     )
     has_private_profile = models.BooleanField(default=False)
@@ -35,7 +35,25 @@ class Personal(models.Model):
 class Role(models.Model):
     """Qualify user's role."""
 
-    is_on_board = models.BooleanField(default=False)
-    is_manager = models.BooleanField(default=False)
+    is_member = models.BooleanField(
+        default=True,
+        verbose_name="Adhérent(e) de l'association"
+    )    
+    is_secretary = models.BooleanField(
+        default=False,
+        verbose_name="Secrétariat"
+    )
+    is_treasurer = models.BooleanField(
+        default=False,
+        verbose_name="Trésorerie"
+    )
+    is_president = models.BooleanField(
+        default=False,
+        verbose_name="Présidence"
+    )
+    is_in_standby = models.BooleanField(
+        default=False,
+        verbose_name="Non adhérent(e)"
+    )
 
     objects = RoleManager()

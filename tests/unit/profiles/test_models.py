@@ -4,7 +4,7 @@
 from django.test import TestCase
 
 from teamspirit.core.models import Address
-from teamspirit.profiles.models import Personal
+from teamspirit.profiles.models import Personal, Role
 
 
 class PersonalModelTestsCase(TestCase):
@@ -13,29 +13,26 @@ class PersonalModelTestsCase(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.address = Address(
+        cls.address = Address.objects.create(
             label_first="1 rue de l'impasse",
             label_second="",
             postal_code=75000,
             city="Paris",
             country="France"
         )
-        cls.address.save()
-        cls.personal_public = Personal(
+        cls.personal_public = Personal.objects.create(
             first_name="Foo",
             last_name="Dejoy",
             phone_number="01 02 03 04 05",
             address=cls.address
         )
-        cls.personal_public.save()
-        cls.personal_private = Personal(
+        cls.personal_private = Personal.objects.create(
             first_name="Bar",
             last_name="Tabba",
             phone_number="05 04 03 02 01",
             address=cls.address,
             has_private_profile=True
         )
-        cls.personal_private.save()
 
     def test_first_name(self):
         """Unit test - app ``profiles`` - model ``Personal`` - #1.1
@@ -84,3 +81,22 @@ class PersonalModelTestsCase(TestCase):
         """
         self.assertIsInstance(self.personal_private.has_private_profile, bool)
         self.assertEqual(self.personal_private.has_private_profile, True)
+
+
+class RoleModelTestCase(TestCase):
+    """Test the model ``Role``."""
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.member = Role.objects.create()
+        cls.secretary = Role.objects.create(is_secretary=True)
+        cls.treasurer = Role.objects.create(is_treasurer=True)
+        cls.president = Role.objects.create(is_president=True)
+
+    def test_member_is_member(self):
+        """Unit test - app ``profiles`` - model ``Role`` - #2.1
+
+        Test that the member is (really) a member.
+        """
+        
