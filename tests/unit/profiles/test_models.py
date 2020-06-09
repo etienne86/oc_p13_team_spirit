@@ -90,13 +90,191 @@ class RoleModelTestCase(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.member = Role.objects.create()
-        cls.secretary = Role.objects.create(is_secretary=True)
-        cls.treasurer = Role.objects.create(is_treasurer=True)
-        cls.president = Role.objects.create(is_president=True)
+        cls.secretary = Role.objects.create()
+        cls.secretary.set_as_secretary()
+        cls.treasurer = Role.objects.create()
+        cls.treasurer.set_as_treasurer()
+        cls.president = Role.objects.create()
+        cls.president.set_as_president()
+        cls.inactive = Role.objects.create()
+        cls.inactive.set_as_inactive()
 
     def test_member_is_member(self):
         """Unit test - app ``profiles`` - model ``Role`` - #2.1
 
-        Test that the member is (really) a member.
+        Test that the member is (really) member.
         """
-        
+        self.assertIsInstance(self.member, Role)
+        self.assertTrue(self.member.is_member)
+
+    def test_member_is_not_secretary(self):
+        """Unit test - app ``profiles`` - model ``Role`` - #2.2
+
+        Test that the member is not secretary.
+        """
+        self.assertFalse(self.member.is_secretary)
+
+    def test_member_is_not_treasurer(self):
+        """Unit test - app ``profiles`` - model ``Role`` - #2.3
+
+        Test that the member is not treasurer.
+        """
+        self.assertFalse(self.member.is_treasurer)
+
+    def test_member_is_not_president(self):
+        """Unit test - app ``profiles`` - model ``Role`` - #2.4
+
+        Test that the member is not president.
+        """
+        self.assertFalse(self.member.is_president)
+
+    def test_member_is_not_inactive(self):
+        """Unit test - app ``profiles`` - model ``Role`` - #2.5
+
+        Test that the member is not inactive.
+        """
+        self.assertFalse(self.member.is_inactive)
+
+    def test_secretary_is_secretary(self):
+        """Unit test - app ``profiles`` - model ``Role`` - #2.6
+
+        Test that the secreatary is secretary.
+        """
+        self.assertIsInstance(self.secretary, Role)
+        self.assertTrue(self.secretary.is_secretary)
+
+    def test_secretary_is_not_member(self):
+        """Unit test - app ``profiles`` - model ``Role`` - #2.7
+
+        Test that the secretary is not member.
+        """
+        self.assertFalse(self.secretary.is_member)
+
+    def test_secretary_is_not_treasurer(self):
+        """Unit test - app ``profiles`` - model ``Role`` - #2.8
+
+        Test that the secretary is not treasurer.
+        """
+        self.assertFalse(self.secretary.is_treasurer)
+
+    def test_secretary_is_not_president(self):
+        """Unit test - app ``profiles`` - model ``Role`` - #2.9
+
+        Test that the secretary is not president.
+        """
+        self.assertFalse(self.secretary.is_president)
+
+    def test_secretary_is_not_inactive(self):
+        """Unit test - app ``profiles`` - model ``Role`` - #2.10
+
+        Test that the secretary is not inactive.
+        """
+        self.assertFalse(self.secretary.is_inactive)
+
+    def test_treasurer_is_treasurer(self):
+        """Unit test - app ``profiles`` - model ``Role`` - #2.11
+
+        Test that the treasurer is treasurer.
+        """
+        self.assertIsInstance(self.treasurer, Role)
+        self.assertTrue(self.treasurer.is_treasurer)
+
+    def test_treasurer_is_not_member(self):
+        """Unit test - app ``profiles`` - model ``Role`` - #2.12
+
+        Test that the treasurer is not member.
+        """
+        self.assertFalse(self.treasurer.is_member)
+
+    def test_treasurer_is_not_secretary(self):
+        """Unit test - app ``profiles`` - model ``Role`` - #2.13
+
+        Test that the treasurer is not secretary.
+        """
+        self.assertFalse(self.treasurer.is_secretary)
+
+    def test_treasurer_is_not_president(self):
+        """Unit test - app ``profiles`` - model ``Role`` - #2.14
+
+        Test that the treasurer is not president.
+        """
+        self.assertFalse(self.treasurer.is_president)
+
+    def test_treasurer_is_not_inactive(self):
+        """Unit test - app ``profiles`` - model ``Role`` - #2.15
+
+        Test that the treasurer is not inactive.
+        """
+        self.assertFalse(self.treasurer.is_inactive)
+
+    def test_president_is_president(self):
+        """Unit test - app ``profiles`` - model ``Role`` - #2.16
+
+        Test that the president is president.
+        """
+        self.assertIsInstance(self.president, Role)
+        self.assertTrue(self.president.is_president)
+
+    def test_president_is_not_member(self):
+        """Unit test - app ``profiles`` - model ``Role`` - #2.17
+
+        Test that the president is not member.
+        """
+        self.assertFalse(self.president.is_member)
+
+    def test_president_is_not_secretary(self):
+        """Unit test - app ``profiles`` - model ``Role`` - #2.18
+
+        Test that the president is not secretary.
+        """
+        self.assertFalse(self.president.is_secretary)
+
+    def test_president_is_not_treasurer(self):
+        """Unit test - app ``profiles`` - model ``Role`` - #2.19
+
+        Test that the president is not treasurer.
+        """
+        self.assertFalse(self.treasurer.is_president)
+
+    def test_president_is_not_inactive(self):
+        """Unit test - app ``profiles`` - model ``Role`` - #2.20
+
+        Test that the president is not inactive.
+        """
+        self.assertFalse(self.treasurer.is_inactive)
+
+    def test_inactive_is_inactive(self):
+        """Unit test - app ``profiles`` - model ``Role`` - #2.21
+
+        Test that the inactive is inactive.
+        """
+        self.assertIsInstance(self.inactive, Role)
+        self.assertTrue(self.inactive.is_inactive)
+
+    def test_inactive_is_not_member(self):
+        """Unit test - app ``profiles`` - model ``Role`` - #2.22
+
+        Test that the inactive is not member.
+        """
+        self.assertFalse(self.inactive.is_member)
+
+    def test_inactive_is_not_secretary(self):
+        """Unit test - app ``profiles`` - model ``Role`` - #2.23
+
+        Test that the inactive is not secretary.
+        """
+        self.assertFalse(self.inactive.is_secretary)
+
+    def test_inactive_is_not_treasurer(self):
+        """Unit test - app ``profiles`` - model ``Role`` - #2.24
+
+        Test that the inactive is not treasurer.
+        """
+        self.assertFalse(self.inactive.is_treasurer)
+
+    def test_inactive_is_not_president(self):
+        """Unit test - app ``profiles`` - model ``Role`` - #2.25
+
+        Test that the inactive is not president.
+        """
+        self.assertFalse(self.inactive.is_president)

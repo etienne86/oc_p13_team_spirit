@@ -69,7 +69,7 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     "crispy_forms",
     "allauth",
-    "allauth.account",
+    # "allauth.account",
     # "allauth.socialaccount",
 ]
 
@@ -242,7 +242,7 @@ EMAIL_TIMEOUT = 5
 # ADMIN
 # ------------------------------------------------------------------------------
 # Django Admin URL.
-ADMIN_URL = "admin/"
+ADMIN_URL = "orgadmin/"
 # https://docs.djangoproject.com/en/dev/ref/settings/#admins
 ADMINS = [("""Etienne Barbier""", "barbier.et@gmail.com")]
 # https://docs.djangoproject.com/en/dev/ref/settings/#managers
