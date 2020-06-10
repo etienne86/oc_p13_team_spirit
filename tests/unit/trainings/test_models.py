@@ -1,5 +1,7 @@
 """Contain the unit tests related to the models in app ``trainings``."""
 
+import datetime
+
 from django.test import TestCase
 
 from teamspirit.core.models import Address, Location
@@ -32,8 +34,8 @@ class TrainingModelTestsCase(TestCase):
         )
         cls.weekly_training = Training.objects.create(
             is_weekly=True,
-            day="Dimanche",
-            time="09:00",
+            day=7,
+            time=datetime.time(9, 0),
             trainer=cls.trainer,
             location=cls.location,
             content="1h d'endurance",
@@ -41,8 +43,8 @@ class TrainingModelTestsCase(TestCase):
         )
         cls.one_off_training = Training.objects.create(
             is_weekly=False,
-            date="14/06/2020",
-            time="09:00",
+            date=datetime.date(2020, 6, 14),
+            time=datetime.time(9, 0),
             trainer=cls.trainer,
             location=cls.location,
             content="1h d'endurance",
@@ -78,24 +80,27 @@ class TrainingModelTestsCase(TestCase):
 
         Test the day of the weekly training.
         """
-        self.assertIsInstance(self.weekly_training.day, str)
-        self.assertEqual(self.weekly_training.day, "Dimanche")
+        self.assertIsInstance(self.weekly_training.day, int)
+        self.assertEqual(self.weekly_training.day, 7)
 
     def test_one_off_training_date(self):
         """Unit test - app ``trainings`` - model ``Training`` - #1.5
 
         Test the date of the one_off training.
         """
-        self.assertIsInstance(self.one_off_training.date, str)
-        self.assertEqual(self.one_off_training.date, "14/06/2020")
+        self.assertIsInstance(self.one_off_training.date, datetime.date)
+        self.assertEqual(
+            self.one_off_training.date,
+            datetime.date(2020, 6, 14)
+        )
 
     def test_training_time(self):
         """Unit test - app ``trainings`` - model ``Training`` - #1.6
 
         Test the time of the training.
         """
-        self.assertIsInstance(self.one_off_training.time, str)
-        self.assertEqual(self.one_off_training.time, "09:00")
+        self.assertIsInstance(self.one_off_training.time, datetime.time)
+        self.assertEqual(self.one_off_training.time, datetime.time(9, 0))
 
     def test_training_trainer(self):
         """Unit test - app ``trainings`` - model ``Training`` - #1.7

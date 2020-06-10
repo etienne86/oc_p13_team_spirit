@@ -16,7 +16,7 @@ class PersonalModelTestsCase(TestCase):
         cls.address = Address.objects.create(
             label_first="1 rue de l'impasse",
             label_second="",
-            postal_code=75000,
+            postal_code="75000",
             city="Paris",
             country="France"
         )
