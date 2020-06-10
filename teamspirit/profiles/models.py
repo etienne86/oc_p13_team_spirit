@@ -21,15 +21,20 @@ class Personal(models.Model):
     )
     phone_number = models.CharField(
         max_length=20,
-        verbose_name=_('Phone number')
+        verbose_name=_('Phone number'),
+        null=True
     )
     address = models.ForeignKey(
         to=Address,
         on_delete=models.CASCADE,
+        null=True
     )
     has_private_profile = models.BooleanField(default=False)
 
     objects = PersonalManager()
+
+    def __str__(self):
+        return f"{self.first_name.capitalize()} {self.last_name.upper()}"
 
 
 class Role(models.Model):

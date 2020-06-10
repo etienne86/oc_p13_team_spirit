@@ -32,3 +32,17 @@ class Address(models.Model):
         blank=False,
         null=False
     )
+
+
+class Location(models.Model):
+    """Name an address."""
+
+    name = models.CharField(
+        max_length=100,
+        verbose_name="Libellé du lieu",
+        unique=True
+    )
+    address = models.OneToOneField(
+        to=Address,
+        on_delete=models.CASCADE
+    )

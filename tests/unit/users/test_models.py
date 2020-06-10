@@ -113,7 +113,6 @@ class UserModelTestsCase(TestCase):
 
         Test that the superuser has the right password.
         """
-        self.assertTrue(check_password(
-            "Password456",
-            self.super_toto.password)
+        self.assertTrue(
+            check_password("Password456", self.super_toto.password)
         )
