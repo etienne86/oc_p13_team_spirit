@@ -2,8 +2,10 @@
 
 from django.db import models
 
+# from teamspirit.calendars.models import Calendar
 from teamspirit.core.models import Location
 from teamspirit.events.managers import EventManager
+# from teamspirit.files.models import File
 
 
 class Event(models.Model):
@@ -19,5 +21,15 @@ class Event(models.Model):
         to=Location,
         on_delete=models.CASCADE
     )
+    # attached_files = models.ManyToManyField(
+    #     to=File,
+    #     related_name="events",
+    #     on_delete=models.SET_NULL,
+    #     blank=True
+    # )
+    # calendar = models.ForeignKey(
+    #     to=Calendar,
+    #     on_delete=models.CASCADE
+    # )
 
     objects = EventManager()
