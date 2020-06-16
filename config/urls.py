@@ -10,9 +10,14 @@ urlpatterns = [
         "", TemplateView.as_view(template_name="pages/home.html"), name="home"
     ),
     path(
-        "about/",
-        TemplateView.as_view(template_name="pages/about.html"),
-        name="about",
+        "legal/",
+        TemplateView.as_view(template_name="pages/legal.html"),
+        name="legal",
+    ),
+    path(
+        "contact/",
+        TemplateView.as_view(template_name="pages/contact.html"),
+        name="contact",
     ),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
@@ -20,6 +25,11 @@ urlpatterns = [
     path("users/", include("teamspirit.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
+    path("events/", include("teamspirit.events.urls", namespace="events")),
+    path(
+        "trainings/",
+        include("teamspirit.trainings.urls", namespace="trainings")
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

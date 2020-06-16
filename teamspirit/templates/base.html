@@ -1,5 +1,5 @@
-{% load static i18n %}
 <!DOCTYPE html>
+{% load static i18n %}
 <html lang="en">
 
 <head>
@@ -13,100 +13,112 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <![endif]-->
 
-  <link rel="icon" type="image/x-icon" href="{% static 'images/favicons/favicon.png' %}">
+  <link rel="icon" type="image/x-icon" href="{% static 'img/favicons/favicon.png' %}">
 
   {% block css %}
 
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
 
   <!-- Your stuff: Third-party CSS libraries go here -->
 
+  <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet">
+  <link href="{% static 'css/business-casual.min.css' %}" rel="stylesheet">
+
   <!-- This file stores project-specific CSS -->
+  <link href="{% static 'css/custom-style.css' %}" rel="stylesheet">
 
-  <link href="{% static 'css/project.min.css' %}" rel="stylesheet">
+  <!-- <link href="{% static 'css/project.min.css' %}" rel="stylesheet"> -->
 
 
-  {% endblock %}
+  {% endblock css %}
 
 </head>
 
 <body>
 
-  <div class="mb-1">
-    <nav class="navbar navbar-expand-md navbar-light bg-light">
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-        aria-label="Toggle navigation">
+  {% block page_title %}
+  <h1 class="site-heading text-center text-primary d-none d-lg-block">
+    <span class="site-heading-lower">Team Spirit</span>
+    <span class="site-heading-upper mb-3">Pour les adhérents</span>
+  </h1>
+  {% endblock page_title %}
+
+  {% block nav %}
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand text-uppercase text-expanded font-weight-bold d-lg-none" href="/">Team Spirit</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <a class="navbar-brand" href="{% url 'home' %}">teamspirit</a>
-
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav mx-auto custom-nowrap">
+          <li class="nav-item active px-lg-4">
+            <a class="nav-link text-uppercase text-expanded" href="{% url 'home' %}">Accueil
+              <span class="sr-only">(current)</span>
+            </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'about' %}">About</a>
+          <li class="nav-item px-lg-4">
+            <a class="nav-link text-uppercase text-expanded" href="{% url 'home' %}">Événements</a>
           </li>
-          {% if request.user.is_authenticated %}
-          <li class="nav-item">
-            {# URL provided by django-allauth/account/urls.py #}
-            <a class="nav-link" href="{% url 'users:detail' request.user.email  %}">{% trans "My Profile" %}</a>
+          <li class="nav-item px-lg-4">
+            <a class="nav-link text-uppercase text-expanded" href="{% url 'home' %}">Entraînements</a>
           </li>
-          <li class="nav-item">
-            {# URL provided by django-allauth/account/urls.py #}
-            <a class="nav-link" href="{% url 'account_logout' %}">{% trans "Sign Out" %}</a>
+          <li class="nav-item px-lg-4">
+            <a class="nav-link text-uppercase text-expanded" href="{% url 'home' %}">Catalogue</a>
           </li>
-          {% else %}
-          <li class="nav-item">
-            {# URL provided by django-allauth/account/urls.py #}
-            <a id="sign-up-link" class="nav-link" href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a>
+          <li class="nav-item px-lg-4">
+            <a class="nav-link text-uppercase text-expanded" href="{% url 'home' %}">Mon espace</a>
           </li>
-          <li class="nav-item">
-            {# URL provided by django-allauth/account/urls.py #}
-            <a id="log-in-link" class="nav-link" href="{% url 'account_login' %}">{% trans "Sign In" %}</a>
+          <li class="nav-item px-lg-4">
+            <a class="nav-link text-uppercase text-expanded" href="{% url 'home' %}">Déconnexion</a>
           </li>
-          {% endif %}
         </ul>
       </div>
-    </nav>
+    </div>
+  </nav>
+  {% endblock nav %}
 
-  </div>
+  {% block section_one %}{% endblock section_one %}
 
-  <div class="container">
+  {% block section_two %}{% endblock section_two %}
 
-    {% if messages %}
-    {% for message in messages %}
-    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}<button type="button"
-        class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
-    {% endfor %}
-    {% endif %}
+  {% block section_three %}{% endblock section_three %}
 
-    {% block content %}
-    <p>Use this document as a way to quick start any new project.</p>
-    {% endblock content %}
+  {% block section_four %}
 
-  </div> <!-- /container -->
+  {% endblock section_four %}
 
-  {% block modal %}{% endblock modal %}
+  {% block section_five %}
 
-  <!-- Le javascript
-    ================================================== -->
-  <!-- Placed at the end of the document so the pages load faster -->
-  {% block javascript %}
+  {% endblock section_five %}
 
-  <!-- Vendor dependencies bundled as one file-->
+  {% block footer %}
+  <footer class="footer text-faded text-center py-5">
+    <div class="container">
+      <ul class="list-inline mb-0">
+        <li class="nav-item px-lg-4 list-inline-item">
+          <p class="m-0 small">Copyright &copy; Team Spirit 2020</p>
+        </li>
+        <li class="nav-item px-lg-4 list-inline-item">
+          <a class="nav-link text-expanded" href="{% url 'legal' %}">Mentions légales</a>
+        </li>
+        <li class="nav-item px-lg-4 list-inline-item">
+          <a class="nav-link text-expanded" href="{% url 'contact' %}">Nous contacter</a>
+        </li>
+      </ul>
+    </div>
+  </footer>
+  {% endblock footer %}
 
-  <script src="{% static 'js/vendors.js' %}"></script>
+  {% block js %}
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  {% endblock js %}
 
-
-
-  <!-- place project specific Javascript in this file -->
-
-  <script src="{% static 'js/project.js' %}"></script>
-
-
-  {% endblock javascript %}
 </body>
 
 </html>

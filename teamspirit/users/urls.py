@@ -1,3 +1,4 @@
+from django.contrib.auth.views import LoginView
 from django.urls import path
 
 from teamspirit.users.views import (
@@ -8,7 +9,12 @@ from teamspirit.users.views import (
 
 app_name = "users"
 urlpatterns = [
-    path("~redirect/", view=user_redirect_view, name="redirect"),
-    path("~update/", view=user_update_view, name="update"),
-    path("<str:email>/", view=user_detail_view, name="detail"),
+    path(
+        "login/",
+        LoginView.as_view(template_name="users/login.html"),
+        name="login"
+    ),
+    path("~redirect/", user_redirect_view, name="redirect"),
+    path("~update/", user_update_view, name="update"),
+    path("<str:email>/", user_detail_view, name="detail"),
 ]

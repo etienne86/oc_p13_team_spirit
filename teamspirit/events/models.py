@@ -5,7 +5,6 @@ from django.db import models
 # from teamspirit.calendars.models import Calendar
 from teamspirit.core.models import Location
 from teamspirit.events.managers import EventManager
-# from teamspirit.files.models import File
 
 
 class Event(models.Model):

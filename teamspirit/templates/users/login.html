@@ -1,0 +1,28 @@
+<div class="card text-center border-solid">
+  <div class="card-body">
+    {% for error in form.login.errors %}
+    <p class="text-danger text-left">{{ error }}</p>
+    {% endfor %}
+    <form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+      <div class="row form-group">
+        <div class="col-12 col-md-3 text-left">
+          <label>{{ field.label_tag }}</label>
+        </div>
+        <div class="col-12 col-md-9">
+          {{ field }}
+        </div>
+        <div class="text-left">
+          {% if field.help_text %}
+          <p class="help">{{ field.help_text|safe }}</p>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+    <div class="form-group mt-auto">
+      <input id="login_btn" type="submit" name="login_form" value="Se connecter" class="btn btn-outline-primary" />
+    </div>
+    </form>
+  </div>
+</div>
