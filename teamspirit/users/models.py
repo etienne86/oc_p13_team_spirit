@@ -18,6 +18,15 @@ class User(AbstractBaseUser, PermissionsMixin):
             'unique': _("A user with that email already exists."),
         }
     )
+    username = models.EmailField(default=email)
+    first_name = models.CharField(
+        max_length=30,
+        verbose_name=_("first name")
+    )
+    last_name = models.CharField(
+        max_length=150,
+        verbose_name=_("last name")
+    )
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
@@ -27,7 +36,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     def __str__(self):
-        return f"User '{self.email}''"
+        return f"{self.first_name.capitalize()} {self.last_name.upper()}"
 
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"

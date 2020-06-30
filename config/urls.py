@@ -22,14 +22,12 @@ urlpatterns = [
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
-    path("users/", include("teamspirit.users.urls", namespace="users")),
-    path("accounts/", include("allauth.urls")),
+    path("users/", include("teamspirit.users.urls")),
+    # path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
-    path("events/", include("teamspirit.events.urls", namespace="events")),
-    path(
-        "trainings/",
-        include("teamspirit.trainings.urls", namespace="trainings")
-    ),
+    path("catalog/", include("teamspirit.catalogs.urls")),
+    path("events/", include("teamspirit.events.urls")),
+    path("trainings/", include("teamspirit.trainings.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

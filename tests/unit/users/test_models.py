@@ -14,11 +14,15 @@ class UserModelTestsCase(TestCase):
         super().setUpClass()
         cls.toto = User.objects.create_user(
             email="toto@mail.com",
-            password="Password123"
+            password="Password123",
+            first_name="Toto",
+            last_name="LE RIGOLO"
         )
         cls.super_toto = User.objects.create_superuser(
             email="super_toto@mail.com",
-            password="Password456"
+            password="Password456",
+            first_name="Supertoto",
+            last_name="LE SUPER RIGOLO"
         )
 
     def test_create_user(self):
@@ -101,18 +105,68 @@ class UserModelTestsCase(TestCase):
         self.assertIsInstance(self.super_toto.is_admin, bool)
         self.assertTrue(self.super_toto.is_admin)
 
-    def test_user_has_right_password(self):
+    def test_user_has_right_email(self):
         """Unit test - app ``users`` - model ``User`` #11
+
+        Test that the user has the right email.
+        """
+        self.assertIsInstance(self.toto.email, str)
+        self.assertEqual(self.toto.email, "toto@mail.com")
+
+    def test_superuser_has_right_email(self):
+        """Unit test - app ``users`` - model ``User`` #12
+
+        Test that the superuser has the right email.
+        """
+        self.assertIsInstance(self.super_toto.email, str)
+        self.assertEqual(self.super_toto.email, "super_toto@mail.com")
+
+    def test_user_has_right_password(self):
+        """Unit test - app ``users`` - model ``User`` #13
 
         Test that the user has the right password.
         """
+        self.assertIsInstance(self.toto.password, str)
         self.assertTrue(check_password("Password123", self.toto.password))
 
     def test_superuser_has_right_password(self):
-        """Unit test - app ``users`` - model ``User`` #12
+        """Unit test - app ``users`` - model ``User`` #14
 
         Test that the superuser has the right password.
         """
+        self.assertIsInstance(self.super_toto.password, str)
         self.assertTrue(
             check_password("Password456", self.super_toto.password)
         )
+
+    def test_user_has_right_first_name(self):
+        """Unit test - app ``users`` - model ``User`` #15
+
+        Test that the user has the right first name.
+        """
+        self.assertIsInstance(self.toto.first_name, str)
+        self.assertEqual(self.toto.first_name, "Toto")
+
+    def test_superuser_has_right_first_name(self):
+        """Unit test - app ``users`` - model ``User`` #16
+
+        Test that the superuser has the right first name.
+        """
+        self.assertIsInstance(self.super_toto.first_name, str)
+        self.assertEqual(self.super_toto.first_name, "Supertoto")
+
+    def test_user_has_right_last_name(self):
+        """Unit test - app ``users`` - model ``User`` #17
+
+        Test that the user has the right last name.
+        """
+        self.assertIsInstance(self.toto.last_name, str)
+        self.assertEqual(self.toto.last_name, "LE RIGOLO")
+
+    def test_superuser_has_right_last_name(self):
+        """Unit test - app ``users`` - model ``User`` #18
+
+        Test that the superuser has the right last name.
+        """
+        self.assertIsInstance(self.super_toto.last_name, str)
+        self.assertEqual(self.super_toto.last_name, "LE SUPER RIGOLO")

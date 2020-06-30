@@ -183,6 +183,18 @@ p {
   color: #6c8255;
 }
 
+.footer .nav-item .nav-link {
+  color: #6c8255;
+}
+
+.footer .nav-item .nav-link:hover {
+  color: rgba(108, 130, 85, 0.4);
+}
+
+.footer .nav-item .nav-link.active .nav-link {
+  color: #ff4500;
+}
+
 .text-primary {
   color: #ff4500 !important;
 }

@@ -23,7 +23,7 @@ class UserAdmin(auth_admin.UserAdmin):
                 'user_permissions'
             ),
         }),
-        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+        (_('Important dates'), {'fields': ('last_login',)}),
     )
     add_fieldsets = (
         (None, {
@@ -31,7 +31,13 @@ class UserAdmin(auth_admin.UserAdmin):
             'fields': ('email', 'password1', 'password2'),
         }),
     )
-    list_display = ("email", "is_superuser", )
-    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups',)
-    search_fields = ("email", )
-    ordering = ('email',)
+    list_display = (
+        "email",
+        "last_name",
+        "first_name",
+        "is_staff",
+        "is_superuser"
+    )
+    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
+    search_fields = ("last_name", "first_name", "email")
+    ordering = ('last_name',)

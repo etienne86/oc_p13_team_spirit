@@ -45,7 +45,6 @@
   </h1>
   {% endblock page_title %}
 
-  {% block nav %}
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
     <div class="container">
@@ -55,31 +54,40 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav mx-auto custom-nowrap">
-          <li class="nav-item active px-lg-4">
-            <a class="nav-link text-uppercase text-expanded" href="{% url 'home' %}">Accueil
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
+          {% block li_home %}
+            <li class="nav-item px-lg-4">
+              <a class="nav-link text-uppercase text-expanded" href="{% url 'home' %}">Accueil</a>
+            </li>
+          {% endblock li_home %}
+          {% block li_events %}
+            <li class="nav-item px-lg-4">
+              <a class="nav-link text-uppercase text-expanded" href="{% url 'events:events' %}">Événements</a>
+            </li>
+          {% endblock li_events %}
+          {% block li_trainings %}
           <li class="nav-item px-lg-4">
-            <a class="nav-link text-uppercase text-expanded" href="{% url 'home' %}">Événements</a>
+            <a class="nav-link text-uppercase text-expanded" href="{% url 'trainings:trainings' %}">Entraînements</a>
           </li>
+          {% endblock li_trainings %}
+          {% block li_catalog %}
           <li class="nav-item px-lg-4">
-            <a class="nav-link text-uppercase text-expanded" href="{% url 'home' %}">Entraînements</a>
+            <a class="nav-link text-uppercase text-expanded" href="{% url 'catalogs:catalog' %}">Catalogue</a>
           </li>
-          <li class="nav-item px-lg-4">
-            <a class="nav-link text-uppercase text-expanded" href="{% url 'home' %}">Catalogue</a>
-          </li>
+          {% endblock li_catalog %}
+          {% block li_private_space %}
           <li class="nav-item px-lg-4">
             <a class="nav-link text-uppercase text-expanded" href="{% url 'home' %}">Mon espace</a>
           </li>
+          {% endblock li_private_space %}
+          {% block li_logout %}
           <li class="nav-item px-lg-4">
             <a class="nav-link text-uppercase text-expanded" href="{% url 'home' %}">Déconnexion</a>
           </li>
+          {% endblock li_logout %}
         </ul>
       </div>
     </div>
   </nav>
-  {% endblock nav %}
 
   {% block section_one %}{% endblock section_one %}
 
@@ -95,23 +103,25 @@
 
   {% endblock section_five %}
 
-  {% block footer %}
   <footer class="footer text-faded text-center py-5">
     <div class="container">
       <ul class="list-inline mb-0">
         <li class="nav-item px-lg-4 list-inline-item">
           <p class="m-0 small">Copyright &copy; Team Spirit 2020</p>
         </li>
+        {% block li_legal %}
         <li class="nav-item px-lg-4 list-inline-item">
           <a class="nav-link text-expanded" href="{% url 'legal' %}">Mentions légales</a>
         </li>
+        {% endblock li_legal %}
+        {% block li_contact %}
         <li class="nav-item px-lg-4 list-inline-item">
           <a class="nav-link text-expanded" href="{% url 'contact' %}">Nous contacter</a>
         </li>
+        {% endblock li_contact %}
       </ul>
     </div>
   </footer>
-  {% endblock footer %}
 
   {% block js %}
   <!-- Bootstrap core JavaScript -->

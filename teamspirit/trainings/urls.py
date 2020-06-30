@@ -9,7 +9,7 @@ app_name = 'trainings'
 urlpatterns = [
     path(
         '',
-        TemplateView.as_view(template_name="pages/trainings.html"),
+        TemplateView.as_view(template_name="trainings/trainings.html"),
         name="trainings"
     ),
 ]

@@ -23,8 +23,6 @@ class TrainingModelTestsCase(TestCase):
             country="France"
         )
         cls.trainer = Personal.objects.create(
-            first_name="Coach",
-            last_name="Sportif",
             phone_number="01 02 03 04 05",
             address=cls.address
         )

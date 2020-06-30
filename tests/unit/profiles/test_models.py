@@ -21,14 +21,10 @@ class PersonalModelTestsCase(TestCase):
             country="France"
         )
         cls.personal_public = Personal.objects.create(
-            first_name="Foo",
-            last_name="Dejoy",
             phone_number="01 02 03 04 05",
             address=cls.address
         )
         cls.personal_private = Personal.objects.create(
-            first_name="Bar",
-            last_name="Tabba",
             phone_number="05 04 03 02 01",
             address=cls.address,
             has_private_profile=True
@@ -41,24 +37,8 @@ class PersonalModelTestsCase(TestCase):
         """
         self.assertIsInstance(self.personal_public, Personal)
 
-    def test_first_name(self):
-        """Unit test - app ``profiles`` - model ``Personal`` - #1.2
-
-        Test the first name.
-        """
-        self.assertIsInstance(self.personal_public.first_name, str)
-        self.assertEqual(self.personal_public.first_name, "Foo")
-
-    def test_last_name(self):
-        """Unit test - app ``profiles`` - model ``Personal`` - #1.3
-
-        Test the last name.
-        """
-        self.assertIsInstance(self.personal_public.last_name, str)
-        self.assertEqual(self.personal_public.last_name, "Dejoy")
-
     def test_phone_number(self):
-        """Unit test - app ``profiles`` - model ``Personal`` - #1.4
+        """Unit test - app ``profiles`` - model ``Personal`` - #1.2
 
         Test the phone number.
         """
@@ -66,7 +46,7 @@ class PersonalModelTestsCase(TestCase):
         self.assertEqual(self.personal_public.phone_number, "01 02 03 04 05")
 
     def test_address(self):
-        """Unit test - app ``profiles`` - model ``Personal`` - #1.5
+        """Unit test - app ``profiles`` - model ``Personal`` - #1.3
 
         Test the address.
         """
@@ -74,7 +54,7 @@ class PersonalModelTestsCase(TestCase):
         self.assertEqual(self.personal_public.address, self.address)
 
     def test_has_not_private_profile(self):
-        """Unit test - app ``profiles`` - model ``Personal`` - #1.6
+        """Unit test - app ``profiles`` - model ``Personal`` - #1.4
 
         Test the non-private (i.e. public) profile.
         """
@@ -82,7 +62,7 @@ class PersonalModelTestsCase(TestCase):
         self.assertFalse(self.personal_public.has_private_profile)
 
     def test_has_private_profile(self):
-        """Unit test - app ``profiles`` - model ``Personal`` - #1.7
+        """Unit test - app ``profiles`` - model ``Personal`` - #1.5
 
         Test the private profile.
         """

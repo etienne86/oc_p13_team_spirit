@@ -1,2 +1,10 @@
 {% extends "base.html" %}
 {% load static i18n %}
+
+{% block li_legal %}
+  <li class="nav-item active px-lg-4 list-inline-item">
+    <a class="nav-link text-expanded" href="{% url 'legal' %}">Mentions légales
+      <span class="sr-only">(current)</span>
+    </a>
+  </li>
+{% endblock li_legal %}
