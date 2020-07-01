@@ -19,7 +19,6 @@ US030 - En tant que Toto, je veux me déconnecter de l’application.
 """
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-from django.utils.translation import ugettext_lazy as _
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.expected_conditions import url_changes
@@ -107,15 +106,15 @@ class GeneralUserStoriesAnonymousTestCase(StaticLiveServerTestCase):
         error_message = self.driver.find_element_by_xpath(
             "//div[@class='alert alert-block alert-danger']/ul/li"
         )
-        message_1 = _(
-            "Please enter a correct Email and password. Note that both fields"
-            " may be case-sensitive."
+        message_1 = "Please enter a correct Email and password. Note that " \
+            "both fields may be case-sensitive."
+        message_2 = "Saisissez un Courriel et un mot de passe valides. " \
+            "Remarquez que chacun de ces champs est sensible à la casse " \
+            "(différenciation des majuscules/minuscules)."
+        self.assertTrue(
+            (error_message.text == message_1) or
+            (error_message.text == message_2)
         )
-        message_2 = "Saisissez un Courriel et un mot de passe valides. "
-        "Remarquez que chacun de ces champs est sensible à la casse "
-        "(différenciation des majuscules/minuscules)."
-        self.assertEqual(error_message.text, message_1)
-        self.assertEqual(error_message.text, message_2)
         # stay on current page: True or False?
         self.assertEqual(self.driver.current_url, start_url)
 
@@ -136,19 +135,15 @@ class GeneralUserStoriesAnonymousTestCase(StaticLiveServerTestCase):
         error_message = self.driver.find_element_by_xpath(
             "//div[@class='alert alert-block alert-danger']/ul/li"
         )
-        message_1 = _(
-            "Please enter a correct Email and password. Note that both fields"
-            " may be case-sensitive."
-        )
-        message_2 = "Saisissez un Courriel et un mot de passe valides. "
-        "Remarquez que chacun de ces champs est sensible à la casse "
-        "(différenciation des majuscules/minuscules)."
+        message_1 = "Please enter a correct Email and password. Note that " \
+            "both fields may be case-sensitive."
+        message_2 = "Saisissez un Courriel et un mot de passe valides. " \
+            "Remarquez que chacun de ces champs est sensible à la casse " \
+            "(différenciation des majuscules/minuscules)."
         self.assertTrue(
             (error_message.text == message_1) or
             (error_message.text == message_2)
         )
-        self.assertEqual(error_message.text, message_1)
-        self.assertEqual(error_message.text, message_2)
         # stay on current page: True or False?
         self.assertEqual(self.driver.current_url, start_url)
 
@@ -169,13 +164,11 @@ class GeneralUserStoriesAnonymousTestCase(StaticLiveServerTestCase):
         error_message = self.driver.find_element_by_xpath(
             "//div[@class='alert alert-block alert-danger']/ul/li"
         )
-        message_1 = _(
-            "Please enter a correct Email and password. Note that both fields"
-            " may be case-sensitive."
-        )
-        message_2 = "Saisissez un Courriel et un mot de passe valides. "
-        "Remarquez que chacun de ces champs est sensible à la casse "
-        "(différenciation des majuscules/minuscules)."
+        message_1 = "Please enter a correct Email and password. Note that " \
+            "both fields may be case-sensitive."
+        message_2 = "Saisissez un Courriel et un mot de passe valides. " \
+            "Remarquez que chacun de ces champs est sensible à la casse " \
+            "(différenciation des majuscules/minuscules)."
         self.assertTrue(
             (error_message.text == message_1) or
             (error_message.text == message_2)
