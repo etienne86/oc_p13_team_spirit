@@ -5,20 +5,12 @@ from django.urls import include, path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
 
+from teamspirit.core.views import contact_view, home_view, legal_view
+
 urlpatterns = [
-    path(
-        "", TemplateView.as_view(template_name="pages/home.html"), name="home"
-    ),
-    path(
-        "legal/",
-        TemplateView.as_view(template_name="pages/legal.html"),
-        name="legal",
-    ),
-    path(
-        "contact/",
-        TemplateView.as_view(template_name="pages/contact.html"),
-        name="contact",
-    ),
+    path("", home_view, name="home"),
+    path("contact/", contact_view, name="contact"),
+    path("legal/", legal_view, name="legal"),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
