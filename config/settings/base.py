@@ -3,7 +3,7 @@ Base settings to build other settings files upon.
 """
 from pathlib import Path
 
-import django_heroku
+
 import environ
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
@@ -293,6 +293,3 @@ ACCOUNT_ALLOW_REGISTRATION = env.bool(
 
 # Your stuff...
 # ------------------------------------------------------------------------------
-
-# Activate Django Heroku
-django_heroku.settings(locals())
