@@ -14,3 +14,11 @@ class UsersUrlsTestCase(TestCase):
         """
         url = reverse('users:login')
         self.assertEqual(url, '/users/login/')
+
+    def test_custom_logout_url(self):
+        """Unit test - app ``users`` - url ``users/logout/``
+
+        Test the logout url.
+        """
+        url = reverse('users:logout')
+        self.assertEqual(url, '/users/logout/')
