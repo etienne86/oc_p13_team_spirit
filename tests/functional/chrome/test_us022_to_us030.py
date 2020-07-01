@@ -147,6 +147,8 @@ class GeneralUserStoriesAnonymousTestCase(StaticLiveServerTestCase):
             (error_message.text == message_1) or
             (error_message.text == message_2)
         )
+        self.assertEqual(error_message.text, message_1)
+        self.assertEqual(error_message.text, message_2)
         # stay on current page: True or False?
         self.assertEqual(self.driver.current_url, start_url)
 
