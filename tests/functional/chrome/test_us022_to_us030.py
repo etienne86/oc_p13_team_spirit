@@ -115,8 +115,12 @@ class GeneralUserStoriesAnonymousTestCase(StaticLiveServerTestCase):
         "Remarquez que chacun de ces champs est sensible à la casse "
         "(différenciation des majuscules/minuscules)."
         self.assertTrue(
-            error_message.text == message_1 or error_message.text == message_2
+            (error_message.text == message_1) or
+            (error_message.text == message_2)
         )
+        print(error_message.text)
+        print(message_1)
+        print(message_2)
         # stay on current page: True or False?
         self.assertEqual(self.driver.current_url, start_url)
 
@@ -145,7 +149,8 @@ class GeneralUserStoriesAnonymousTestCase(StaticLiveServerTestCase):
         "Remarquez que chacun de ces champs est sensible à la casse "
         "(différenciation des majuscules/minuscules)."
         self.assertTrue(
-            error_message.text == message_1 or error_message.text == message_2
+            (error_message.text == message_1) or
+            (error_message.text == message_2)
         )
         # stay on current page: True or False?
         self.assertEqual(self.driver.current_url, start_url)
@@ -175,7 +180,8 @@ class GeneralUserStoriesAnonymousTestCase(StaticLiveServerTestCase):
         "Remarquez que chacun de ces champs est sensible à la casse "
         "(différenciation des majuscules/minuscules)."
         self.assertTrue(
-            error_message.text == message_1 or error_message.text == message_2
+            (error_message.text == message_1) or
+            (error_message.text == message_2)
         )
         # stay on current page: True or False?
         self.assertEqual(self.driver.current_url, start_url)
