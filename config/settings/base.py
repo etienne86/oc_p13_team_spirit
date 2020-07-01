@@ -294,5 +294,7 @@ ACCOUNT_ALLOW_REGISTRATION = env.bool(
 # Your stuff...
 # ------------------------------------------------------------------------------
 
-# Heroku
+ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", ".herokuapps.com"]
+
+# Activate Django Heroku
 django_heroku.settings(locals())
