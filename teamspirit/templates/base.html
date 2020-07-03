@@ -56,32 +56,32 @@
         <ul class="navbar-nav mx-auto custom-nowrap">
           {% block li_home %}
             <li class="nav-item px-lg-4">
-              <a class="nav-link text-uppercase text-expanded" href="{% url 'home' %}">Accueil</a>
+              <a id="home_link" class="nav-link text-uppercase text-expanded" href="{% url 'home' %}">Accueil</a>
             </li>
           {% endblock li_home %}
           {% block li_events %}
             <li class="nav-item px-lg-4">
-              <a class="nav-link text-uppercase text-expanded" href="{% url 'events:events' %}">Événements</a>
+              <a id="events_link" class="nav-link text-uppercase text-expanded" href="{% url 'events:events' %}">Événements</a>
             </li>
           {% endblock li_events %}
           {% block li_trainings %}
           <li class="nav-item px-lg-4">
-            <a class="nav-link text-uppercase text-expanded" href="{% url 'trainings:trainings' %}">Entraînements</a>
+            <a id="trainings_link" class="nav-link text-uppercase text-expanded" href="{% url 'trainings:trainings' %}">Entraînements</a>
           </li>
           {% endblock li_trainings %}
           {% block li_catalog %}
           <li class="nav-item px-lg-4">
-            <a class="nav-link text-uppercase text-expanded" href="{% url 'catalogs:catalog' %}">Catalogue</a>
+            <a id="catalog_link" class="nav-link text-uppercase text-expanded" href="{% url 'catalogs:catalog' %}">Catalogue</a>
           </li>
           {% endblock li_catalog %}
           {% block li_private_space %}
           <li class="nav-item px-lg-4">
-            <a class="nav-link text-uppercase text-expanded" href="{% url 'home' %}">Mon espace</a>
+            <a id="private_space_link" class="nav-link text-uppercase text-expanded" href="{% url 'home' %}">Mon espace</a>
           </li>
           {% endblock li_private_space %}
           {% block li_logout %}
           <li class="nav-item px-lg-4">
-            <a class="nav-link text-uppercase text-expanded" href="{% url 'users:logout' %}">Déconnexion</a>
+            <a id="logout_link" class="nav-link text-uppercase text-expanded" href="{% url 'users:logout' %}">Déconnexion</a>
           </li>
           {% endblock li_logout %}
         </ul>

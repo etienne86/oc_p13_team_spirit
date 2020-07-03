@@ -21,8 +21,10 @@ US030 - En tant que Toto, je veux me déconnecter de l’application.
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.support.expected_conditions import url_changes
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from seleniumlogin import force_login
 from webdriver_manager.chrome import ChromeDriverManager
 
 from teamspirit.users.models import User
@@ -81,8 +83,8 @@ class GeneralUserStoriesAnonymousTestCase(StaticLiveServerTestCase):
         # wait for page loading
         WebDriverWait(
             self.driver,
-            timeout=2
-        ).until(url_changes(start_url))
+            timeout=10
+        ).until(EC.url_changes(start_url))
         # redirect to home page: True or False?
         self.assertEqual(self.driver.current_url, self.home_url)
         # user authenticated: True or False?
@@ -175,3 +177,58 @@ class GeneralUserStoriesAnonymousTestCase(StaticLiveServerTestCase):
         )
         # stay on current page: True or False?
         self.assertEqual(self.driver.current_url, start_url)
+
+
+class GeneralUserStoriesAuthenticatedTestCase(StaticLiveServerTestCase):
+    """Contain the functional tests with authenticated user."""
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        # initialize a webdriver
+        chrome_options = Options()
+        # chrome_options.add_argument("--headless")
+        cls.driver = webdriver.Chrome(
+            ChromeDriverManager().install(),
+            options=chrome_options
+        )
+        cls.driver.maximize_window()
+        # set home_url
+        cls.home_url = f"{cls.live_server_url}/"
+
+    def setUp(self):
+        super().setUp()
+        # a user in database
+        self.user = User.objects.create_user(
+            email="toto@mail.com",
+            first_name="Toto",
+            password="TopSecret"
+        )
+        # force login for this user
+        force_login(self.user, self.driver, self.live_server_url)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.driver.quit()
+        super().tearDownClass()
+
+    def test_logout(self):
+        """US030-TA01: successful logout."""
+        # start from the home page
+        start_url = self.home_url
+        self.driver.get(start_url)
+        # click on the link "Déconnexion"
+        # logout_link = self.driver.find_element_by_id('logout_link')
+        WebDriverWait(
+            self.driver,
+            timeout=10
+        ).until(EC.element_to_be_clickable((By.ID, 'logout_link'))).click()
+        # logout_link.click()
+        # wait for page loading
+        WebDriverWait(
+            self.driver,
+            timeout=10
+        ).until(EC.url_changes(start_url))
+        # redirect to logout page: True or False?
+        logout_url = self.home_url + "users/logout/"
+        self.assertEqual(self.driver.current_url, logout_url)

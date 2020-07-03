@@ -32,6 +32,7 @@ django-extensions==2.2.9
 django-heroku==0.3.1
 django-model-utils==4.0.0
 django-redis==4.11.0
+django-selenium-login==2.0.0
 django-stubs==1.5.0
 docutils==0.16
 environ==1.0
