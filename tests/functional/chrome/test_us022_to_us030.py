@@ -187,7 +187,7 @@ class GeneralUserStoriesAuthenticatedTestCase(StaticLiveServerTestCase):
         super().setUpClass()
         # initialize a webdriver
         chrome_options = Options()
-        # chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--headless")
         cls.driver = webdriver.Chrome(
             ChromeDriverManager().install(),
             options=chrome_options
