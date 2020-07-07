@@ -66,8 +66,16 @@ class GeneralUserStoriesAnonymousTestCase(StaticLiveServerTestCase):
         cls.driver.quit()
         super().tearDownClass()
 
+    def test_access_login_page(self):
+        """US022-AT01: successful access to login page."""
+        # ask for the login page
+        start_url = self.home_url + "users/login/"
+        self.driver.get(start_url)
+        # check wether the page is reachable
+        self.assertEqual(self.driver.current_url, start_url)
+
     def test_login_success(self):
-        """US023-TA01: successful login."""
+        """US023-AT01: successful login."""
         # start from the login page
         start_url = self.home_url + "users/login/"
         self.driver.get(start_url)
@@ -91,7 +99,7 @@ class GeneralUserStoriesAnonymousTestCase(StaticLiveServerTestCase):
         self.assertEqual(custom_welcome.text, "BIENVENUE TOTO")
 
     def test_login_failure_wrong_email(self):
-        """US023-TA02: login failed with wrong email."""
+        """US023-AT02: login failed with wrong email."""
         # start from the login page
         start_url = self.home_url + "users/login/"
         self.driver.get(start_url)
@@ -120,7 +128,7 @@ class GeneralUserStoriesAnonymousTestCase(StaticLiveServerTestCase):
         self.assertEqual(self.driver.current_url, start_url)
 
     def test_login_failure_wrong_password(self):
-        """US023-TA03: login failed with wrong password."""
+        """US023-AT03: login failed with wrong password."""
         # start from the login page
         start_url = self.home_url + "users/login/"
         self.driver.get(start_url)
@@ -149,7 +157,7 @@ class GeneralUserStoriesAnonymousTestCase(StaticLiveServerTestCase):
         self.assertEqual(self.driver.current_url, start_url)
 
     def test_login_failure_inactive_user(self):
-        """US023-TA04: login failed with inactive user."""
+        """US023-AT04: login failed with inactive user."""
         # start from the login page
         start_url = self.home_url + "users/login/"
         self.driver.get(start_url)
@@ -211,7 +219,7 @@ class GeneralUserStoriesAuthenticatedTestCase(StaticLiveServerTestCase):
         super().tearDownClass()
 
     def test_logout(self):
-        """US030-TA01: successful logout."""
+        """US030-AT01: successful logout."""
         # start from the home page
         start_url = self.home_url
         self.driver.get(start_url)
