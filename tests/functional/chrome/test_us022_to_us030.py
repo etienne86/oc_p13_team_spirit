@@ -258,7 +258,7 @@ class GeneralUserStoriesAuthenticatedTestCase(StaticLiveServerTestCase):
         # check wether the page is reachable
         self.assertEqual(self.driver.current_url, start_url)
 
-    def test_access_contact_page_from_browser(self):
+    def test_access_contact_page(self):
         """US026-AT01: successful access to contact page."""
         # request the contact page
         start_url = self.home_url + "contact/"
@@ -266,10 +266,10 @@ class GeneralUserStoriesAuthenticatedTestCase(StaticLiveServerTestCase):
         # check wether the page is reachable
         self.assertEqual(self.driver.current_url, start_url)
 
-    def test_access_contact_page_from_home(self):
-        """US026-AT02: successful access to contact page from footer link."""
+    def test_access_legal_page(self):
+        """US027-AT01: successful access to legal page."""
         # request the contact page
-        start_url = self.home_url + "contact/"
+        start_url = self.home_url + "legal/"
         self.driver.get(start_url)
         # check wether the page is reachable
         self.assertEqual(self.driver.current_url, start_url)

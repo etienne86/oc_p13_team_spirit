@@ -1,12 +1,6 @@
 {% extends "base.html" %}
 {% load static i18n %}
 
-{% block li_contact %}
-  <li class="nav-item px-lg-4 active list-inline-item">
-    <a class="nav-link text-expanded" href="{% url 'contact' %}">Nous contacter</a>
-  </li>
-{% endblock li_contact %}
-
 {% block section_one %}
 <section id="section_one">
   <div class="container">
@@ -18,3 +12,9 @@
   </div>
 </section>
 {% endblock section_one %}
+
+{% block li_contact %}
+  <li class="nav-item px-lg-4 active list-inline-item">
+    <a class="nav-link text-expanded" href="{% url 'contact' %}">Nous contacter</a>
+  </li>
+{% endblock li_contact %}
