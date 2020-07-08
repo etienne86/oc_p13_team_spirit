@@ -1,15 +1,9 @@
 from django.urls import path
-from django.views.generic import TemplateView
 
-# from teamspirit.events import views
-
+from teamspirit.trainings.views import trainings_view
 
 app_name = 'trainings'
 
 urlpatterns = [
-    path(
-        '',
-        TemplateView.as_view(template_name="trainings/trainings.html"),
-        name="trainings"
-    ),
+    path('', trainings_view, name="trainings"),
 ]

@@ -1,15 +1,9 @@
 from django.urls import path
-from django.views.generic import TemplateView
 
-# from teamspirit.catalogs import views
-
+from teamspirit.catalogs.views import catalog_view
 
 app_name = 'catalogs'
 
 urlpatterns = [
-    path(
-        '',
-        TemplateView.as_view(template_name="catalogs/catalog.html"),
-        name="catalog"
-    ),
+    path('', catalog_view, name="catalog"),
 ]

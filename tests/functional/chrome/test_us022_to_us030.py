@@ -218,13 +218,71 @@ class GeneralUserStoriesAuthenticatedTestCase(StaticLiveServerTestCase):
         cls.driver.quit()
         super().tearDownClass()
 
+    def test_access_home_page(self):
+        """US024-AT01: successful access to home page."""
+        # request the home page
+        start_url = self.home_url
+        self.driver.get(start_url)
+        # check wether the page is reachable
+        self.assertEqual(self.driver.current_url, start_url)
+
+    def test_access_events_page(self):
+        """US025-AT01: successful access to events page."""
+        # request the events page
+        start_url = self.home_url + "events/"
+        self.driver.get(start_url)
+        # check wether the page is reachable
+        self.assertEqual(self.driver.current_url, start_url)
+
+    def test_access_trainings_page(self):
+        """US025-AT02: successful access to trainings page."""
+        # request the trainings page
+        start_url = self.home_url + "trainings/"
+        self.driver.get(start_url)
+        # check wether the page is reachable
+        self.assertEqual(self.driver.current_url, start_url)
+
+    def test_access_catalog_page(self):
+        """US025-AT03: successful access to catalog page."""
+        # request the catalog page
+        start_url = self.home_url + "catalog/"
+        self.driver.get(start_url)
+        # check wether the page is reachable
+        self.assertEqual(self.driver.current_url, start_url)
+
+    def test_access_private_space_page(self):
+        """US025-AT04: successful access to private space page."""
+        # request the private space page
+        start_url = self.home_url + "profile/"
+        self.driver.get(start_url)
+        # check wether the page is reachable
+        self.assertEqual(self.driver.current_url, start_url)
+
+    def test_access_contact_page_from_browser(self):
+        """US026-AT01: successful access to contact page."""
+        # request the contact page
+        start_url = self.home_url + "contact/"
+        self.driver.get(start_url)
+        # check wether the page is reachable
+        self.assertEqual(self.driver.current_url, start_url)
+
+    def test_access_contact_page_from_home(self):
+        """US026-AT02: successful access to contact page from footer link."""
+        # request the contact page
+        start_url = self.home_url + "contact/"
+        self.driver.get(start_url)
+        # check wether the page is reachable
+        self.assertEqual(self.driver.current_url, start_url)
+
     def test_logout(self):
         """US030-AT01: successful logout."""
         # start from the home page
         start_url = self.home_url
         self.driver.get(start_url)
         # click on the link "Déconnexion"
-        toggler = self.driver.find_elements_by_class_name('navbar-toggler-icon')[0]
+        toggler = self.driver.find_elements_by_class_name(
+            'navbar-toggler-icon'
+        )[0]
         toggler.click()
         WebDriverWait(
             self.driver,
