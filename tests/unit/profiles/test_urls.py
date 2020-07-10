@@ -14,3 +14,19 @@ class ProfilesUrlsTestCase(TestCase):
         """
         url = reverse('profiles:profile')
         self.assertEqual(url, '/profile/')
+
+    def test_custom_password_change_url(self):
+        """Unit test - app ``profiles`` - url ``profile/change_password/``
+
+        Test the custom password change url.
+        """
+        url = reverse('profiles:change_password')
+        self.assertEqual(url, '/profile/change_password/')
+
+    def test_password_changed_url(self):
+        """Unit test - app ``profiles`` - url ``profile/change_password/done/``
+
+        Test the 'password changed' (confirmation) url.
+        """
+        url = reverse('profiles:change_password_done')
+        self.assertEqual(url, '/profile/change_password/done/')

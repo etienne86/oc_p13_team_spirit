@@ -29,3 +29,23 @@ class ProfilesViewsTestCase(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'profiles/profile.html')
+
+    def test_custom_password_change_view(self):
+        """Unit test - app ``profiles`` - view ``custom_password_change_view``
+
+        Test the custom password change view.
+        """
+        url = reverse('profiles:change_password')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'profiles/change_password.html')
+
+    def test_password_changed_view(self):
+        """Unit test - app ``profiles`` - view ``password_changed_view``
+
+        Test the 'password changed' (confirmation) view.
+        """
+        url = reverse('profiles:change_password_done')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'profiles/password_changed.html')

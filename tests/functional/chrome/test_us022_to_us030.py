@@ -218,6 +218,48 @@ class GeneralUserStoriesAuthenticatedTestCase(StaticLiveServerTestCase):
         cls.driver.quit()
         super().tearDownClass()
 
+    def start_change_password_process_step_1(self):
+        """Method called in US028-AT0x."""
+        # start from the home page
+        start_url = self.home_url
+        self.driver.get(start_url)
+        # click on the link "Mon espace"
+        toggler = self.driver.find_elements_by_class_name(
+            'navbar-toggler-icon'
+        )[0]
+        toggler.click()
+        WebDriverWait(
+            self.driver,
+            timeout=10
+        ).until(EC.element_to_be_clickable((
+            By.ID,
+            "private_space_link"
+        ))).click()
+        # wait for page loading
+        WebDriverWait(
+            self.driver,
+            timeout=10
+        ).until(EC.url_changes(start_url))
+        # check the new url
+        expected_url_1 = start_url + "profile/"
+        return expected_url_1
+
+    def start_change_password_process_step_2(self, expected_url_1):
+        """Method called in US028-AT0x."""
+        # click on the button "Changer de mot de passe"
+        change_password_button = self.driver.find_element_by_id(
+            "change_password_button"
+        )
+        change_password_button.click()
+        # wait for page loading
+        WebDriverWait(
+            self.driver,
+            timeout=10
+        ).until(EC.url_changes(expected_url_1))
+        # check the new url
+        expected_url_2 = expected_url_1 + "change_password/?"
+        return expected_url_2
+
     def test_access_home_page(self):
         """US024-AT01: successful access to home page."""
         # request the home page
@@ -273,6 +315,115 @@ class GeneralUserStoriesAuthenticatedTestCase(StaticLiveServerTestCase):
         self.driver.get(start_url)
         # check wether the page is reachable
         self.assertEqual(self.driver.current_url, start_url)
+
+    def test_change_password_success(self):
+        """US028-AT01: successful change of password."""
+        # start the process - step #1
+        expected_url_1 = self.start_change_password_process_step_1()
+        self.assertEqual(self.driver.current_url, expected_url_1)
+        # start the process - step #2
+        expected_url_2 = self.start_change_password_process_step_2(
+            expected_url_1
+        )
+        self.assertEqual(self.driver.current_url, expected_url_2)
+        # fill the change password form
+        old_password_field = self.driver.find_element_by_id("id_old_password")
+        old_password_field.send_keys("TopSecret")
+        new_password1_field = self.driver.find_element_by_id(
+            "id_new_password1"
+        )
+        new_password1_field.send_keys("FooBarFooBar123")
+        new_password2_field = self.driver.find_element_by_id(
+            "id_new_password2"
+        )
+        new_password2_field.send_keys("FooBarFooBar123")
+        # click on the button "Modifier le mot de passe"
+        submit_button = self.driver.find_element_by_id("submit-id-submit")
+        submit_button.click()
+        # # wait for page loading
+        WebDriverWait(
+            self.driver,
+            timeout=10
+        ).until(EC.url_changes(expected_url_2))
+        # check the final url
+        expected_url_3 = expected_url_1 + "change_password/done/"
+        self.assertEqual(self.driver.current_url, expected_url_3)
+
+    def test_change_password_failure_wrong_old_password(self):
+        """US028-AT02: change of password fails, wrong old password."""
+        # start the process - step #1
+        expected_url_1 = self.start_change_password_process_step_1()
+        self.assertEqual(self.driver.current_url, expected_url_1)
+        # start the process - step #2
+        expected_url_2 = self.start_change_password_process_step_2(
+            expected_url_1
+        )
+        self.assertEqual(self.driver.current_url, expected_url_2)
+        # fill the change password form
+        old_password_field = self.driver.find_element_by_id("id_old_password")
+        old_password_field.send_keys("FailingPassword")
+        new_password1_field = self.driver.find_element_by_id(
+            "id_new_password1"
+        )
+        new_password1_field.send_keys("FooBarFooBar123")
+        new_password2_field = self.driver.find_element_by_id(
+            "id_new_password2"
+        )
+        new_password2_field.send_keys("FooBarFooBar123")
+        # click on the button "Modifier le mot de passe"
+        submit_button = self.driver.find_element_by_id("submit-id-submit")
+        submit_button.click()
+        # get an error message: True or False?
+        error_message = self.driver.find_element_by_id(
+            "error_1_id_old_password"
+        )
+        message_1 = "Your old password was entered incorrectly. " \
+            "Please enter it again."
+        message_2 = "Votre ancien mot de passe est incorrect. " \
+            "Veuillez le rectifier."
+        self.assertTrue(
+            (error_message.text == message_1) or
+            (error_message.text == message_2)
+        )
+        # stay on current page: True or False?
+        self.assertEqual(self.driver.current_url, expected_url_2)
+
+    def test_change_password_failure_different_new_passwords(self):
+        """US028-AT03: change of password fails, different new passwords."""
+        # start the process - step #1
+        expected_url_1 = self.start_change_password_process_step_1()
+        self.assertEqual(self.driver.current_url, expected_url_1)
+        # start the process - step #2
+        expected_url_2 = self.start_change_password_process_step_2(
+            expected_url_1
+        )
+        self.assertEqual(self.driver.current_url, expected_url_2)
+        # fill the change password form
+        old_password_field = self.driver.find_element_by_id("id_old_password")
+        old_password_field.send_keys("TopSecret")
+        new_password1_field = self.driver.find_element_by_id(
+            "id_new_password1"
+        )
+        new_password1_field.send_keys("FooBarFooBar123")
+        new_password2_field = self.driver.find_element_by_id(
+            "id_new_password2"
+        )
+        new_password2_field.send_keys("FooBarFooBar456")
+        # click on the button "Modifier le mot de passe"
+        submit_button = self.driver.find_element_by_id("submit-id-submit")
+        submit_button.click()
+        # get an error message: True or False?
+        error_message = self.driver.find_element_by_id(
+            "error_1_id_new_password2"
+        )
+        message_1 = "The two password fields didn’t match."
+        message_2 = "Les deux mots de passe ne correspondent pas."
+        self.assertTrue(
+            (error_message.text == message_1) or
+            (error_message.text == message_2)
+        )
+        # stay on current page: True or False?
+        self.assertEqual(self.driver.current_url, expected_url_2)
 
     def test_logout(self):
         """US030-AT01: successful logout."""
