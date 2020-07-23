@@ -1,20 +1,11 @@
 """Contain the unit tests related to the views in app ``profiles``."""
 
-from unittest.mock import patch
-
 from django.http.request import HttpRequest
 from django.test import TestCase
-from django.views.decorators.csrf import csrf_exempt
+# from django.views.decorators.csrf import csrf_exempt
 
-from teamspirit.profiles import forms
 from teamspirit.profiles.views import custom_password_change_view, profile_view
 from teamspirit.users.models import User
-
-
-class MockPasswordChangeForm(forms.CustomPasswordChangeForm):
-
-    def __init__(self, user, *args, **kwargs):
-        self.is_valid = True
 
 
 class ProfilesViewsTestCase(TestCase):
@@ -53,14 +44,14 @@ class ProfilesViewsTestCase(TestCase):
         self.assertTrue(html.startswith('<!DOCTYPE html>'))
         self.assertIn('<title>Team Spirit - Profil</title>', html)
 
-    @patch(target='forms.CustomPasswordChangeForm', new=MockPasswordChangeForm)
     def test_custom_password_change_view(self):
         """Unit test - app ``profiles`` - view ``custom_password_change_view``
 
         Test the custom password change view.
         """
         view = custom_password_change_view
-        response = csrf_exempt(view)(self.get_request)
+        response = view(self.get_request)
+        # response = csrf_exempt(view)(self.get_request)
         # render the response content
         # response.render()
         html = response.content.decode('utf8')
