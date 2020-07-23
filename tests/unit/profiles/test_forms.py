@@ -1,5 +1,6 @@
 """Contain the unit tests related to the forms in app ``profiles``."""
 
+from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
 from django.test import TestCase
 
 from teamspirit.profiles.forms import CustomPasswordChangeForm
@@ -67,6 +68,56 @@ class ProfilesFormsTestCase(TestCase):
             'new_password2': 'Password789'
         }
         form = CustomPasswordChangeForm(user=self.user, data=form_data)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.errors,
+            {'new_password2': ["Les deux mots de passe ne correspondent pas."]}
+        )
+
+    def test_password_reset_form_success(self):
+        """Unit test - app ``profiles`` - form ``PasswordResetForm`` #1
+
+        Test the password reset form with success.
+        """
+        form_data = {
+            'email': 'toto@mail.com',
+        }
+        form = PasswordResetForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
+    def test_password_reset_form_failure_wrong_email(self):
+        """Unit test - app ``profiles`` - form ``PasswordResetForm`` #2
+
+        Test the password reset form with failure: wrong email.
+        """
+        form_data = {
+            'email': 'foobar',
+        }
+        form = PasswordResetForm(data=form_data)
+        self.assertFalse(form.is_valid())
+
+    def test_password_reset_confirm_form_success(self):
+        """Unit test - app ``profiles`` - form ``SetPasswordForm`` #1
+
+        Test the password set form with success.
+        """
+        form_data = {
+            'new_password1': 'Password456',
+            'new_password2': 'Password456'
+        }
+        form = SetPasswordForm(user=self.user, data=form_data)
+        self.assertTrue(form.is_valid())
+
+    def test_password_reset_confirm_form_failure_two_different_passwords(self):
+        """Unit test - app ``profiles`` - form ``SetPasswordForm`` #2
+
+        Test the password set form with failure: two different passwords.
+        """
+        form_data = {
+            'new_password1': 'Password456',
+            'new_password2': 'Password789'
+        }
+        form = SetPasswordForm(user=self.user, data=form_data)
         self.assertFalse(form.is_valid())
         self.assertEqual(
             form.errors,

@@ -28,8 +28,9 @@ CACHES = {
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
 EMAIL_BACKEND = env(
     "DJANGO_EMAIL_BACKEND",
-    default="django.core.mail.backends.console.EmailBackend",
+    default="django.core.mail.backends.filebased.EmailBackend",
 )
+EMAIL_FILE_PATH = str(BASE_DIR / "sent_emails")  # noqa F405
 
 # WhiteNoise
 # ------------------------------------------------------------------------------

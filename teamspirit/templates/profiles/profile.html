@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load static i18n %}
 
+{% block title %}Profil{% endblock title %}
+
 {% block li_private_space %}
   <li class="nav-item active px-lg-4">
     <a class="nav-link text-uppercase text-expanded" href="{% url 'profiles:profile' %}">Mon espace

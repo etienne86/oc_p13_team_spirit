@@ -30,3 +30,43 @@ class ProfilesUrlsTestCase(TestCase):
         """
         url = reverse('profiles:change_password_done')
         self.assertEqual(url, '/profile/change_password/done/')
+
+    def test_password_reset_url(self):
+        """Unit test - app ``profiles`` - url ``profile/reset_password/``
+
+        Test the password reset url.
+        """
+        url = reverse('profiles:reset_password')
+        self.assertEqual(url, '/profile/reset_password/')
+
+    def test_password_reset_done_url(self):
+        """Unit test - app ``profiles`` - url ``profile/reset_password/done/``
+
+        Test the 'password reset (done)' url.
+        """
+        url = reverse('profiles:reset_password_done')
+        self.assertEqual(url, '/profile/reset_password/done/')
+
+    def test_password_reset_confirm_url(self):
+        """Unit test - app ``profiles`` - url ``profile/...``
+
+        [complete url: ``profile/reset_password_confirm/<uidb64>/<token>/``]
+        Test the 'password reset confirm' url.
+        """
+        url = reverse(
+            'profiles:reset_password_confirm',
+            kwargs={'uidb64': 'uidb64', 'token': 'token'}
+        )
+        self.assertEqual(
+            url,
+            '/profile/reset_password_confirm/uidb64/token/'
+        )
+
+    def test_password_reset_complete_url(self):
+        """Unit test - app ``profiles`` - url ``profile/...``
+
+        [complete url: ``profile/reset_password_complete/``]
+        Test the 'password reset (complete)' url.
+        """
+        url = reverse('profiles:reset_password_complete')
+        self.assertEqual(url, '/profile/reset_password_complete/')
