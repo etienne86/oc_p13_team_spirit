@@ -72,6 +72,50 @@ class GeneralUserStoriesAnonymousTestCase(StaticLiveServerTestCase):
         cls.driver.quit()
         super().tearDownClass()
 
+    def start_reset_password_process_step_1(self):
+        """Method called in all US029-AT0x."""
+        # start from the login page
+        start_url = self.home_url + "users/login/"
+        self.driver.get(start_url)
+        # click on the link "Mot de passe oublié ?"
+        reset_link = self.driver.find_element_by_id("forgotten_password")
+        reset_link.click()
+        # wait for page loading
+        WebDriverWait(
+            self.driver,
+            timeout=10
+        ).until(EC.url_changes(start_url))
+        # redirect to the password reset page: True or False?
+        expected_url = self.home_url + "profile/reset_password/"
+        self.assertEqual(self.driver.current_url, expected_url)
+        # change the site in the email
+        site = Site.objects.get(id=settings.SITE_ID)
+        site.domain = self.live_server_url
+        site.name = self.live_server_url
+        site.save()
+
+    def start_reset_password_process_step_2(self):
+        """Method called in US029-AT01 and US029-AT03."""
+        # fill in the form with no error
+        email_field = self.driver.find_element_by_id("id_email")
+        email_field.send_keys("toto@mail.com")
+        submit_button = self.driver.find_element_by_id("submit-id-submit")
+        submit_button.click()
+        # wait for email receiving
+        actions = ActionChains(self.driver)
+        actions.pause(1)
+        actions.perform()
+        # test that one message has been sent
+        self.assertEqual(len(mail.outbox), 1)
+        # get the mail content
+        mail_content = mail.outbox[0].body
+        # extract "reset password link"
+        match = re.search(
+            "choisir un nouveau mot de passe :\n(.*)\nPour mémoire",
+            mail_content
+        )
+        return match
+
     def test_access_login_page(self):
         """US022-AT01: successful access to login page."""
         # ask for the login page
@@ -193,43 +237,10 @@ class GeneralUserStoriesAnonymousTestCase(StaticLiveServerTestCase):
 
     def test_reset_password_success(self):
         """US029-AT01: successful reset of password."""
-        # start from the login page
-        start_url = self.home_url + "users/login/"
-        self.driver.get(start_url)
-        # click on the link "Mot de passe oublié ?"
-        reset_link = self.driver.find_element_by_id("forgotten_password")
-        reset_link.click()
-        # wait for page loading
-        WebDriverWait(
-            self.driver,
-            timeout=10
-        ).until(EC.url_changes(start_url))
-        # redirect to the password reset page: True or False?
-        expected_url = self.home_url + "profile/reset_password/"
-        self.assertEqual(self.driver.current_url, expected_url)
-        # change the site in the email
-        site = Site.objects.get(id=settings.SITE_ID)
-        site.domain = self.live_server_url
-        site.name = self.live_server_url
-        site.save()
-        # fill in the form
-        email_field = self.driver.find_element_by_id("id_email")
-        email_field.send_keys("toto@mail.com")
-        submit_button = self.driver.find_element_by_id("submit-id-submit")
-        submit_button.click()
-        # wait for email receiving
-        actions = ActionChains(self.driver)
-        actions.pause(1)
-        actions.perform()
-        # test that one message has been sent
-        self.assertEqual(len(mail.outbox), 1)
-        # get the mail content
-        mail_content = mail.outbox[0].body
-        # extract "reset password link"
-        match = re.search(
-            "choisir un nouveau mot de passe :\n(.*)\nPour mémoire",
-            mail_content
-        )
+        # start the process - step #1
+        self.start_reset_password_process_step_1()
+        # start the process - step #2
+        match = self.start_reset_password_process_step_2()
         if not match:
             self.assertTrue("The email format is good!")
         else:
@@ -259,26 +270,9 @@ class GeneralUserStoriesAnonymousTestCase(StaticLiveServerTestCase):
 
     def test_reset_password_failure_wrong_email(self):
         """US029-AT02: reset of password fails, wrong email."""
-        # start from the login page
-        start_url = self.home_url + "users/login/"
-        self.driver.get(start_url)
-        # click on the link "Mot de passe oublié ?"
-        reset_link = self.driver.find_element_by_id("forgotten_password")
-        reset_link.click()
-        # wait for page loading
-        WebDriverWait(
-            self.driver,
-            timeout=10
-        ).until(EC.url_changes(start_url))
-        # redirect to the password reset page: True or False?
-        expected_url = self.home_url + "profile/reset_password/"
-        self.assertEqual(self.driver.current_url, expected_url)
-        # change the site in the email
-        site = Site.objects.get(id=settings.SITE_ID)
-        site.domain = self.live_server_url
-        site.name = self.live_server_url
-        site.save()
-        # fill in the form
+        # start the process - step #1
+        self.start_reset_password_process_step_1()
+        # fill in the form with an error (wrong email)
         email_field = self.driver.find_element_by_id("id_email")
         email_field.send_keys("error@mail.com")
         submit_button = self.driver.find_element_by_id("submit-id-submit")
@@ -291,44 +285,11 @@ class GeneralUserStoriesAnonymousTestCase(StaticLiveServerTestCase):
         self.assertEqual(len(mail.outbox), 0)
 
     def test_reset_password_failure_different_new_passwords(self):
-        """US029-AT02: reset of password fails, different new passwords."""
-        # start from the login page
-        start_url = self.home_url + "users/login/"
-        self.driver.get(start_url)
-        # click on the link "Mot de passe oublié ?"
-        reset_link = self.driver.find_element_by_id("forgotten_password")
-        reset_link.click()
-        # wait for page loading
-        WebDriverWait(
-            self.driver,
-            timeout=10
-        ).until(EC.url_changes(start_url))
-        # redirect to the password reset page: True or False?
-        expected_url = self.home_url + "profile/reset_password/"
-        self.assertEqual(self.driver.current_url, expected_url)
-        # change the site in the email
-        site = Site.objects.get(id=settings.SITE_ID)
-        site.domain = self.live_server_url
-        site.name = self.live_server_url
-        site.save()
-        # fill in the form
-        email_field = self.driver.find_element_by_id("id_email")
-        email_field.send_keys("toto@mail.com")
-        submit_button = self.driver.find_element_by_id("submit-id-submit")
-        submit_button.click()
-        # wait for email receiving
-        actions = ActionChains(self.driver)
-        actions.pause(1)
-        actions.perform()
-        # test that one message has been sent
-        self.assertEqual(len(mail.outbox), 1)
-        # get the mail content
-        mail_content = mail.outbox[0].body
-        # extract "reset password link"
-        match = re.search(
-            "choisir un nouveau mot de passe :\n(.*)\nPour mémoire",
-            mail_content
-        )
+        """US029-AT03: reset of password fails, different new passwords."""
+        # start the process - step #1
+        self.start_reset_password_process_step_1()
+        # start the process - step #2
+        match = self.start_reset_password_process_step_2()
         if not match:
             self.assertTrue("The email format is good!")
         else:
