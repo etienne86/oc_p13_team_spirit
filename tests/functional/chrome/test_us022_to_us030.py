@@ -32,8 +32,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from seleniumlogin import force_login
 from webdriver_manager.chrome import ChromeDriverManager
 
-from teamspirit.users.models import User
 import config.settings.test as settings
+from teamspirit.users.models import User
 
 
 class GeneralUserStoriesAnonymousTestCase(StaticLiveServerTestCase):
@@ -203,7 +203,7 @@ class GeneralUserStoriesAnonymousTestCase(StaticLiveServerTestCase):
         WebDriverWait(
             self.driver,
             timeout=10
-        ).until(EC.url_changes(start_url))        
+        ).until(EC.url_changes(start_url))
         # redirect to the password reset page: True or False?
         expected_url = self.home_url + "profile/reset_password/"
         self.assertEqual(self.driver.current_url, expected_url)
@@ -257,7 +257,6 @@ class GeneralUserStoriesAnonymousTestCase(StaticLiveServerTestCase):
             ok_url = f"{self.live_server_url}/profile/reset_password_complete/"
             self.assertEqual(self.driver.current_url, ok_url)
 
-
     def test_reset_password_failure_wrong_email(self):
         """US029-AT02: reset of password fails, wrong email."""
         # start from the login page
@@ -270,7 +269,7 @@ class GeneralUserStoriesAnonymousTestCase(StaticLiveServerTestCase):
         WebDriverWait(
             self.driver,
             timeout=10
-        ).until(EC.url_changes(start_url))        
+        ).until(EC.url_changes(start_url))
         # redirect to the password reset page: True or False?
         expected_url = self.home_url + "profile/reset_password/"
         self.assertEqual(self.driver.current_url, expected_url)
@@ -303,7 +302,7 @@ class GeneralUserStoriesAnonymousTestCase(StaticLiveServerTestCase):
         WebDriverWait(
             self.driver,
             timeout=10
-        ).until(EC.url_changes(start_url))        
+        ).until(EC.url_changes(start_url))
         # redirect to the password reset page: True or False?
         expected_url = self.home_url + "profile/reset_password/"
         self.assertEqual(self.driver.current_url, expected_url)

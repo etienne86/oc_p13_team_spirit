@@ -4,18 +4,14 @@ from django.http.request import HttpRequest
 from django.test import TestCase
 
 from teamspirit.profiles.views import (
-    # custom_password_change_view,
     custom_password_reset_complete_view,
-    # custom_password_reset_confirm_view,
     custom_password_reset_done_view,
-    # custom_password_reset_view,
     password_changed_view,
     profile_view,
 )
 from teamspirit.users.models import User
 
 # from django.views.decorators.csrf import csrf_exempt
-
 
 
 class ProfilesViewsTestCase(TestCase):
@@ -57,8 +53,9 @@ class ProfilesViewsTestCase(TestCase):
     # next test: status 403 (Forbidden), problem with CSRF?
 
     # def test_custom_password_change_view(self):
-    #     """Unit test - app ``profiles`` - view ``custom_password_change_view``
-
+    #     """Unit test - app ``profiles`` - view ...
+    #
+    #     [complete view: ``custom_password_change_view``]
     #     Test the custom password change view.
     #     """
     #     view = custom_password_change_view
@@ -146,10 +143,11 @@ class ProfilesViewsTestCase(TestCase):
     #     html = response.content.decode('utf8')
     #     self.assertEqual(response.status_code, 200)
     #     self.assertTrue(html.startswith('<!DOCTYPE html>'))
-    #     self.assertIn(
-    #         '<title>Team Spirit - Définition du nouveau mot de passe</title>',
-    #         html
-    #     )
+        # self.assertIn(
+        #     '<title>Team Spirit - '
+        #     'Définition du nouveau mot de passe</title>',
+        #     html
+        # )
 
     def test_password_reset_complete_view(self):
         """Unit test - app ``profiles`` - view ...
