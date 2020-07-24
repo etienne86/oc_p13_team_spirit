@@ -18,9 +18,14 @@ US029 - En tant que Toto, je veux réinitialiser mon mot de passe.
 US030 - En tant que Toto, je veux me déconnecter de l’application.
 """
 
+import re
+
+from django.contrib.sites.models import Site
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from django.core import mail
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -28,6 +33,7 @@ from seleniumlogin import force_login
 from webdriver_manager.chrome import ChromeDriverManager
 
 from teamspirit.users.models import User
+import config.settings.test as settings
 
 
 class GeneralUserStoriesAnonymousTestCase(StaticLiveServerTestCase):
@@ -184,6 +190,176 @@ class GeneralUserStoriesAnonymousTestCase(StaticLiveServerTestCase):
         )
         # stay on current page: True or False?
         self.assertEqual(self.driver.current_url, start_url)
+
+    def test_reset_password_success(self):
+        """US029-AT01: successful reset of password."""
+        # start from the login page
+        start_url = self.home_url + "users/login/"
+        self.driver.get(start_url)
+        # click on the link "Mot de passe oublié ?"
+        reset_link = self.driver.find_element_by_id("forgotten_password")
+        reset_link.click()
+        # wait for page loading
+        WebDriverWait(
+            self.driver,
+            timeout=10
+        ).until(EC.url_changes(start_url))        
+        # redirect to the password reset page: True or False?
+        expected_url = self.home_url + "profile/reset_password/"
+        self.assertEqual(self.driver.current_url, expected_url)
+        # change the site in the email
+        site = Site.objects.get(id=settings.SITE_ID)
+        site.domain = self.live_server_url
+        site.name = self.live_server_url
+        site.save()
+        # fill in the form
+        email_field = self.driver.find_element_by_id("id_email")
+        email_field.send_keys("toto@mail.com")
+        submit_button = self.driver.find_element_by_id("submit-id-submit")
+        submit_button.click()
+        # wait for email receiving
+        actions = ActionChains(self.driver)
+        actions.pause(1)
+        actions.perform()
+        # test that one message has been sent
+        self.assertEqual(len(mail.outbox), 1)
+        # get the mail content
+        mail_content = mail.outbox[0].body
+        # extract "reset password link"
+        match = re.search(
+            "choisir un nouveau mot de passe :\n(.*)\nPour mémoire",
+            mail_content
+        )
+        if not match:
+            self.assertTrue("The email format is good!")
+        else:
+            reset_pwd_link = match.group(1)
+            # enter the given link to the web browser
+            self.driver.get(reset_pwd_link)
+            edit_new_pwd_url = self.driver.current_url
+            # fill in the form with no error (provide new password)
+            new_pwd_field1 = self.driver.find_element_by_id(
+                "id_new_password1"
+            )
+            new_pwd_field1.send_keys("TopSecret123")
+            new_pwd_field2 = self.driver.find_element_by_id(
+                "id_new_password2"
+            )
+            new_pwd_field2.send_keys("TopSecret123")
+            submit_button = self.driver.find_element_by_id("submit-id-submit")
+            submit_button.click()
+            # wait for page loading
+            WebDriverWait(
+                self.driver,
+                timeout=10
+            ).until(EC.url_changes(edit_new_pwd_url))
+            # check final url
+            ok_url = f"{self.live_server_url}/profile/reset_password_complete/"
+            self.assertEqual(self.driver.current_url, ok_url)
+
+
+    def test_reset_password_failure_wrong_email(self):
+        """US029-AT02: reset of password fails, wrong email."""
+        # start from the login page
+        start_url = self.home_url + "users/login/"
+        self.driver.get(start_url)
+        # click on the link "Mot de passe oublié ?"
+        reset_link = self.driver.find_element_by_id("forgotten_password")
+        reset_link.click()
+        # wait for page loading
+        WebDriverWait(
+            self.driver,
+            timeout=10
+        ).until(EC.url_changes(start_url))        
+        # redirect to the password reset page: True or False?
+        expected_url = self.home_url + "profile/reset_password/"
+        self.assertEqual(self.driver.current_url, expected_url)
+        # change the site in the email
+        site = Site.objects.get(id=settings.SITE_ID)
+        site.domain = self.live_server_url
+        site.name = self.live_server_url
+        site.save()
+        # fill in the form
+        email_field = self.driver.find_element_by_id("id_email")
+        email_field.send_keys("error@mail.com")
+        submit_button = self.driver.find_element_by_id("submit-id-submit")
+        submit_button.click()
+        # wait for email receiving
+        actions = ActionChains(self.driver)
+        actions.pause(1)
+        actions.perform()
+        # test that no message has been sent
+        self.assertEqual(len(mail.outbox), 0)
+
+    def test_reset_password_failure_different_new_passwords(self):
+        """US029-AT02: reset of password fails, different new passwords."""
+        # start from the login page
+        start_url = self.home_url + "users/login/"
+        self.driver.get(start_url)
+        # click on the link "Mot de passe oublié ?"
+        reset_link = self.driver.find_element_by_id("forgotten_password")
+        reset_link.click()
+        # wait for page loading
+        WebDriverWait(
+            self.driver,
+            timeout=10
+        ).until(EC.url_changes(start_url))        
+        # redirect to the password reset page: True or False?
+        expected_url = self.home_url + "profile/reset_password/"
+        self.assertEqual(self.driver.current_url, expected_url)
+        # change the site in the email
+        site = Site.objects.get(id=settings.SITE_ID)
+        site.domain = self.live_server_url
+        site.name = self.live_server_url
+        site.save()
+        # fill in the form
+        email_field = self.driver.find_element_by_id("id_email")
+        email_field.send_keys("toto@mail.com")
+        submit_button = self.driver.find_element_by_id("submit-id-submit")
+        submit_button.click()
+        # wait for email receiving
+        actions = ActionChains(self.driver)
+        actions.pause(1)
+        actions.perform()
+        # test that one message has been sent
+        self.assertEqual(len(mail.outbox), 1)
+        # get the mail content
+        mail_content = mail.outbox[0].body
+        # extract "reset password link"
+        match = re.search(
+            "choisir un nouveau mot de passe :\n(.*)\nPour mémoire",
+            mail_content
+        )
+        if not match:
+            self.assertTrue("The email format is good!")
+        else:
+            reset_pwd_link = match.group(1)
+            # enter the given link to the web browser
+            self.driver.get(reset_pwd_link)
+            edit_new_pwd_url = self.driver.current_url
+            # fill in the form with an error: different two passwords
+            new_pwd_field1 = self.driver.find_element_by_id(
+                "id_new_password1"
+            )
+            new_pwd_field1.send_keys("TopSecret123")
+            new_pwd_field2 = self.driver.find_element_by_id(
+                "id_new_password2"
+            )
+            new_pwd_field2.send_keys("TopSecret456")
+            submit_button = self.driver.find_element_by_id("submit-id-submit")
+            submit_button.click()
+            # get an error message: True or False?
+            error_message = self.driver.find_element_by_id(
+                "error_1_id_new_password2"
+            )
+            message_1 = "The two password fields didn’t match."
+            message_2 = "Les deux mots de passe ne correspondent pas."
+            self.assertTrue(
+                (error_message.text == message_1) or
+                (error_message.text == message_2)
+            )
+            # stay on current page: True or False?
+            self.assertEqual(self.driver.current_url, edit_new_pwd_url)
 
 
 class GeneralUserStoriesAuthenticatedTestCase(StaticLiveServerTestCase):
