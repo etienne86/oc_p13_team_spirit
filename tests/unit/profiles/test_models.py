@@ -1,6 +1,8 @@
 """Contain the unit tests related to the models in app ``profiles``."""
 
 
+from django.core.files import File
+from django.core.files.uploadedfile import UploadedFile
 from django.test import TestCase
 
 from teamspirit.core.models import Address
@@ -20,13 +22,19 @@ class PersonalModelTestsCase(TestCase):
             city="Paris",
             country="France"
         )
+        cls.id_file = UploadedFile()
+        cls.medical_file = UploadedFile()
         cls.personal_public = Personal.objects.create(
             phone_number="01 02 03 04 05",
-            address=cls.address
+            address=cls.address,
+            id_file=cls.id_file,
+            medical_file=cls.medical_file
         )
         cls.personal_private = Personal.objects.create(
             phone_number="05 04 03 02 01",
             address=cls.address,
+            id_file=cls.id_file,
+            medical_file=cls.medical_file,
             has_private_profile=True
         )
 
@@ -68,6 +76,22 @@ class PersonalModelTestsCase(TestCase):
         """
         self.assertIsInstance(self.personal_private.has_private_profile, bool)
         self.assertTrue(self.personal_private.has_private_profile)
+
+    def test_id_file(self):
+        """Unit test - app ``profiles`` - model ``Personal`` - #1.6
+
+        Test the id_file.
+        """
+        self.assertIsInstance(self.personal_public.id_file, File)
+        self.assertEqual(self.personal_public.id_file, self.id_file)
+
+    def test_medical_file(self):
+        """Unit test - app ``profiles`` - model ``Personal`` - #1.7
+
+        Test the medical_file.
+        """
+        self.assertIsInstance(self.personal_public.medical_file, File)
+        self.assertEqual(self.personal_public.medical_file, self.medical_file)
 
 
 class RoleModelTestCase(TestCase):

@@ -20,6 +20,8 @@ class Personal(models.Model):
         on_delete=models.CASCADE,
         null=True
     )
+    id_file = models.FileField(null=True, blank=True)
+    medical_file = models.FileField(null=True, blank=True)
     has_private_profile = models.BooleanField(default=False)
 
     objects = PersonalManager()
