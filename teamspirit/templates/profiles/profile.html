@@ -15,28 +15,150 @@
 <section id="section_one">
   <div class="container my-3">
     <div class="card text-center border-solid">
+      <div class="card-header">
+        <ul id="profile_tab" role="tablist" class="nav nav-tabs card-header-tabs nav-fill">
+          <li class="nav-item">
+            <a class="nav-link active" id="mon-compte" data-toggle="tab" href="#my_account" role="tab" aria-controls="my_account" aria-selected="true">Mon compte</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="etat-civil" data-toggle="tab" href="#my_info" role="tab" aria-controls="my_info" aria-selected="true">État civil</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="coordonnees" data-toggle="tab" href="#my_numbers" role="tab" aria-controls="my_numbers" aria-selected="true">Coordonnées</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="mes-fichiers" data-toggle="tab" href="#my_files" role="tab" aria-controls="my_files" aria-selected="true">Mes fichiers</a>
+          </li>
+        </ul>
+      </div>
       <div class="card-body">
-        <h1 class="text-primary text-center">Mon compte</h1>
-        <form action="change_password/">
-          <div class="form-group py-4">
-            <div class="row my-3">
-              <div class="col-12 col-sm-3 text-left">
-                <label>Courriel :</label>
+        <div class="tab-content" id="signTabContent">
+          <div class="tab-pane fade show active" id="my_account" role="tabpanel" aria-labelledby="mon-compte">
+            <form action="change_password/">
+              <div class="form-group py-4">
+                <div class="row my-3">
+                  <div class="col-12 col-sm-3 text-left">
+                    <label>Courriel :</label>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <input type="email" class="form-control" placeholder="{{ user.email }}" disabled>
+                  </div>
+                </div>
+                <div class="row my-3">
+                  <div class="col-12 col-sm-3 text-left">
+                    <label>Mot de passe :</label>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <input id="change_password_button" type="submit" class="btn btn-primary" value="Changer de mot de passe">
+                  </div>
+                </div>
               </div>
-              <div class="col-12 col-sm-6">
-                <input type="email" class="form-control" placeholder="{{ user.email }}" disabled>
-              </div>
-            </div>
-            <div class="row my-3">
-              <div class="col-12 col-sm-3 text-left">
-                <label>Mot de passe :</label>
-              </div>
-              <div class="col-12 col-sm-6">
-                <input id="change_password_button" type="submit" class="btn btn-primary" value="Changer de mot de passe">
-              </div>
-            </div>
+            </form>
           </div>
-        </form>
+          <div class="tab-pane fade" id="my_info" role="tabpanel" aria-labelledby="etat-civil">
+            <form action="update_personal_info/">
+              <div class="form-group py-4">
+                <div class="row my-3">
+                  <div class="col-12 col-sm-3 text-left">
+                    <label>Nom :</label>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <input type="text" class="form-control" placeholder="{{ user.last_name }}" disabled>
+                  </div>
+                </div>
+                <div class="row my-3">
+                  <div class="col-12 col-sm-3 text-left">
+                    <label>Prénom :</label>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <input type="text" class="form-control" placeholder="{{ user.first_name }}" disabled>
+                  </div>
+                </div>
+                <div class="row my-3">
+                  <div class="col-12 offset-sm-3 col-sm-6">
+                    <input id="change_names_button" type="submit" class="btn btn-primary" value="Modifier">
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="tab-pane fade" id="my_numbers" role="tabpanel" aria-labelledby="coordonnees">
+            <form action="update_phone_address/">
+              <div class="form-group py-4">
+                <div class="row my-3">
+                  <div class="col-12 col-sm-3 text-left">
+                    <label>Téléphone :</label>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <input type="text" class="form-control" placeholder="{{ user.personal.phone_number }}" disabled>
+                  </div>
+                </div>
+                <div class="row my-3">
+                  <div class="col-12 col-sm-3 text-left">
+                    <label>Adresse :</label>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <input type="text" class="form-control" placeholder="{{ user.personal.address.label_first }}" disabled>
+                  </div>
+                  <div class="col-12 offset-sm-3 col-sm-6">
+                    <input type="text" class="form-control" placeholder="{{ user.personal.address.label_second }}" disabled>
+                  </div>
+                  <div class="col-12 offset-sm-3 col-sm-6">
+                    <input type="text" class="form-control" placeholder="{{ user.personal.address.postal_code }} {{ user.personal.address.city }}" disabled>
+                  </div>
+                  <div class="col-12 offset-sm-3 col-sm-6">
+                    <input type="text" class="form-control" placeholder="{{ user.personal.address.country }}" disabled>
+                  </div>
+                </div>
+                <div class="row my-3">
+                  <div class="col-12 col-sm-3 text-left">
+                    <label>Confidentiel ?</label>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <input type="checkbox" class="form-control" placeholder="{{ user.personal.has_private_profile }}" disabled>
+                  </div>
+                </div>
+                <div class="row my-3">
+                  <div class="col-12 offset-sm-3 col-sm-6">
+                    <input id="change_names_button" type="submit" class="btn btn-primary" value="Modifier">
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="tab-pane fade" id="my_files" role="tabpanel" aria-labelledby="mes-fichiers">
+            <form action="update_personal_files/">
+              <div class="form-group py-4">
+                <div class="row my-3">
+                  <div class="col-12 col-sm-3 text-left">
+                    <label>Certificat médical ou licence :</label>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <input type="text" class="form-control" placeholder="{{ user.personal.medical_file }}" disabled>
+                  </div>
+                </div>
+                <div class="row my-3">
+                  <div class="col-12 col-sm-3 text-left">
+                    <label>Pièce d'identité :</label>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <input type="text" class="form-control" placeholder="{{ user.personal.id_file }}" disabled>
+                  </div>
+                </div>
+                <div class="row my-3">
+                  <div class="col-12 offset-sm-3 col-sm-6">
+                    <input id="change_names_button" type="submit" class="btn btn-primary" value="Modifier">
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+
+
+        </div>
+      </div>
+
       </div>
     </div>
   </div>
