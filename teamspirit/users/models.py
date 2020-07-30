@@ -6,6 +6,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
+from teamspirit.profiles.models import Personal
 from teamspirit.users.managers import UserManager
 
 
@@ -26,6 +27,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(
         max_length=150,
         verbose_name=_("last name")
+    )
+    personal = models.ForeignKey(
+        to=Personal,
+        on_delete=models.CASCADE,
+        null=True,
     )
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
