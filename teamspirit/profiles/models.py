@@ -13,12 +13,21 @@ class Personal(models.Model):
     phone_number = models.CharField(
         max_length=20,
         verbose_name=_('Phone number'),
-        null=True
+        null=True,
+        blank=False,
+        default=''
     )
     address = models.ForeignKey(
         to=Address,
         on_delete=models.CASCADE,
-        null=True
+        null=False,
+        # default=Address(
+        #     label_first='',
+        #     label_second='',
+        #     postal_code='',
+        #     city='',
+        #     country=''
+        # )
     )
     id_file = models.FileField(null=True, blank=True)
     medical_file = models.FileField(null=True, blank=True)

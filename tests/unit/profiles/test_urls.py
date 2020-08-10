@@ -70,3 +70,21 @@ class ProfilesUrlsTestCase(TestCase):
         """
         url = reverse('profiles:reset_password_complete')
         self.assertEqual(url, '/profile/reset_password_complete/')
+
+    def test_personal_info_update_url(self):
+        """Unit test - app ``profiles`` - url ``profile/...``
+
+        [complete url: ``profile/update_personal_info/``]
+        Test the 'personal info update' url.
+        """
+        url = reverse('profiles:update_personal_info')
+        self.assertEqual(url, '/profile/update_personal_info/')
+
+    def test_phone_address_update_url(self):
+        """Unit test - app ``profiles`` - url ``profile/...``
+
+        [complete url: ``profile/update_phone_address/``]
+        Test the 'phone and address update' url.
+        """
+        url = reverse('profiles:update_phone_address')
+        self.assertEqual(url, '/profile/update_phone_address/')

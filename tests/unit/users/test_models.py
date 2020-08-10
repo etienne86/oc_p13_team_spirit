@@ -3,6 +3,8 @@
 from django.contrib.auth.hashers import check_password
 from django.test import TestCase
 
+from teamspirit.core.models import Address
+from teamspirit.profiles.models import Personal
 from teamspirit.users.models import User
 
 
@@ -12,17 +14,34 @@ class UserModelTestsCase(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.address = Address.objects.create(
+            label_first="1 rue de l'impasse",
+            label_second="",
+            postal_code="75000",
+            city="Paris",
+            country="France"
+        )
+        cls.personal = Personal.objects.create(
+            phone_number="01 02 03 04 05",
+            address=cls.address
+        )
+        cls.super_personal = Personal.objects.create(
+            phone_number="99 99 99 99 99",
+            address=cls.address
+        )
         cls.toto = User.objects.create_user(
             email="toto@mail.com",
             password="Password123",
             first_name="Toto",
-            last_name="LE RIGOLO"
+            last_name="LE RIGOLO",
+            personal=cls.personal
         )
         cls.super_toto = User.objects.create_superuser(
             email="super_toto@mail.com",
             password="Password456",
             first_name="Supertoto",
-            last_name="LE SUPER RIGOLO"
+            last_name="LE SUPER RIGOLO",
+            personal=cls.super_personal
         )
 
     def test_create_user(self):

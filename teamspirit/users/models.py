@@ -6,6 +6,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
+from teamspirit.core.models import Address
 from teamspirit.profiles.models import Personal
 from teamspirit.users.managers import UserManager
 
@@ -31,7 +32,17 @@ class User(AbstractBaseUser, PermissionsMixin):
     personal = models.ForeignKey(
         to=Personal,
         on_delete=models.CASCADE,
-        null=True,
+        null=False,
+        # default=Personal(
+        #     phone_number='',
+        #     address=Address(
+        #         # label_first='',
+        #         # label_second='',
+        #         # postal_code='',
+        #         # city='',
+        #         # country=''
+        #     )
+        # )
     )
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)

@@ -8,6 +8,8 @@ from teamspirit.profiles.views import (
     custom_password_reset_view,
     password_changed_view,
     profile_view,
+    update_personal_info_view,
+    update_phone_address_view
 )
 
 app_name = 'profiles'
@@ -43,5 +45,15 @@ urlpatterns = [
         'reset_password_complete/',
         custom_password_reset_complete_view,
         name="reset_password_complete"
+    ),
+    path(
+        'update_personal_info/',
+        update_personal_info_view,
+        name="update_personal_info"
+    ),
+    path(
+        'update_phone_address/',
+        update_phone_address_view,
+        name="update_phone_address"
     ),
 ]

@@ -1,5 +1,7 @@
 """Contain the unit tests related to the views in app ``pages``."""
 
+from teamspirit.profiles.models import Personal
+from teamspirit.core.models import Address
 from django.test import TestCase
 from django.urls import reverse
 
@@ -12,10 +14,22 @@ class PagesViewsTestCase(TestCase):
     def setUp(self):
         super().setUp()
         # a user in database
+        self.address = Address.objects.create(
+            label_first="1 rue de l'impasse",
+            label_second="",
+            postal_code="75000",
+            city="Paris",
+            country="France"
+        )
+        self.personal = Personal.objects.create(
+            phone_number="01 02 03 04 05",
+            address=self.address
+        )
         self.user = User.objects.create_user(
             email="toto@mail.com",
             first_name="Toto",
-            password="TopSecret"
+            password="TopSecret",
+            personal=self.personal
         )
         # log this user in
         self.client.login(email="toto@mail.com", password="TopSecret")

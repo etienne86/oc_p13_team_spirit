@@ -1,9 +1,16 @@
 """Contain the unit tests related to the forms in app ``profiles``."""
 
-from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
 from django.test import TestCase
 
-from teamspirit.profiles.forms import CustomPasswordChangeForm
+from teamspirit.core.models import Address
+from teamspirit.profiles.forms import (
+    CustomPasswordChangeForm,
+    CustomPasswordResetForm,
+    CustomSetPasswordForm,
+    UpdatePersonalInfoForm,
+    UpdatePhoneAddressForm,
+)
+from teamspirit.profiles.models import Personal
 from teamspirit.users.models import User
 
 
@@ -13,9 +20,24 @@ class ProfilesFormsTestCase(TestCase):
     def setUp(self):
         super().setUp()
         # a user in database
+        self.address = Address.objects.create(
+            label_first="1 rue de l'impasse",
+            label_second="",
+            postal_code="75000",
+            city="Paris",
+            country="France"
+        )
+        self.personal = Personal.objects.create(
+            phone_number="01 02 03 04 05",
+            address=self.address
+        )
         self.user = User.objects.create_user(
             email="toto@mail.com",
             password="Password123",
+            first_name="Toto",
+            last_name="LE RIGOLO",
+            personal=self.personal
+
         )
         # log this user in
         self.client.login(email="toto@mail.com", password="Password123")
@@ -82,7 +104,7 @@ class ProfilesFormsTestCase(TestCase):
         form_data = {
             'email': 'toto@mail.com',
         }
-        form = PasswordResetForm(data=form_data)
+        form = CustomPasswordResetForm(data=form_data)
         self.assertTrue(form.is_valid())
 
     def test_password_reset_form_failure_wrong_email(self):
@@ -93,7 +115,7 @@ class ProfilesFormsTestCase(TestCase):
         form_data = {
             'email': 'foobar',
         }
-        form = PasswordResetForm(data=form_data)
+        form = CustomPasswordResetForm(data=form_data)
         self.assertFalse(form.is_valid())
 
     def test_password_reset_confirm_form_success(self):
@@ -105,7 +127,7 @@ class ProfilesFormsTestCase(TestCase):
             'new_password1': 'Password456',
             'new_password2': 'Password456'
         }
-        form = SetPasswordForm(user=self.user, data=form_data)
+        form = CustomSetPasswordForm(user=self.user, data=form_data)
         self.assertTrue(form.is_valid())
 
     def test_password_reset_confirm_form_failure_two_different_passwords(self):
@@ -117,9 +139,51 @@ class ProfilesFormsTestCase(TestCase):
             'new_password1': 'Password456',
             'new_password2': 'Password789'
         }
-        form = SetPasswordForm(user=self.user, data=form_data)
+        form = CustomSetPasswordForm(user=self.user, data=form_data)
         self.assertFalse(form.is_valid())
         self.assertEqual(
             form.errors,
             {'new_password2': ["Les deux mots de passe ne correspondent pas."]}
+        )
+
+    def test_update_personal_info_form_success(self):
+        """Unit test - app ``profiles`` - form ``UpdatePersonalInfoForm`` #1
+
+        Test the personal info update form with success.
+        """
+        form_data = {
+            'first_name': 'Titi',
+            'last_name': 'LE RIKIKI'
+        }
+        form = UpdatePersonalInfoForm(user=self.user, data=form_data)
+        self.assertTrue(form.is_valid())
+        self.assertEqual(self.user.first_name, "Titi")
+        self.assertEqual(self.user.last_name, "LE RIKIKI")
+
+    def test_update_phone_address_form_success(self):
+        """Unit test - app ``profiles`` - form ``UpdatePhoneAddressForm`` #1
+
+        Test the phone and address update form with success.
+        """
+        form_data = {
+            # 'phone_number': '01 02 03 04 05',
+            'label_first': '1 rue du Pont',
+            'label_second': '',
+            'postal_code': '75000',
+            'city': 'Paris',
+            'country': 'France'
+        }
+        form = UpdatePhoneAddressForm(user=self.user, data=form_data)
+        self.assertTrue(form.is_valid())
+        # self.assertEqual(self.user.personal.phone_number, "01 02 03 04 05")
+        expected_address = Address.objects.create(
+            label_first="1 rue du Pont",
+            label_second="",
+            postal_code="75000",
+            city="Paris",
+            country="France"
+        )
+        self.assertEqual(
+            self.user.personal.address.label_first,
+            expected_address.label_first
         )

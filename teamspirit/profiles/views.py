@@ -8,11 +8,14 @@ from django.contrib.auth.views import (
 )
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
+from django.views.generic.edit import FormView
 
 from teamspirit.profiles.forms import (
     CustomPasswordChangeForm,
     CustomPasswordResetForm,
     CustomSetPasswordForm,
+    UpdatePersonalInfoForm,
+    UpdatePhoneAddressForm
 )
 
 
@@ -82,3 +85,36 @@ class CustomPasswordResetCompleteView(PasswordResetCompleteView):
 
 
 custom_password_reset_complete_view = CustomPasswordResetCompleteView.as_view()
+
+
+class UpdatePersonalInfoView(FormView):
+
+    template_name = 'profiles/update_personal_info.html'
+    form_class = UpdatePersonalInfoForm
+    success_url = reverse_lazy('profiles:profile')
+
+    def get_form_kwargs(self):
+        kwargs = super(UpdatePersonalInfoView, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+
+
+update_personal_info_view = UpdatePersonalInfoView.as_view()
+update_personal_info_view = login_required(update_personal_info_view)
+
+
+
+class UpdatePhoneAddressView(FormView):
+
+    template_name = 'profiles/update_phone_address.html'
+    form_class = UpdatePhoneAddressForm
+    success_url = reverse_lazy('profiles:profile')
+
+    def get_form_kwargs(self):
+        kwargs = super(UpdatePhoneAddressView, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+
+
+update_phone_address_view = UpdatePhoneAddressView.as_view()
+update_phone_address_view = login_required(update_phone_address_view)
