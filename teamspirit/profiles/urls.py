@@ -9,7 +9,7 @@ from teamspirit.profiles.views import (
     password_changed_view,
     profile_view,
     update_personal_info_view,
-    update_phone_address_view
+    update_phone_address_view,
 )
 
 app_name = 'profiles'

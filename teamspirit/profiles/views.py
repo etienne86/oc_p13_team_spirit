@@ -15,7 +15,7 @@ from teamspirit.profiles.forms import (
     CustomPasswordResetForm,
     CustomSetPasswordForm,
     UpdatePersonalInfoForm,
-    UpdatePhoneAddressForm
+    UpdatePhoneAddressForm,
 )
 
 
@@ -101,7 +101,6 @@ class UpdatePersonalInfoView(FormView):
 
 update_personal_info_view = UpdatePersonalInfoView.as_view()
 update_personal_info_view = login_required(update_personal_info_view)
-
 
 
 class UpdatePhoneAddressView(FormView):

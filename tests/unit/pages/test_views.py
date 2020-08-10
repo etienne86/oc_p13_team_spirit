@@ -1,10 +1,10 @@
 """Contain the unit tests related to the views in app ``pages``."""
 
-from teamspirit.profiles.models import Personal
-from teamspirit.core.models import Address
 from django.test import TestCase
 from django.urls import reverse
 
+from teamspirit.core.models import Address
+from teamspirit.profiles.models import Personal
 from teamspirit.users.models import User
 
 

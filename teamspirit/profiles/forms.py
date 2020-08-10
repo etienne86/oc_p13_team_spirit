@@ -1,7 +1,5 @@
-from django.db.models import fields
-from teamspirit.core.models import Address
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Field, HTML, Layout, Submit
+from crispy_forms.layout import Field, Layout, Submit
 from django.contrib.auth import forms as auth_forms
 from django.forms import ModelForm
 from django.utils.translation import ugettext_lazy as _
