@@ -2,20 +2,20 @@
 
 from django.http.request import HttpRequest
 from django.test import TestCase
+from django.views.decorators.csrf import requires_csrf_token
 
 from teamspirit.core.models import Address
 from teamspirit.profiles.models import Personal
 from teamspirit.profiles.views import (
+    custom_password_change_view,
     custom_password_reset_complete_view,
     custom_password_reset_done_view,
     password_changed_view,
     profile_view,
+    update_address_view,
     update_personal_info_view,
-    update_phone_address_view,
 )
 from teamspirit.users.models import User
-
-# from django.views.decorators.csrf import csrf_exempt
 
 
 class ProfilesViewsTestCase(TestCase):
@@ -70,12 +70,15 @@ class ProfilesViewsTestCase(TestCase):
 
     # def test_custom_password_change_view(self):
     #     """Unit test - app ``profiles`` - view ...
-    #
+    
     #     [complete view: ``custom_password_change_view``]
     #     Test the custom password change view.
     #     """
     #     view = custom_password_change_view
+    #     view = requires_csrf_token(view)
     #     response = view(self.get_request)
+    #     print(response)
+    #     print(type(response))
     #     # response = csrf_exempt(view)(self.get_request)
     #     # render the response content
     #     # response.render()
@@ -181,9 +184,8 @@ class ProfilesViewsTestCase(TestCase):
         self.assertIn('<title>Team Spirit - Mot de passe réinitialisé', html)
 
     def test_update_personal_info_view(self):
-        """Unit test - app ``profiles`` - view ...
+        """Unit test - app ``profiles`` - view ``update_personal_info_view``
 
-        [complete view: ``update_personal_info_view``]
         Test the personal info update view.
         """
         view = update_personal_info_view
@@ -198,13 +200,12 @@ class ProfilesViewsTestCase(TestCase):
             html
         )
 
-    def test_update_phone_address_view(self):
-        """Unit test - app ``profiles`` - view ...
+    def test_update_address_view(self):
+        """Unit test - app ``profiles`` - view ``update_address_view``
 
-        [complete view: ``update_phone_address_view``]
-        Test the phone and address update view.
+        Test the address update view.
         """
-        view = update_phone_address_view
+        view = update_address_view
         response = view(self.get_request)  # type is TemplateResponse
         # render the response content
         response.render()
@@ -212,6 +213,6 @@ class ProfilesViewsTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTrue(html.startswith('<!DOCTYPE html>'))
         self.assertIn(
-            '<title>Team Spirit - Mise à jour des coordonnées',
+            '<title>Team Spirit - Mise à jour de l\'adresse',
             html
         )

@@ -80,7 +80,7 @@ class UpdatePersonalInfoForm(ModelForm):
         return self.user
 
 
-class UpdatePhoneAddressForm(ModelForm):
+class UpdateAddressForm(ModelForm):
 
     class Meta:
         model = Address
@@ -88,36 +88,36 @@ class UpdatePhoneAddressForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
-        super(UpdatePhoneAddressForm, self).__init__(*args, **kwargs)
+        super(UpdateAddressForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
-        self.helper.form_id = 'id-update-personal-form'
+        self.helper.form_id = 'id-update-address-form'
         self.helper.form_class = 'form-horizontal'
         self.helper.form_method = 'post'
         self.helper.label_class = 'col-lg-2'
         self.helper.field_class = 'col-lg-8'
-        # self.helper.layout = Layout(
-        #     Field('label_first', value=self.user.personal.address.label_first),
-        #     Field(
-        #         'label_second',
-        #         value=self.user.personal.address.label_second
-        #     ),
-        #     Field('postal_code', value=self.user.personal.address.postal_code),
-        #     Field('city', value=self.user.personal.address.city),
-        #     Field('country', value=self.user.personal.address.country),
-        # )
+        label_second = self.user.personal.address.label_second
+        if label_second:
+            field_label_second = Field('label_second', value=label_second)
+        else:
+            field_label_second = Field('label_second')
+        self.helper.layout = Layout(
+            Field('label_first', value=self.user.personal.address.label_first),
+            field_label_second,
+            Field('postal_code', value=self.user.personal.address.postal_code),
+            Field('city', value=self.user.personal.address.city),
+            Field('country', value=self.user.personal.address.country),
+        )
         self.helper.add_input(Submit('submit', 'Mettre à jour'))
         if self.is_valid():
             self.save()
 
     def save(self, commit=True):
-        # phone_number = self.cleaned_data["phone_number"]
         label_first = self.cleaned_data["label_first"]
         label_second = self.cleaned_data["label_second"]
         postal_code = self.cleaned_data["postal_code"]
         city = self.cleaned_data["city"]
         country = self.cleaned_data["country"]
         if commit:
-            # self.user.personal.phone_number = phone_number
             self.user.personal.address.label_first = label_first
             self.user.personal.address.label_second = label_second
             self.user.personal.address.postal_code = postal_code

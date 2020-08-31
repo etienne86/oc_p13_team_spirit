@@ -8,7 +8,7 @@ from teamspirit.profiles.forms import (
     CustomPasswordResetForm,
     CustomSetPasswordForm,
     UpdatePersonalInfoForm,
-    UpdatePhoneAddressForm,
+    UpdateAddressForm,
 )
 from teamspirit.profiles.models import Personal
 from teamspirit.users.models import User
@@ -160,22 +160,20 @@ class ProfilesFormsTestCase(TestCase):
         self.assertEqual(self.user.first_name, "Titi")
         self.assertEqual(self.user.last_name, "LE RIKIKI")
 
-    def test_update_phone_address_form_success(self):
-        """Unit test - app ``profiles`` - form ``UpdatePhoneAddressForm`` #1
+    def test_update_address_form_success(self):
+        """Unit test - app ``profiles`` - form ``UpdateAddressForm`` #1
 
-        Test the phone and address update form with success.
+        Test the address update form with success.
         """
         form_data = {
-            # 'phone_number': '01 02 03 04 05',
             'label_first': '1 rue du Pont',
             'label_second': '',
             'postal_code': '75000',
             'city': 'Paris',
             'country': 'France'
         }
-        form = UpdatePhoneAddressForm(user=self.user, data=form_data)
+        form = UpdateAddressForm(user=self.user, data=form_data)
         self.assertTrue(form.is_valid())
-        # self.assertEqual(self.user.personal.phone_number, "01 02 03 04 05")
         expected_address = Address.objects.create(
             label_first="1 rue du Pont",
             label_second="",

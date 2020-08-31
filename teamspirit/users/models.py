@@ -32,16 +32,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         to=Personal,
         on_delete=models.CASCADE,
         null=False,
-        # default=Personal(
-        #     phone_number='',
-        #     address=Address(
-        #         # label_first='',
-        #         # label_second='',
-        #         # postal_code='',
-        #         # city='',
-        #         # country=''
-        #     )
-        # )
     )
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)

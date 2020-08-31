@@ -2,14 +2,14 @@
 
 {% load crispy_forms_tags %}
 
-{% block title %}Mise à jour des coordonnées{% endblock title %}
+{% block title %}Mise à jour de la confidentialité{% endblock title %}
 
 {% block section_one %}
   <section>
     <div class="container my-3">
       <div class="card text-center border-solid">
         <div class="card-body">
-          <h1 class="text-primary text-center">Mes coordonnées</h1>
+          <h1 class="text-primary text-center">Confidentialité</h1>
           <form method="post">
             {% csrf_token %}
             {% crispy form %}

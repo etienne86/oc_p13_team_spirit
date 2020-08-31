@@ -15,7 +15,7 @@ from teamspirit.profiles.forms import (
     CustomPasswordResetForm,
     CustomSetPasswordForm,
     UpdatePersonalInfoForm,
-    UpdatePhoneAddressForm,
+    UpdateAddressForm,
 )
 
 
@@ -103,17 +103,17 @@ update_personal_info_view = UpdatePersonalInfoView.as_view()
 update_personal_info_view = login_required(update_personal_info_view)
 
 
-class UpdatePhoneAddressView(FormView):
+class UpdateAddressView(FormView):
 
-    template_name = 'profiles/update_phone_address.html'
-    form_class = UpdatePhoneAddressForm
+    template_name = 'profiles/update_address.html'
+    form_class = UpdateAddressForm
     success_url = reverse_lazy('profiles:profile')
 
     def get_form_kwargs(self):
-        kwargs = super(UpdatePhoneAddressView, self).get_form_kwargs()
+        kwargs = super(UpdateAddressView, self).get_form_kwargs()
         kwargs.update({'user': self.request.user})
         return kwargs
 
 
-update_phone_address_view = UpdatePhoneAddressView.as_view()
-update_phone_address_view = login_required(update_phone_address_view)
+update_address_view = UpdateAddressView.as_view()
+update_address_view = login_required(update_address_view)

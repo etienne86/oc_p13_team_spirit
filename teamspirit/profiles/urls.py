@@ -9,7 +9,7 @@ from teamspirit.profiles.views import (
     password_changed_view,
     profile_view,
     update_personal_info_view,
-    update_phone_address_view,
+    update_address_view,
 )
 
 app_name = 'profiles'
@@ -52,8 +52,8 @@ urlpatterns = [
         name="update_personal_info"
     ),
     path(
-        'update_phone_address/',
-        update_phone_address_view,
-        name="update_phone_address"
+        'update_address/',
+        update_address_view,
+        name="update_address"
     ),
 ]

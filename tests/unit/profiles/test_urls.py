@@ -86,5 +86,5 @@ class ProfilesUrlsTestCase(TestCase):
         [complete url: ``profile/update_phone_address/``]
         Test the 'phone and address update' url.
         """
-        url = reverse('profiles:update_phone_address')
-        self.assertEqual(url, '/profile/update_phone_address/')
+        url = reverse('profiles:update_address')
+        self.assertEqual(url, '/profile/update_address/')

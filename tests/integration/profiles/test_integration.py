@@ -140,10 +140,10 @@ class ProfilesIntegrationTestCase(TestCase):
 
         Test the phone and address update view with url.
         """
-        url = reverse('profiles:update_phone_address')
+        url = reverse('profiles:update_address')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(
             response,
-            'profiles/update_phone_address.html'
+            'profiles/update_address.html'
         )

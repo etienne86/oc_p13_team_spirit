@@ -22,6 +22,7 @@
           </li>
         </ul>
       </div>
+
       <div class="card-body">
         <div class="tab-content" id="signTabContent">
           <div class="tab-pane fade show active" id="my_account" role="tabpanel" aria-labelledby="mon-compte">
@@ -43,6 +44,7 @@
               </div>
             </form>
           </div>
+
           <div class="tab-pane fade" id="my_info" role="tabpanel" aria-labelledby="etat-civil">
             <form action="update_personal_info/">
               <div class="form-group py-4">
@@ -70,17 +72,32 @@
               </div>
             </form>
           </div>
+
           <div class="tab-pane fade" id="my_numbers" role="tabpanel" aria-labelledby="coordonnees">
-            <form action="update_phone_address/">
+            <form action="update_phone/">
               <div class="form-group py-4">
                 <div class="row my-3">
                   <div class="col-12 col-lg-2">
                     <label>Téléphone</label>
                   </div>
                   <div class="col-12 col-lg-8">
-                    <input type="text" class="form-control" value="{{ user.personal.phone_number }}" disabled>
+                    {% if user.personal.phone_number %}
+                      <input type="text" class="form-control" value="{{ user.personal.phone_number }}" disabled>
+                    {% else %}
+                      <input type="text" class="form-control" disabled>
+                    {% endif %}
                   </div>
                 </div>
+                <div class="row my-3">
+                  <div class="col-12 offset-lg-2 col-lg-8">
+                    <input id="change_phone_button" type="submit" class="btn btn-primary" value="Modifier le téléphone">
+                  </div>
+                </div>
+              </div>
+            </form>
+
+            <form action="update_address/">
+              <div class="form-group py-4">
                 <div class="row my-3">
                   <div class="col-12 col-lg-2">
                     <label>Adresse</label>
@@ -89,7 +106,11 @@
                     <input type="text" class="form-control" value="{{ user.personal.address.label_first }}" disabled>
                   </div>
                   <div class="col-12 offset-lg-2 col-lg-8">
-                    <input type="text" class="form-control" value="{{ user.personal.address.label_second }}" disabled>
+                    {% if user.personal.address.label_second %}
+                      <input type="text" class="form-control" value="{{ user.personal.address.label_second }}" disabled>
+                    {% else %}
+                      <input type="text" class="form-control" disabled>
+                    {% endif %}
                   </div>
                   <div class="col-12 offset-lg-2 col-lg-8">
                     <input type="text" class="form-control" value="{{ user.personal.address.postal_code }} {{ user.personal.address.city }}" disabled>
@@ -99,23 +120,28 @@
                   </div>
                 </div>
                 <div class="row my-3">
-                  <div class="col-12 col-lg-2">
-                    <label>Confidentiel ?</label>
-                  </div>
-                  <div class="col-12 col-lg-8">
-                    <input type="checkbox" class="form-control" value="{{ user.personal.has_private_profile }}" disabled>
-                  </div>
                   <div class="col-12 offset-lg-2 col-lg-8">
-                    <p>Si je coche cette case, les autres adhérents ne pourront voir ni mon numéro de téléphone ni mon adresse.</p>
-                  </div>
-                </div>
-                <div class="row my-3">
-                  <div class="col-12 offset-lg-2 col-lg-8">
-                    <input id="change_names_button" type="submit" class="btn btn-primary" value="Modifier">
+                    <input id="change_address_button" type="submit" class="btn btn-primary" value="Modifier l'adresse">
                   </div>
                 </div>
               </div>
             </form>
+
+            
+            <div class="row my-3">
+              <div class="col-12">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="{{ user.personal.has_private_profile }}" id="confidentiel_check" disabled>
+                  <label class="form-check-label" for="confidentiel_check">
+                    Garder mes coordonnées confidentielles
+                  </label>
+                </div>
+                <div class="row my-3">
+                  <div class="col-12 offset-lg-2 col-lg-8">
+                    <input id="change_confidentiality" type="submit" class="btn btn-primary" value="Modifier la confidentialité">
+                  </div>
+                </div>
+            </div>
           </div>
 
           <div class="tab-pane fade" id="my_files" role="tabpanel" aria-labelledby="mes-fichiers">
@@ -139,7 +165,7 @@
                 </div>
                 <div class="row my-3">
                   <div class="col-12 offset-lg-2 col-lg-8">
-                    <input id="change_names_button" type="submit" class="btn btn-primary" value="Modifier">
+                    <input id="change_files_button" type="submit" class="btn btn-primary" value="Modifier">
                   </div>
                 </div>
               </div>

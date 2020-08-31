@@ -47,9 +47,8 @@ class Address(models.Model):
         if self.label_second:
             return f"{self.label_first}\n{self.label_second}\n" + \
                 f"{self.postal_code}\n{self.city}\n{self.country}"
-        else:
-            return f"{self.label_first}\n" + \
-                f"{self.postal_code}\n{self.city}\n{self.country}"
+        return f"{self.label_first}\n" + \
+            f"{self.postal_code}\n{self.city}\n{self.country}"
 
 
 class Location(models.Model):
