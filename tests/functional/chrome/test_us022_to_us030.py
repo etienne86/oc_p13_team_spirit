@@ -33,6 +33,8 @@ from seleniumlogin import force_login
 from webdriver_manager.chrome import ChromeDriverManager
 
 import config.settings.test as settings
+from teamspirit.core.models import Address
+from teamspirit.profiles.models import Personal
 from teamspirit.users.models import User
 
 
@@ -54,17 +56,30 @@ class GeneralUserStoriesAnonymousTestCase(StaticLiveServerTestCase):
 
     def setUp(self):
         super().setUp()
-        # a user in database
+        # two users in database
+        self.address = Address.objects.create(
+            label_first="1 rue de l'impasse",
+            label_second="",
+            postal_code="75000",
+            city="Paris",
+            country="France"
+        )
+        self.personal = Personal.objects.create(
+            phone_number="01 02 03 04 05",
+            address=self.address
+        )
         self.user_a = User.objects.create_user(
             email="toto@mail.com",
             first_name="Toto",
-            password="TopSecret"
+            password="TopSecret",
+            personal=self.personal
         )
         self.user_b = User.objects.create_user(
             email="titi@mail.com",
             first_name="Titi",
             password="Grosminet",
-            is_active=False
+            is_active=False,
+            personal=self.personal
         )
 
     @classmethod
@@ -341,10 +356,22 @@ class GeneralUserStoriesAuthenticatedTestCase(StaticLiveServerTestCase):
     def setUp(self):
         super().setUp()
         # a user in database
+        self.address = Address.objects.create(
+            label_first="1 rue de l'impasse",
+            label_second="",
+            postal_code="75000",
+            city="Paris",
+            country="France"
+        )
+        self.personal = Personal.objects.create(
+            phone_number="01 02 03 04 05",
+            address=self.address
+        )
         self.user = User.objects.create_user(
             email="toto@mail.com",
             first_name="Toto",
-            password="TopSecret"
+            password="TopSecret",
+            personal=self.personal
         )
         # force login for this user
         force_login(self.user, self.driver, self.live_server_url)

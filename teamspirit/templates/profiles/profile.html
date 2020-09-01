@@ -1,15 +1,6 @@
-{% extends "base.html" %}
-{% load static i18n %}
+{% extends "profiles/base.html" %}
 
 {% block title %}Profil{% endblock title %}
-
-{% block li_private_space %}
-  <li class="nav-item active px-lg-4">
-    <a class="nav-link text-uppercase text-expanded" href="{% url 'profiles:profile' %}">Mon espace
-      <span class="sr-only">(current)</span>
-    </a>
-  </li>
-{% endblock li_private_space %}
 
 {% block section_one %}
 <section id="section_one">
@@ -31,96 +22,129 @@
           </li>
         </ul>
       </div>
+
       <div class="card-body">
         <div class="tab-content" id="signTabContent">
+          
           <div class="tab-pane fade show active" id="my_account" role="tabpanel" aria-labelledby="mon-compte">
             <form action="change_password/">
               <div class="form-group py-4">
                 <div class="row my-3">
-                  <div class="col-12 col-sm-3 text-left">
-                    <label>Courriel :</label>
+                  <div class="col-12 col-lg-2">
+                    <label>Courriel</label>
                   </div>
-                  <div class="col-12 col-sm-6">
-                    <input type="email" class="form-control" placeholder="{{ user.email }}" disabled>
+                  <div class="col-12 col-lg-8">
+                    <input type="email" class="form-control" value="{{ user.email }}" disabled>
                   </div>
                 </div>
                 <div class="row my-3">
-                  <div class="col-12 col-sm-3 text-left">
-                    <label>Mot de passe :</label>
-                  </div>
-                  <div class="col-12 col-sm-6">
+                  <div class="col-12 offset-lg-2 col-lg-8">
                     <input id="change_password_button" type="submit" class="btn btn-primary" value="Changer de mot de passe">
                   </div>
                 </div>
               </div>
             </form>
           </div>
+
           <div class="tab-pane fade" id="my_info" role="tabpanel" aria-labelledby="etat-civil">
             <form action="update_personal_info/">
               <div class="form-group py-4">
                 <div class="row my-3">
-                  <div class="col-12 col-sm-3 text-left">
-                    <label>Nom :</label>
+                  <div class="col-12 col-lg-2">
+                    <label>Nom</label>
                   </div>
-                  <div class="col-12 col-sm-6">
-                    <input type="text" class="form-control" placeholder="{{ user.last_name }}" disabled>
-                  </div>
-                </div>
-                <div class="row my-3">
-                  <div class="col-12 col-sm-3 text-left">
-                    <label>Prénom :</label>
-                  </div>
-                  <div class="col-12 col-sm-6">
-                    <input type="text" class="form-control" placeholder="{{ user.first_name }}" disabled>
+                  <div class="col-12 col-lg-8">
+                    <input type="text" class="form-control" value="{{ user.last_name }}" disabled>
                   </div>
                 </div>
                 <div class="row my-3">
-                  <div class="col-12 offset-sm-3 col-sm-6">
+                  <div class="col-12 col-lg-2">
+                    <label>Prénom</label>
+                  </div>
+                  <div class="col-12 col-lg-8">
+                    <input type="text" class="form-control" value="{{ user.first_name }}" disabled>
+                  </div>
+                </div>
+                <div class="row my-3">
+                  <div class="col-12 offset-lg-2 col-lg-8">
                     <input id="change_names_button" type="submit" class="btn btn-primary" value="Modifier">
                   </div>
                 </div>
               </div>
             </form>
           </div>
+
           <div class="tab-pane fade" id="my_numbers" role="tabpanel" aria-labelledby="coordonnees">
-            <form action="update_phone_address/">
+            <form action="update_phone/">
               <div class="form-group py-4">
                 <div class="row my-3">
-                  <div class="col-12 col-sm-3 text-left">
-                    <label>Téléphone :</label>
+                  <div class="col-12 col-lg-2">
+                    <label>Téléphone</label>
                   </div>
-                  <div class="col-12 col-sm-6">
-                    <input type="text" class="form-control" placeholder="{{ user.personal.phone_number }}" disabled>
-                  </div>
-                </div>
-                <div class="row my-3">
-                  <div class="col-12 col-sm-3 text-left">
-                    <label>Adresse :</label>
-                  </div>
-                  <div class="col-12 col-sm-6">
-                    <input type="text" class="form-control" placeholder="{{ user.personal.address.label_first }}" disabled>
-                  </div>
-                  <div class="col-12 offset-sm-3 col-sm-6">
-                    <input type="text" class="form-control" placeholder="{{ user.personal.address.label_second }}" disabled>
-                  </div>
-                  <div class="col-12 offset-sm-3 col-sm-6">
-                    <input type="text" class="form-control" placeholder="{{ user.personal.address.postal_code }} {{ user.personal.address.city }}" disabled>
-                  </div>
-                  <div class="col-12 offset-sm-3 col-sm-6">
-                    <input type="text" class="form-control" placeholder="{{ user.personal.address.country }}" disabled>
+                  <div class="col-12 col-lg-8">
+                    {% if user.personal.phone_number %}
+                      <input type="text" class="form-control" value="{{ user.personal.phone_number }}" disabled>
+                    {% else %}
+                      <input type="text" class="form-control" disabled>
+                    {% endif %}
                   </div>
                 </div>
                 <div class="row my-3">
-                  <div class="col-12 col-sm-3 text-left">
-                    <label>Confidentiel ?</label>
+                  <div class="col-12 offset-lg-2 col-lg-8">
+                    <input id="change_phone_button" type="submit" class="btn btn-primary" value="Modifier le téléphone">
                   </div>
-                  <div class="col-12 col-sm-6">
-                    <input type="checkbox" class="form-control" placeholder="{{ user.personal.has_private_profile }}" disabled>
+                </div>
+              </div>
+            </form>
+
+            <form action="update_address/">
+              <div class="form-group py-4">
+                <div class="row my-3">
+                  <div class="col-12 col-lg-2">
+                    <label>Adresse</label>
+                  </div>
+                  <div class="col-12 col-lg-8">
+                    <input type="text" class="form-control" value="{{ user.personal.address.label_first }}" disabled>
+                  </div>
+                  <div class="col-12 offset-lg-2 col-lg-8">
+                    {% if user.personal.address.label_second %}
+                      <input type="text" class="form-control" value="{{ user.personal.address.label_second }}" disabled>
+                    {% else %}
+                      <input type="text" class="form-control" disabled>
+                    {% endif %}
+                  </div>
+                  <div class="col-12 offset-lg-2 col-lg-8">
+                    <input type="text" class="form-control" value="{{ user.personal.address.postal_code }} {{ user.personal.address.city }}" disabled>
+                  </div>
+                  <div class="col-12 offset-lg-2 col-lg-8">
+                    <input type="text" class="form-control" value="{{ user.personal.address.country }}" disabled>
                   </div>
                 </div>
                 <div class="row my-3">
-                  <div class="col-12 offset-sm-3 col-sm-6">
-                    <input id="change_names_button" type="submit" class="btn btn-primary" value="Modifier">
+                  <div class="col-12 offset-lg-2 col-lg-8">
+                    <input id="change_address_button" type="submit" class="btn btn-primary" value="Modifier l'adresse">
+                  </div>
+                </div>
+              </div>
+            </form>
+
+            <form action="update_confidentiality/">
+              <div class="row my-3">
+                <div class="col-12">
+                  <div class="custom-control custom-checkbox">
+                    {% if user.personal.has_private_profile %}
+                      <input class="custom-control-input" type="checkbox" value="has_private_profile" id="confidential_check" checked disabled>
+                    {% else %}
+                      <input class="custom-control-input" type="checkbox" value="has_private_profile" id="confidential_check" disabled>
+                    {% endif %}
+                    <label class="custom-control-label" for="confidential_check">
+                      Garder mes coordonnées confidentielles
+                    </label>
+                  </div>
+                  <div class="row my-3">
+                    <div class="col-12 offset-lg-2 col-lg-8">
+                      <input id="change_confidentiality" type="submit" class="btn btn-primary" value="Modifier la confidentialité">
+                    </div>
                   </div>
                 </div>
               </div>
@@ -131,35 +155,33 @@
             <form action="update_personal_files/">
               <div class="form-group py-4">
                 <div class="row my-3">
-                  <div class="col-12 col-sm-3 text-left">
-                    <label>Certificat médical ou licence :</label>
+                  <div class="col-12 col-lg-2">
+                    <label>Certificat médical ou licence</label>
                   </div>
-                  <div class="col-12 col-sm-6">
-                    <input type="text" class="form-control" placeholder="{{ user.personal.medical_file }}" disabled>
-                  </div>
-                </div>
-                <div class="row my-3">
-                  <div class="col-12 col-sm-3 text-left">
-                    <label>Pièce d'identité :</label>
-                  </div>
-                  <div class="col-12 col-sm-6">
-                    <input type="text" class="form-control" placeholder="{{ user.personal.id_file }}" disabled>
+                  <div class="col-12 col-lg-8">
+                    <input type="text" class="form-control" value="{{ user.personal.medical_file }}" disabled>
                   </div>
                 </div>
                 <div class="row my-3">
-                  <div class="col-12 offset-sm-3 col-sm-6">
-                    <input id="change_names_button" type="submit" class="btn btn-primary" value="Modifier">
+                  <div class="col-12 col-lg-2">
+                    <label>Pièce d'identité</label>
+                  </div>
+                  <div class="col-12 col-lg-8">
+                    <input type="text" class="form-control" value="{{ user.personal.id_file }}" disabled>
+                  </div>
+                </div>
+                <div class="row my-3">
+                  <div class="col-12 offset-lg-2 col-lg-8">
+                    <input id="change_files_button" type="submit" class="btn btn-primary" value="Modifier">
                   </div>
                 </div>
               </div>
             </form>
           </div>
 
-
         </div>
       </div>
 
-      </div>
     </div>
   </div>
 </section>

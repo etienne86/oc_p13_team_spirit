@@ -3,6 +3,8 @@
 from django import forms as django_forms
 from django.test import TestCase
 
+from teamspirit.core.models import Address
+from teamspirit.profiles.models import Personal
 from teamspirit.users.forms import CustomAuthenticationForm
 from teamspirit.users.models import User
 
@@ -13,18 +15,31 @@ class UsersFormsTestCase(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.address = Address.objects.create(
+            label_first="1 rue de l'impasse",
+            label_second="",
+            postal_code="75000",
+            city="Paris",
+            country="France"
+        )
+        cls.personal = Personal.objects.create(
+            phone_number="01 02 03 04 05",
+            address=cls.address
+        )
         cls.user = User.objects.create_user(
             email="toto@mail.com",
             password="Password123",
             first_name="Toto",
-            last_name="LE RIGOLO"
+            last_name="LE RIGOLO",
+            personal=cls.personal
         )
         cls.inactive_user = User.objects.create_user(
             email="titi@mail.com",
             password="Password456",
             first_name="Titi",
             last_name="LE RIKIKI",
-            is_active=False
+            is_active=False,
+            personal=cls.personal
         )
 
     def test_custom_authentication_form_success(self):

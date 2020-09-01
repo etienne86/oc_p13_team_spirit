@@ -1,19 +1,18 @@
-{% extends "base.html" %}
-{% load static i18n %}
+{% extends "profiles/base.html" %}
+
 {% load crispy_forms_tags %}
 
-{% block title %}Connexion{% endblock title %}
+{% block title %}Mise à jour de l'adresse{% endblock title %}
 
 {% block section_one %}
   <section>
     <div class="container my-3">
       <div class="card text-center border-solid">
         <div class="card-body">
-          <h1 class="text-primary text-center">Accéder au site</h1>
+          <h1 class="text-primary text-center">Mon adresse</h1>
           <form method="post">
             {% csrf_token %}
             {% crispy form %}
-            <a id="forgotten_password" href="{% url 'profiles:reset_password' %}">Mot de passe oublié ?</a>
           </form>
         </div>
       </div>

@@ -13,16 +13,21 @@ class Personal(models.Model):
     phone_number = models.CharField(
         max_length=20,
         verbose_name=_('Phone number'),
-        null=True
+        null=True,
+        blank=False,
+        default='',
     )
     address = models.ForeignKey(
         to=Address,
         on_delete=models.CASCADE,
-        null=True
+        null=False,
+    )
+    has_private_profile = models.BooleanField(
+        default=False,
+        verbose_name='Profil privé ?',
     )
     id_file = models.FileField(null=True, blank=True)
     medical_file = models.FileField(null=True, blank=True)
-    has_private_profile = models.BooleanField(default=False)
 
     objects = PersonalManager()
 
