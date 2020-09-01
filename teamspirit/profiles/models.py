@@ -15,23 +15,19 @@ class Personal(models.Model):
         verbose_name=_('Phone number'),
         null=True,
         blank=False,
-        default=''
+        default='',
     )
     address = models.ForeignKey(
         to=Address,
         on_delete=models.CASCADE,
         null=False,
-        # default=Address(
-        #     label_first='',
-        #     label_second='',
-        #     postal_code='',
-        #     city='',
-        #     country=''
-        # )
+    )
+    has_private_profile = models.BooleanField(
+        default=False,
+        verbose_name='Profil privé ?',
     )
     id_file = models.FileField(null=True, blank=True)
     medical_file = models.FileField(null=True, blank=True)
-    has_private_profile = models.BooleanField(default=False)
 
     objects = PersonalManager()
 

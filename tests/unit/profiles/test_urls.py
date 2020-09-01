@@ -72,19 +72,34 @@ class ProfilesUrlsTestCase(TestCase):
         self.assertEqual(url, '/profile/reset_password_complete/')
 
     def test_personal_info_update_url(self):
-        """Unit test - app ``profiles`` - url ``profile/...``
+        """Unit test - app ``profiles`` - url ``profile/update_personal_info/``
 
-        [complete url: ``profile/update_personal_info/``]
         Test the 'personal info update' url.
         """
         url = reverse('profiles:update_personal_info')
         self.assertEqual(url, '/profile/update_personal_info/')
 
-    def test_phone_address_update_url(self):
-        """Unit test - app ``profiles`` - url ``profile/...``
+    def test_phone_update_url(self):
+        """Unit test - app ``profiles`` - url ``profile/update_phone/``
 
-        [complete url: ``profile/update_phone_address/``]
-        Test the 'phone and address update' url.
+        Test the 'phone update' url.
+        """
+        url = reverse('profiles:update_phone')
+        self.assertEqual(url, '/profile/update_phone/')
+
+    def test_address_update_url(self):
+        """Unit test - app ``profiles`` - url ``profile/update_address/``
+
+        Test the 'address update' url.
         """
         url = reverse('profiles:update_address')
         self.assertEqual(url, '/profile/update_address/')
+
+    def test_confidentiality_update_url(self):
+        """Unit test - app ``profiles`` - url ``profile/...``
+
+        [complete url: ``profile/update_confidentiality/``]
+        Test the 'confidentiality update' url.
+        """
+        url = reverse('profiles:update_confidentiality')
+        self.assertEqual(url, '/profile/update_confidentiality/')

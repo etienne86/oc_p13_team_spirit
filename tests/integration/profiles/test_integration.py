@@ -135,10 +135,23 @@ class ProfilesIntegrationTestCase(TestCase):
             'profiles/update_personal_info.html'
         )
 
-    def test_update_phone_address_view_with_url(self):
+    def test_update_phone_view_with_url(self):
         """Integration test - app ``profiles`` - view with url #9
 
-        Test the phone and address update view with url.
+        Test the phone update view with url.
+        """
+        url = reverse('profiles:update_phone')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(
+            response,
+            'profiles/update_phone.html'
+        )
+
+    def test_update_address_view_with_url(self):
+        """Integration test - app ``profiles`` - view with url #10
+
+        Test the address update view with url.
         """
         url = reverse('profiles:update_address')
         response = self.client.get(url)
@@ -146,4 +159,17 @@ class ProfilesIntegrationTestCase(TestCase):
         self.assertTemplateUsed(
             response,
             'profiles/update_address.html'
+        )
+
+    def test_update_confidentiality_view_with_url(self):
+        """Integration test - app ``profiles`` - view with url #11
+
+        Test the confidentiality update view with url.
+        """
+        url = reverse('profiles:update_confidentiality')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(
+            response,
+            'profiles/update_confidentiality.html'
         )

@@ -7,8 +7,10 @@ from teamspirit.profiles.forms import (
     CustomPasswordChangeForm,
     CustomPasswordResetForm,
     CustomSetPasswordForm,
-    UpdatePersonalInfoForm,
     UpdateAddressForm,
+    UpdateConfidentialityForm,
+    UpdatePersonalInfoForm,
+    UpdatePhoneForm,
 )
 from teamspirit.profiles.models import Personal
 from teamspirit.users.models import User
@@ -147,7 +149,7 @@ class ProfilesFormsTestCase(TestCase):
         )
 
     def test_update_personal_info_form_success(self):
-        """Unit test - app ``profiles`` - form ``UpdatePersonalInfoForm`` #1
+        """Unit test - app ``profiles`` - form ``UpdatePersonalInfoForm``
 
         Test the personal info update form with success.
         """
@@ -160,8 +162,27 @@ class ProfilesFormsTestCase(TestCase):
         self.assertEqual(self.user.first_name, "Titi")
         self.assertEqual(self.user.last_name, "LE RIKIKI")
 
+    def test_update_phone_form_success(self):
+        """Unit test - app ``profiles`` - form ``UpdatePhoneForm``
+
+        Test the phone update form with success.
+        """
+        form_data = {
+            'phone_number': '99 98 97 96 95',
+        }
+        form = UpdatePhoneForm(user=self.user, data=form_data)
+        self.assertTrue(form.is_valid())
+        expected_personal = Personal.objects.create(
+            phone_number='99 98 97 96 95',
+            address=self.address
+        )
+        self.assertEqual(
+            self.user.personal.phone_number,
+            expected_personal.phone_number
+        )
+
     def test_update_address_form_success(self):
-        """Unit test - app ``profiles`` - form ``UpdateAddressForm`` #1
+        """Unit test - app ``profiles`` - form ``UpdateAddressForm``
 
         Test the address update form with success.
         """
@@ -184,4 +205,24 @@ class ProfilesFormsTestCase(TestCase):
         self.assertEqual(
             self.user.personal.address.label_first,
             expected_address.label_first
+        )
+
+    def test_update_confidentiality_form_success(self):
+        """Unit test - app ``profiles`` - form ``UpdateConfidentialityForm``
+
+        Test the confidentiality update form with success.
+        """
+        form_data = {
+            'has_private_profile': True,
+        }
+        form = UpdateConfidentialityForm(user=self.user, data=form_data)
+        self.assertTrue(form.is_valid())
+        expected_personal = Personal.objects.create(
+            phone_number='00 00 00 00 00',
+            address=self.address,
+            has_private_profile=True,
+        )
+        self.assertEqual(
+            self.user.personal.has_private_profile,
+            expected_personal.has_private_profile
         )

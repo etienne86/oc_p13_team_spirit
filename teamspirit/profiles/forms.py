@@ -5,6 +5,7 @@ from django.forms import ModelForm
 from django.utils.translation import ugettext_lazy as _
 
 from teamspirit.core.models import Address
+from teamspirit.profiles.models import Personal
 from teamspirit.users.models import User
 
 
@@ -80,6 +81,36 @@ class UpdatePersonalInfoForm(ModelForm):
         return self.user
 
 
+class UpdatePhoneForm(ModelForm):
+
+    class Meta:
+        model = Personal
+        fields = ['phone_number']
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        super(UpdatePhoneForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_id = 'id-update-phone-form'
+        self.helper.form_class = 'form-horizontal'
+        self.helper.form_method = 'post'
+        self.helper.label_class = 'col-lg-2'
+        self.helper.field_class = 'col-lg-8'
+        self.helper.layout = Layout(
+            Field('phone_number', value=self.user.personal.phone_number),
+        )
+        self.helper.add_input(Submit('submit', 'Mettre à jour'))
+        if self.is_valid():
+            self.save()
+
+    def save(self, commit=True):
+        phone_number = self.cleaned_data["phone_number"]
+        if commit:
+            self.user.personal.phone_number = phone_number
+            self.user.personal.save()
+        return self.user
+
+
 class UpdateAddressForm(ModelForm):
 
     class Meta:
@@ -123,5 +154,37 @@ class UpdateAddressForm(ModelForm):
             self.user.personal.address.postal_code = postal_code
             self.user.personal.address.city = city
             self.user.personal.address.country = country
-            self.user.save()
+            self.user.personal.address.save()
+        return self.user
+
+
+class UpdateConfidentialityForm(ModelForm):
+
+    class Meta:
+        model = Personal
+        fields = ['has_private_profile']
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        super(UpdateConfidentialityForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_id = 'id-update-confidentiality-form'
+        self.helper.form_class = 'form-horizontal'
+        self.helper.form_method = 'post'
+        self.helper.label_class = 'col-12'
+        self.helper.field_class = 'col-12'
+        if self.user.personal.has_private_profile:
+            self.helper.layout = Layout(Field(
+                'has_private_profile',
+                checked=""
+            ))
+        self.helper.add_input(Submit('submit', 'Mettre à jour'))
+        if self.is_valid():
+            self.save()
+
+    def save(self, commit=True):
+        has_private_profile = self.cleaned_data["has_private_profile"]
+        if commit:
+            self.user.personal.has_private_profile = has_private_profile
+            self.user.personal.save()
         return self.user

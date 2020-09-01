@@ -14,8 +14,10 @@ from teamspirit.profiles.forms import (
     CustomPasswordChangeForm,
     CustomPasswordResetForm,
     CustomSetPasswordForm,
-    UpdatePersonalInfoForm,
     UpdateAddressForm,
+    UpdateConfidentialityForm,
+    UpdatePersonalInfoForm,
+    UpdatePhoneForm,
 )
 
 
@@ -103,6 +105,22 @@ update_personal_info_view = UpdatePersonalInfoView.as_view()
 update_personal_info_view = login_required(update_personal_info_view)
 
 
+class UpdatePhoneView(FormView):
+
+    template_name = 'profiles/update_phone.html'
+    form_class = UpdatePhoneForm
+    success_url = reverse_lazy('profiles:profile')
+
+    def get_form_kwargs(self):
+        kwargs = super(UpdatePhoneView, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+
+
+update_phone_view = UpdatePhoneView.as_view()
+update_phone_view = login_required(update_phone_view)
+
+
 class UpdateAddressView(FormView):
 
     template_name = 'profiles/update_address.html'
@@ -117,3 +135,19 @@ class UpdateAddressView(FormView):
 
 update_address_view = UpdateAddressView.as_view()
 update_address_view = login_required(update_address_view)
+
+
+class UpdateConfidentialityView(FormView):
+
+    template_name = 'profiles/update_confidentiality.html'
+    form_class = UpdateConfidentialityForm
+    success_url = reverse_lazy('profiles:profile')
+
+    def get_form_kwargs(self):
+        kwargs = super(UpdateConfidentialityView, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+
+
+update_confidentiality_view = UpdateConfidentialityView.as_view()
+update_confidentiality_view = login_required(update_confidentiality_view)

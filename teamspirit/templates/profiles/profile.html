@@ -25,6 +25,7 @@
 
       <div class="card-body">
         <div class="tab-content" id="signTabContent">
+          
           <div class="tab-pane fade show active" id="my_account" role="tabpanel" aria-labelledby="mon-compte">
             <form action="change_password/">
               <div class="form-group py-4">
@@ -127,21 +128,27 @@
               </div>
             </form>
 
-            
-            <div class="row my-3">
-              <div class="col-12">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="{{ user.personal.has_private_profile }}" id="confidentiel_check" disabled>
-                  <label class="form-check-label" for="confidentiel_check">
-                    Garder mes coordonnées confidentielles
-                  </label>
-                </div>
-                <div class="row my-3">
-                  <div class="col-12 offset-lg-2 col-lg-8">
-                    <input id="change_confidentiality" type="submit" class="btn btn-primary" value="Modifier la confidentialité">
+            <form action="update_confidentiality/">
+              <div class="row my-3">
+                <div class="col-12">
+                  <div class="custom-control custom-checkbox">
+                    {% if user.personal.has_private_profile %}
+                      <input class="custom-control-input" type="checkbox" value="has_private_profile" id="confidential_check" checked disabled>
+                    {% else %}
+                      <input class="custom-control-input" type="checkbox" value="has_private_profile" id="confidential_check" disabled>
+                    {% endif %}
+                    <label class="custom-control-label" for="confidential_check">
+                      Garder mes coordonnées confidentielles
+                    </label>
+                  </div>
+                  <div class="row my-3">
+                    <div class="col-12 offset-lg-2 col-lg-8">
+                      <input id="change_confidentiality" type="submit" class="btn btn-primary" value="Modifier la confidentialité">
+                    </div>
                   </div>
                 </div>
-            </div>
+              </div>
+            </form>
           </div>
 
           <div class="tab-pane fade" id="my_files" role="tabpanel" aria-labelledby="mes-fichiers">
@@ -172,11 +179,9 @@
             </form>
           </div>
 
-
         </div>
       </div>
 
-      </div>
     </div>
   </div>
 </section>

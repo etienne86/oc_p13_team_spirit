@@ -13,7 +13,9 @@ from teamspirit.profiles.views import (
     password_changed_view,
     profile_view,
     update_address_view,
+    update_confidentiality_view,
     update_personal_info_view,
+    update_phone_view,
 )
 from teamspirit.users.models import User
 
@@ -70,7 +72,7 @@ class ProfilesViewsTestCase(TestCase):
 
     # def test_custom_password_change_view(self):
     #     """Unit test - app ``profiles`` - view ...
-    
+
     #     [complete view: ``custom_password_change_view``]
     #     Test the custom password change view.
     #     """
@@ -200,6 +202,23 @@ class ProfilesViewsTestCase(TestCase):
             html
         )
 
+    def test_update_phone_view(self):
+        """Unit test - app ``profiles`` - view ``update_phone_view``
+
+        Test the phone update view.
+        """
+        view = update_phone_view
+        response = view(self.get_request)  # type is TemplateResponse
+        # render the response content
+        response.render()
+        html = response.content.decode('utf8')
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(html.startswith('<!DOCTYPE html>'))
+        self.assertIn(
+            '<title>Team Spirit - Mise à jour du téléphone',
+            html
+        )
+
     def test_update_address_view(self):
         """Unit test - app ``profiles`` - view ``update_address_view``
 
@@ -214,5 +233,22 @@ class ProfilesViewsTestCase(TestCase):
         self.assertTrue(html.startswith('<!DOCTYPE html>'))
         self.assertIn(
             '<title>Team Spirit - Mise à jour de l\'adresse',
+            html
+        )
+
+    def test_update_confidentiality_view(self):
+        """Unit test - app ``profiles`` - view ``update_confidentiality_view``
+
+        Test the confidentiality update view.
+        """
+        view = update_confidentiality_view
+        response = view(self.get_request)  # type is TemplateResponse
+        # render the response content
+        response.render()
+        html = response.content.decode('utf8')
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(html.startswith('<!DOCTYPE html>'))
+        self.assertIn(
+            '<title>Team Spirit - Mise à jour de la confidentialité',
             html
         )
