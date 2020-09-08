@@ -48,7 +48,7 @@ class CustomSetPasswordForm(auth_forms.SetPasswordForm):
         self.helper.add_input(Submit('submit', _('Set Password')))
 
 
-class UpdatePersonalInfoForm(ModelForm):
+class PersonalInfoForm(ModelForm):
 
     class Meta:
         model = User
@@ -56,7 +56,7 @@ class UpdatePersonalInfoForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
-        super(UpdatePersonalInfoForm, self).__init__(*args, **kwargs)
+        super(PersonalInfoForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_id = 'id-update-personal-form'
         self.helper.form_class = 'form-horizontal'
@@ -81,27 +81,28 @@ class UpdatePersonalInfoForm(ModelForm):
         return self.user
 
 
-class UpdatePhoneForm(ModelForm):
+class PhoneForm(ModelForm):
 
     class Meta:
         model = Personal
         fields = ['phone_number']
 
     def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user')
-        super(UpdatePhoneForm, self).__init__(*args, **kwargs)
+        self.user = kwargs.pop('user', None)
+        super(PhoneForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
+        self.helper.form_tag = False
         self.helper.form_id = 'id-update-phone-form'
         self.helper.form_class = 'form-horizontal'
         self.helper.form_method = 'post'
         self.helper.label_class = 'col-lg-2'
         self.helper.field_class = 'col-lg-8'
-        self.helper.layout = Layout(
-            Field('phone_number', value=self.user.personal.phone_number),
-        )
-        self.helper.add_input(Submit('submit', 'Mettre à jour'))
-        if self.is_valid():
-            self.save()
+        phone_number = self.user.personal.phone_number
+        if phone_number:
+            field_phone_number = Field('phone_number', value=phone_number)
+        else:
+            field_phone_number = Field('phone_number')
+        self.helper.layout = Layout(field_phone_number)
 
     def save(self, commit=True):
         phone_number = self.cleaned_data["phone_number"]
@@ -111,36 +112,55 @@ class UpdatePhoneForm(ModelForm):
         return self.user
 
 
-class UpdateAddressForm(ModelForm):
+class AddressForm(ModelForm):
 
     class Meta:
         model = Address
         fields = '__all__'
 
     def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user')
-        super(UpdateAddressForm, self).__init__(*args, **kwargs)
+        self.user = kwargs.pop('user', None)
+        super(AddressForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
+        self.helper.form_tag = False
         self.helper.form_id = 'id-update-address-form'
         self.helper.form_class = 'form-horizontal'
         self.helper.form_method = 'post'
         self.helper.label_class = 'col-lg-2'
         self.helper.field_class = 'col-lg-8'
+
+        label_first = self.user.personal.address.label_first
         label_second = self.user.personal.address.label_second
+        postal_code = self.user.personal.address.postal_code
+        city = self.user.personal.address.city
+        country = self.user.personal.address.country
+        if label_first:
+            field_label_first = Field('label_first', value=label_first)
+        else:
+            field_label_first = Field('label_first')
         if label_second:
             field_label_second = Field('label_second', value=label_second)
         else:
             field_label_second = Field('label_second')
+        if postal_code:
+            field_postal_code = Field('postal_code', value=postal_code)
+        else:
+            field_postal_code = Field('postal_code')
+        if city:
+            field_city = Field('city', value=city)
+        else:
+            field_city = Field('city')
+        if country:
+            field_country = Field('country', value=country)
+        else:
+            field_country = Field('country')
         self.helper.layout = Layout(
-            Field('label_first', value=self.user.personal.address.label_first),
+            field_label_first,
             field_label_second,
-            Field('postal_code', value=self.user.personal.address.postal_code),
-            Field('city', value=self.user.personal.address.city),
-            Field('country', value=self.user.personal.address.country),
+            field_postal_code,
+            field_city,
+            field_country,
         )
-        self.helper.add_input(Submit('submit', 'Mettre à jour'))
-        if self.is_valid():
-            self.save()
 
     def save(self, commit=True):
         label_first = self.cleaned_data["label_first"]
@@ -158,16 +178,17 @@ class UpdateAddressForm(ModelForm):
         return self.user
 
 
-class UpdateConfidentialityForm(ModelForm):
+class ConfidentialityForm(ModelForm):
 
     class Meta:
         model = Personal
         fields = ['has_private_profile']
 
     def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user')
-        super(UpdateConfidentialityForm, self).__init__(*args, **kwargs)
+        self.user = kwargs.pop('user', None)
+        super(ConfidentialityForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
+        self.helper.form_tag = False
         self.helper.form_id = 'id-update-confidentiality-form'
         self.helper.form_class = 'form-horizontal'
         self.helper.form_method = 'post'
@@ -178,9 +199,6 @@ class UpdateConfidentialityForm(ModelForm):
                 'has_private_profile',
                 checked=""
             ))
-        self.helper.add_input(Submit('submit', 'Mettre à jour'))
-        if self.is_valid():
-            self.save()
 
     def save(self, commit=True):
         has_private_profile = self.cleaned_data["has_private_profile"]

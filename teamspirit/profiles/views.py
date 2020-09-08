@@ -6,18 +6,19 @@ from django.contrib.auth.views import (
     PasswordResetDoneView,
     PasswordResetView,
 )
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
 from teamspirit.profiles.forms import (
+    AddressForm,
+    ConfidentialityForm,
     CustomPasswordChangeForm,
     CustomPasswordResetForm,
     CustomSetPasswordForm,
-    UpdateAddressForm,
-    UpdateConfidentialityForm,
-    UpdatePersonalInfoForm,
-    UpdatePhoneForm,
+    PersonalInfoForm,
+    PhoneForm,
 )
 
 
@@ -89,65 +90,100 @@ class CustomPasswordResetCompleteView(PasswordResetCompleteView):
 custom_password_reset_complete_view = CustomPasswordResetCompleteView.as_view()
 
 
-class UpdatePersonalInfoView(FormView):
+class PersonalInfoView(FormView):
 
     template_name = 'profiles/update_personal_info.html'
-    form_class = UpdatePersonalInfoForm
+    form_class = PersonalInfoForm
     success_url = reverse_lazy('profiles:profile')
 
     def get_form_kwargs(self):
-        kwargs = super(UpdatePersonalInfoView, self).get_form_kwargs()
+        kwargs = super(PersonalInfoView, self).get_form_kwargs()
         kwargs.update({'user': self.request.user})
         return kwargs
 
 
-update_personal_info_view = UpdatePersonalInfoView.as_view()
-update_personal_info_view = login_required(update_personal_info_view)
+personal_info_view = PersonalInfoView.as_view()
+personal_info_view = login_required(personal_info_view)
 
 
-class UpdatePhoneView(FormView):
+class PhoneView(FormView):
 
     template_name = 'profiles/update_phone.html'
-    form_class = UpdatePhoneForm
+    form_class = PhoneForm
     success_url = reverse_lazy('profiles:profile')
 
     def get_form_kwargs(self):
-        kwargs = super(UpdatePhoneView, self).get_form_kwargs()
+        kwargs = super(PhoneView, self).get_form_kwargs()
         kwargs.update({'user': self.request.user})
         return kwargs
 
 
-update_phone_view = UpdatePhoneView.as_view()
+update_phone_view = PhoneView.as_view()
 update_phone_view = login_required(update_phone_view)
 
 
-class UpdateAddressView(FormView):
+class AddressView(FormView):
 
     template_name = 'profiles/update_address.html'
-    form_class = UpdateAddressForm
+    form_class = AddressForm
     success_url = reverse_lazy('profiles:profile')
 
     def get_form_kwargs(self):
-        kwargs = super(UpdateAddressView, self).get_form_kwargs()
+        kwargs = super(AddressView, self).get_form_kwargs()
         kwargs.update({'user': self.request.user})
         return kwargs
 
 
-update_address_view = UpdateAddressView.as_view()
-update_address_view = login_required(update_address_view)
+address_view = AddressView.as_view()
+address_view = login_required(address_view)
 
 
-class UpdateConfidentialityView(FormView):
+class ConfidentialityView(FormView):
 
     template_name = 'profiles/update_confidentiality.html'
-    form_class = UpdateConfidentialityForm
+    form_class = ConfidentialityForm
     success_url = reverse_lazy('profiles:profile')
 
     def get_form_kwargs(self):
-        kwargs = super(UpdateConfidentialityView, self).get_form_kwargs()
+        kwargs = super(ConfidentialityView, self).get_form_kwargs()
         kwargs.update({'user': self.request.user})
         return kwargs
 
 
-update_confidentiality_view = UpdateConfidentialityView.as_view()
-update_confidentiality_view = login_required(update_confidentiality_view)
+confidentiality_view = ConfidentialityView.as_view()
+confidentiality_view = login_required(confidentiality_view)
+
+
+@login_required
+def phone_address_view(request):
+    context = {}
+    if request.method == 'POST':
+        phone_form = PhoneForm(request.POST, user=request.user)
+        address_form = AddressForm(request.POST, user=request.user)
+        confidentiality_form = ConfidentialityForm(
+            request.POST,
+            user=request.user
+        )
+        if all([
+            phone_form.is_valid(),
+            address_form.is_valid(),
+            confidentiality_form.is_valid()
+        ]):
+            # process forms
+            phone_form.save()
+            address_form.save()
+            confidentiality_form.save()
+            # redirect to the profile url
+            return redirect(reverse_lazy('profiles:profile'))
+    else:
+        phone_form = PhoneForm(user=request.user)
+        address_form = AddressForm(user=request.user)
+        confidentiality_form = ConfidentialityForm(user=request.user)
+    context['phone_form'] = phone_form
+    context['address_form'] = address_form
+    context['confidentiality_form'] = confidentiality_form
+    return render(
+        request,
+        'profiles/update_phone_address.html',
+        context,
+    )

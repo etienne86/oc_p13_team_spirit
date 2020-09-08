@@ -4,13 +4,13 @@ from django.test import TestCase
 
 from teamspirit.core.models import Address
 from teamspirit.profiles.forms import (
+    AddressForm,
+    ConfidentialityForm,
     CustomPasswordChangeForm,
     CustomPasswordResetForm,
     CustomSetPasswordForm,
-    UpdateAddressForm,
-    UpdateConfidentialityForm,
-    UpdatePersonalInfoForm,
-    UpdatePhoneForm,
+    PersonalInfoForm,
+    PhoneForm,
 )
 from teamspirit.profiles.models import Personal
 from teamspirit.users.models import User
@@ -148,30 +148,31 @@ class ProfilesFormsTestCase(TestCase):
             {'new_password2': ["Les deux mots de passe ne correspondent pas."]}
         )
 
-    def test_update_personal_info_form_success(self):
-        """Unit test - app ``profiles`` - form ``UpdatePersonalInfoForm``
+    def test_personal_info_form_success(self):
+        """Unit test - app ``profiles`` - form ``PersonalInfoForm``
 
-        Test the personal info update form with success.
+        Test the personal info form with success.
         """
         form_data = {
             'first_name': 'Titi',
             'last_name': 'LE RIKIKI'
         }
-        form = UpdatePersonalInfoForm(user=self.user, data=form_data)
+        form = PersonalInfoForm(user=self.user, data=form_data)
         self.assertTrue(form.is_valid())
         self.assertEqual(self.user.first_name, "Titi")
         self.assertEqual(self.user.last_name, "LE RIKIKI")
 
-    def test_update_phone_form_success(self):
-        """Unit test - app ``profiles`` - form ``UpdatePhoneForm``
+    def test_phone_form_success(self):
+        """Unit test - app ``profiles`` - form ``PhoneForm``
 
-        Test the phone update form with success.
+        Test the phone form with success.
         """
         form_data = {
             'phone_number': '99 98 97 96 95',
         }
-        form = UpdatePhoneForm(user=self.user, data=form_data)
+        form = PhoneForm(user=self.user, data=form_data)
         self.assertTrue(form.is_valid())
+        form.save()
         expected_personal = Personal.objects.create(
             phone_number='99 98 97 96 95',
             address=self.address
@@ -181,10 +182,10 @@ class ProfilesFormsTestCase(TestCase):
             expected_personal.phone_number
         )
 
-    def test_update_address_form_success(self):
-        """Unit test - app ``profiles`` - form ``UpdateAddressForm``
+    def test_address_form_success(self):
+        """Unit test - app ``profiles`` - form ``AddressForm``
 
-        Test the address update form with success.
+        Test the address form with success.
         """
         form_data = {
             'label_first': '1 rue du Pont',
@@ -193,8 +194,9 @@ class ProfilesFormsTestCase(TestCase):
             'city': 'Paris',
             'country': 'France'
         }
-        form = UpdateAddressForm(user=self.user, data=form_data)
+        form = AddressForm(user=self.user, data=form_data)
         self.assertTrue(form.is_valid())
+        form.save()
         expected_address = Address.objects.create(
             label_first="1 rue du Pont",
             label_second="",
@@ -207,16 +209,17 @@ class ProfilesFormsTestCase(TestCase):
             expected_address.label_first
         )
 
-    def test_update_confidentiality_form_success(self):
-        """Unit test - app ``profiles`` - form ``UpdateConfidentialityForm``
+    def test_confidentiality_form_success(self):
+        """Unit test - app ``profiles`` - form ``ConfidentialityForm``
 
-        Test the confidentiality update form with success.
+        Test the confidentiality form with success.
         """
         form_data = {
             'has_private_profile': True,
         }
-        form = UpdateConfidentialityForm(user=self.user, data=form_data)
+        form = ConfidentialityForm(user=self.user, data=form_data)
         self.assertTrue(form.is_valid())
+        form.save()
         expected_personal = Personal.objects.create(
             phone_number='00 00 00 00 00',
             address=self.address,
