@@ -1,7 +1,6 @@
 """Contain the models related to the app ``profiles``."""
 
 from django.db import models, transaction
-from django.utils.translation import ugettext_lazy as _
 
 from teamspirit.core.models import Address
 from teamspirit.profiles.managers import PersonalManager, RoleManager
@@ -12,7 +11,7 @@ class Personal(models.Model):
 
     phone_number = models.CharField(
         max_length=20,
-        verbose_name=_('Phone number'),
+        verbose_name='Téléphone',
         null=True,
         blank=False,
         default='',
