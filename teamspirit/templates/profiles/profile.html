@@ -93,7 +93,11 @@
                   <label>Adresse</label>
                 </div>
                 <div class="col-12 col-lg-8">
-                  <input type="text" class="form-control" value="{{ user.personal.address.label_first }}" disabled>
+                  {% if user.personal.address.label_first %}
+                    <input type="text" class="form-control" value="{{ user.personal.address.label_first }}" disabled>
+                  {% else %}
+                    <input type="text" class="form-control" disabled>
+                  {% endif %}
                 </div>
                 <div class="col-12 offset-lg-2 col-lg-8">
                   {% if user.personal.address.label_second %}
@@ -103,10 +107,22 @@
                   {% endif %}
                 </div>
                 <div class="col-12 offset-lg-2 col-lg-8">
-                  <input type="text" class="form-control" value="{{ user.personal.address.postal_code }} {{ user.personal.address.city }}" disabled>
+                  {% if user.personal.address.postal_code %}
+                    {% if user.personal.address.city %}
+                      <input type="text" class="form-control" value="{{ user.personal.address.postal_code }} {{ user.personal.address.city }}" disabled>
+                    {% else %}
+                      <input type="text" class="form-control" disabled>
+                    {% endif %}
+                  {% else %}
+                    <input type="text" class="form-control" disabled>
+                  {% endif %}
                 </div>
                 <div class="col-12 offset-lg-2 col-lg-8">
-                  <input type="text" class="form-control" value="{{ user.personal.address.country }}" disabled>
+                  {% if user.personal.address.country %}
+                    <input type="text" class="form-control" value="{{ user.personal.address.country }}" disabled>
+                  {% else %}
+                    <input type="text" class="form-control" disabled>
+                  {% endif %}
                 </div>
               </div>
               <div class="row my-3">
