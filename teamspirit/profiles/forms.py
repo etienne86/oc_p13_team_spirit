@@ -206,3 +206,36 @@ class ConfidentialityForm(ModelForm):
             self.user.personal.has_private_profile = has_private_profile
             self.user.personal.save()
         return self.user
+
+
+class PersonalFilesForm(ModelForm):
+
+    class Meta:
+        model = Personal
+        fields = ['id_file', 'medical_file']
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        super(PersonalFilesForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_id = 'id-personal-files-form'
+        self.helper.form_class = 'form-horizontal'
+        self.helper.form_method = 'post'
+        self.helper.label_class = 'col-lg-2'
+        self.helper.field_class = 'col-lg-8'
+        self.helper.layout = Layout(
+            Field('id_file', value=self.user.id_file),
+            Field('medical_file', value=self.user.medical_file)
+        )
+        self.helper.add_input(Submit('submit', 'Mettre à jour'))
+        if self.is_valid():
+            self.save()
+
+    def save(self, commit=True):
+        id_file = self.cleaned_data["id_file"]
+        medical_file = self.cleaned_data["medical_file"]
+        if commit:
+            self.user.personal.id_file = id_file
+            self.user.personal.medical_file = medical_file
+            self.user.personal.save()
+        return self.user

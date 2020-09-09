@@ -82,7 +82,16 @@ class ProfilesUrlsTestCase(TestCase):
     def test_phone_address_url(self):
         """Unit test - app ``profiles`` - url ``profile/update_phone_address/``
 
-        Test the 'phone and address' url.
+        Test the 'phone and address update' url.
         """
         url = reverse('profiles:update_phone_address')
         self.assertEqual(url, '/profile/update_phone_address/')
+
+    def test_personal_files_url(self):
+        """Unit test - app ``profiles`` - url ``profile/...``
+
+        [complete url: ``profile/update_personal_files/``]
+        Test the 'personal files update' url.
+        """
+        url = reverse('profiles:update_personal_files')
+        self.assertEqual(url, '/profile/update_personal_files/')

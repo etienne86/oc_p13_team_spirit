@@ -1,5 +1,6 @@
 """Contain the unit tests related to the forms in app ``profiles``."""
 
+from django.core.files.uploadedfile import UploadedFile
 from django.test import TestCase
 
 from teamspirit.core.models import Address
@@ -9,6 +10,7 @@ from teamspirit.profiles.forms import (
     CustomPasswordChangeForm,
     CustomPasswordResetForm,
     CustomSetPasswordForm,
+    PersonalFilesForm,
     PersonalInfoForm,
     PhoneForm,
 )
@@ -224,6 +226,27 @@ class ProfilesFormsTestCase(TestCase):
             phone_number='00 00 00 00 00',
             address=self.address,
             has_private_profile=True,
+        )
+        self.assertEqual(
+            self.user.personal.has_private_profile,
+            expected_personal.has_private_profile
+        )
+
+    def test_personal_files_form_success(self):
+        """Unit test - app ``profiles`` - form ``PersonalFilesForm``
+
+        Test the personal files form with success.
+        """
+        form_data = {
+            'id_file': UploadedFile(),
+            'medical_file': UploadedFile(),
+        }
+        form = PersonalFilesForm(user=self.user, data=form_data)
+        self.assertTrue(form.is_valid())
+        form.save()
+        expected_personal = Personal.objects.create(
+            id_file=UploadedFile,
+            medical_file=UploadedFile,
         )
         self.assertEqual(
             self.user.personal.has_private_profile,

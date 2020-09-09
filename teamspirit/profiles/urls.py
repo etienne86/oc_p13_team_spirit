@@ -7,6 +7,7 @@ from teamspirit.profiles.views import (
     custom_password_reset_done_view,
     custom_password_reset_view,
     password_changed_view,
+    personal_files_view,
     personal_info_view,
     phone_address_view,
     profile_view,
@@ -55,5 +56,10 @@ urlpatterns = [
         'update_phone_address/',
         phone_address_view,
         name="update_phone_address"
+    ),
+    path(
+        'update_personal_files/',
+        personal_files_view,
+        name="update_personal_files"
     ),
 ]
