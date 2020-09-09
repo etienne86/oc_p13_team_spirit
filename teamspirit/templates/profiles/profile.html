@@ -54,7 +54,7 @@
                     <label>Nom</label>
                   </div>
                   <div class="col-12 col-lg-8">
-                    <input type="text" class="form-control" value="{{ user.last_name }}" disabled>
+                    <input id="last_name_field" type="text" class="form-control" value="{{ user.last_name }}" disabled>
                   </div>
                 </div>
                 <div class="row my-3">
@@ -62,7 +62,7 @@
                     <label>Prénom</label>
                   </div>
                   <div class="col-12 col-lg-8">
-                    <input type="text" class="form-control" value="{{ user.first_name }}" disabled>
+                    <input id="first_name_field" type="text" class="form-control" value="{{ user.first_name }}" disabled>
                   </div>
                 </div>
                 <div class="row my-3">
@@ -82,9 +82,9 @@
                 </div>
                 <div class="col-12 col-lg-8">
                   {% if user.personal.phone_number %}
-                    <input type="text" class="form-control" value="{{ user.personal.phone_number }}" disabled>
+                    <input id="phone_field" type="text" class="form-control" value="{{ user.personal.phone_number }}" disabled>
                   {% else %}
-                    <input type="text" class="form-control" disabled>
+                    <input id="phone_field" type="text" class="form-control" disabled>
                   {% endif %}
                 </div>
               </div>
@@ -94,34 +94,34 @@
                 </div>
                 <div class="col-12 col-lg-8">
                   {% if user.personal.address.label_first %}
-                    <input type="text" class="form-control" value="{{ user.personal.address.label_first }}" disabled>
+                    <input id="label_first_field" type="text" class="form-control" value="{{ user.personal.address.label_first }}" disabled>
                   {% else %}
-                    <input type="text" class="form-control" disabled>
+                    <input id="label_first_field" type="text" class="form-control" disabled>
                   {% endif %}
                 </div>
                 <div class="col-12 offset-lg-2 col-lg-8">
                   {% if user.personal.address.label_second %}
-                    <input type="text" class="form-control" value="{{ user.personal.address.label_second }}" disabled>
+                    <input id="label_second_field" type="text" class="form-control" value="{{ user.personal.address.label_second }}" disabled>
                   {% else %}
-                    <input type="text" class="form-control" disabled>
+                    <input id="label_second_field" type="text" class="form-control" disabled>
                   {% endif %}
                 </div>
                 <div class="col-12 offset-lg-2 col-lg-8">
                   {% if user.personal.address.postal_code %}
                     {% if user.personal.address.city %}
-                      <input type="text" class="form-control" value="{{ user.personal.address.postal_code }} {{ user.personal.address.city }}" disabled>
+                      <input id="postal_code_and_city_field" type="text" class="form-control" value="{{ user.personal.address.postal_code }} {{ user.personal.address.city }}" disabled>
                     {% else %}
-                      <input type="text" class="form-control" disabled>
+                      <input id="postal_code_and_city_field" type="text" class="form-control" disabled>
                     {% endif %}
                   {% else %}
-                    <input type="text" class="form-control" disabled>
+                    <input id="postal_code_and_city_field" type="text" class="form-control" disabled>
                   {% endif %}
                 </div>
                 <div class="col-12 offset-lg-2 col-lg-8">
                   {% if user.personal.address.country %}
-                    <input type="text" class="form-control" value="{{ user.personal.address.country }}" disabled>
+                    <input id="country_field" type="text" class="form-control" value="{{ user.personal.address.country }}" disabled>
                   {% else %}
-                    <input type="text" class="form-control" disabled>
+                    <input id="country_field" type="text" class="form-control" disabled>
                   {% endif %}
                 </div>
               </div>
@@ -129,9 +129,9 @@
                 <div class="col-12">
                   <div class="custom-control custom-checkbox">
                     {% if user.personal.has_private_profile %}
-                      <input class="custom-control-input" type="checkbox" value="has_private_profile" id="confidential_check" checked disabled>
+                      <input id="confidential_checkbox" class="custom-control-input" type="checkbox" value="has_private_profile" id="confidential_check" checked disabled>
                     {% else %}
-                      <input class="custom-control-input" type="checkbox" value="has_private_profile" id="confidential_check" disabled>
+                      <input id="confidential_checkbox" class="custom-control-input" type="checkbox" value="has_private_profile" id="confidential_check" disabled>
                     {% endif %}
                     <label class="custom-control-label" for="confidential_check">
                       Garder mes coordonnées confidentielles

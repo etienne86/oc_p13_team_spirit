@@ -106,54 +106,6 @@ personal_info_view = PersonalInfoView.as_view()
 personal_info_view = login_required(personal_info_view)
 
 
-class PhoneView(FormView):
-
-    template_name = 'profiles/update_phone.html'
-    form_class = PhoneForm
-    success_url = reverse_lazy('profiles:profile')
-
-    def get_form_kwargs(self):
-        kwargs = super(PhoneView, self).get_form_kwargs()
-        kwargs.update({'user': self.request.user})
-        return kwargs
-
-
-update_phone_view = PhoneView.as_view()
-update_phone_view = login_required(update_phone_view)
-
-
-class AddressView(FormView):
-
-    template_name = 'profiles/update_address.html'
-    form_class = AddressForm
-    success_url = reverse_lazy('profiles:profile')
-
-    def get_form_kwargs(self):
-        kwargs = super(AddressView, self).get_form_kwargs()
-        kwargs.update({'user': self.request.user})
-        return kwargs
-
-
-address_view = AddressView.as_view()
-address_view = login_required(address_view)
-
-
-class ConfidentialityView(FormView):
-
-    template_name = 'profiles/update_confidentiality.html'
-    form_class = ConfidentialityForm
-    success_url = reverse_lazy('profiles:profile')
-
-    def get_form_kwargs(self):
-        kwargs = super(ConfidentialityView, self).get_form_kwargs()
-        kwargs.update({'user': self.request.user})
-        return kwargs
-
-
-confidentiality_view = ConfidentialityView.as_view()
-confidentiality_view = login_required(confidentiality_view)
-
-
 @login_required
 def phone_address_view(request):
     context = {}

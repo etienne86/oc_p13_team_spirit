@@ -24,6 +24,8 @@ class Personal(models.Model):
     has_private_profile = models.BooleanField(
         default=False,
         verbose_name='Profil privé ?',
+        help_text='Si cette case est cochée, mes informations ne seront pas '
+                  'visibles par les autres adhérents.',
     )
     id_file = models.FileField(null=True, blank=True)
     medical_file = models.FileField(null=True, blank=True)
