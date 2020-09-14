@@ -27,8 +27,18 @@ class Personal(models.Model):
         help_text='Si cette case est cochée, mes informations ne seront pas '
                   'visibles par les autres adhérents.',
     )
-    id_file = models.FileField(null=True, blank=True)
-    medical_file = models.FileField(null=True, blank=True)
+    id_file = models.FileField(
+        null=True,
+        blank=True,
+        verbose_name='Pièce d\'identité',
+        upload_to='pieces_identite/',
+    )
+    medical_file = models.FileField(
+        null=True,
+        blank=True,
+        verbose_name='Certificat médical ou licence',
+        upload_to='certificats_licences/',
+    )
 
     objects = PersonalManager()
 

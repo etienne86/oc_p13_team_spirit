@@ -122,10 +122,10 @@ class ProfilesIntegrationTestCase(TestCase):
             'profiles/reset_password/password_reset_complete.html'
         )
 
-    def test_update_personal_info_view_with_url(self):
+    def test_personal_info_view_with_url(self):
         """Integration test - app ``profiles`` - view with url #8
 
-        Test the personal info update view with url.
+        Test the personal info view with url.
         """
         url = reverse('profiles:update_personal_info')
         response = self.client.get(url)
@@ -146,4 +146,17 @@ class ProfilesIntegrationTestCase(TestCase):
         self.assertTemplateUsed(
             response,
             'profiles/update_phone_address.html'
+        )
+
+    def test_personal_files_view_with_url(self):
+        """Integration test - app ``profiles`` - view with url #10
+
+        Test the personal files view with url.
+        """
+        url = reverse('profiles:update_personal_files')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(
+            response,
+            'profiles/update_personal_files.html'
         )

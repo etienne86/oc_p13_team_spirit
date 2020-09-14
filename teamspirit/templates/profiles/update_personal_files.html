@@ -1,0 +1,21 @@
+{% extends "profiles/base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}Mise à jour des documents personnels{% endblock title %}
+
+{% block section_one %}
+  <section>
+    <div class="container my-3">
+      <div class="card text-center border-solid">
+        <div class="card-body">
+          <h1 class="text-primary text-center">Documents personnels</h1>
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% crispy form %}
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock section_one %}

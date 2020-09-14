@@ -109,7 +109,7 @@ class PhoneForm(ModelForm):
         if commit:
             self.user.personal.phone_number = phone_number
             self.user.personal.save()
-        return self.user
+        return self.user.personal
 
 
 class AddressForm(ModelForm):
@@ -175,7 +175,7 @@ class AddressForm(ModelForm):
             self.user.personal.address.city = city
             self.user.personal.address.country = country
             self.user.personal.address.save()
-        return self.user
+        return self.user.personal.address
 
 
 class ConfidentialityForm(ModelForm):
@@ -205,14 +205,14 @@ class ConfidentialityForm(ModelForm):
         if commit:
             self.user.personal.has_private_profile = has_private_profile
             self.user.personal.save()
-        return self.user
+        return self.user.personal
 
 
 class PersonalFilesForm(ModelForm):
 
     class Meta:
         model = Personal
-        fields = ['id_file', 'medical_file']
+        fields = ['medical_file', 'id_file']
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
@@ -224,8 +224,13 @@ class PersonalFilesForm(ModelForm):
         self.helper.label_class = 'col-lg-2'
         self.helper.field_class = 'col-lg-8'
         self.helper.layout = Layout(
-            Field('id_file', value=self.user.id_file),
-            Field('medical_file', value=self.user.medical_file)
+            Field('medical_file', value=self.user.personal.medical_file),
+            Field(
+                'id_file',
+                type="file",
+                css_class="fileupload-preview fileupload-exists thumbnail",
+                value=self.user.personal.id_file
+            ),
         )
         self.helper.add_input(Submit('submit', 'Mettre à jour'))
         if self.is_valid():
@@ -238,4 +243,4 @@ class PersonalFilesForm(ModelForm):
             self.user.personal.id_file = id_file
             self.user.personal.medical_file = medical_file
             self.user.personal.save()
-        return self.user
+        return self.user.personal

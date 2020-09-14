@@ -1,6 +1,7 @@
 """Contain the unit tests related to the forms in app ``profiles``."""
 
 from django.core.files.uploadedfile import UploadedFile
+# from django.core.files import File
 from django.test import TestCase
 
 from teamspirit.core.models import Address
@@ -245,8 +246,9 @@ class ProfilesFormsTestCase(TestCase):
         self.assertTrue(form.is_valid())
         form.save()
         expected_personal = Personal.objects.create(
-            id_file=UploadedFile,
-            medical_file=UploadedFile,
+            id_file=UploadedFile(),
+            medical_file=UploadedFile(),
+            address=self.address,
         )
         self.assertEqual(
             self.user.personal.has_private_profile,

@@ -17,6 +17,7 @@ from teamspirit.profiles.forms import (
     CustomPasswordChangeForm,
     CustomPasswordResetForm,
     CustomSetPasswordForm,
+    PersonalFilesForm,
     PersonalInfoForm,
     PhoneForm,
 )
@@ -139,3 +140,19 @@ def phone_address_view(request):
         'profiles/update_phone_address.html',
         context,
     )
+
+
+class PersonalFilesView(FormView):
+
+    template_name = 'profiles/update_personal_files.html'
+    form_class = PersonalFilesForm
+    success_url = reverse_lazy('profiles:profile')
+
+    def get_form_kwargs(self):
+        kwargs = super(PersonalFilesView, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+
+
+personal_files_view = PersonalFilesView.as_view()
+personal_files_view = login_required(personal_files_view)
