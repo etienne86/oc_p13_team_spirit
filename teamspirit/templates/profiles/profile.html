@@ -81,11 +81,7 @@
                   <label>Téléphone</label>
                 </div>
                 <div class="col-12 col-lg-8">
-                  {% if user.personal.phone_number %}
-                    <input id="phone_field" type="text" class="form-control" value="{{ user.personal.phone_number }}" disabled>
-                  {% else %}
-                    <input id="phone_field" type="text" class="form-control" disabled>
-                  {% endif %}
+                  <input id="phone_field" type="text" class="form-control" disabled {% if user.personal.phone_number %} value="{{ user.personal.phone_number }}" {% endif %}>
                 </div>
               </div>
               <div class="row my-3">
@@ -93,46 +89,19 @@
                   <label>Adresse</label>
                 </div>
                 <div class="col-12 col-lg-8">
-                  {% if user.personal.address.label_first %}
-                    <input id="label_first_field" type="text" class="form-control" value="{{ user.personal.address.label_first }}" disabled>
-                  {% else %}
-                    <input id="label_first_field" type="text" class="form-control" disabled>
-                  {% endif %}
+                  <input id="label_first_field" type="text" class="form-control" disabled {% if user.personal.address.label_first %} {% if user.personal.address.label_second %} value="{{ user.personal.address.label_first }} - {{ user.personal.address.label_second }}" {% else %} value="{{ user.personal.address.label_first }}" {% endif %} {% endif %}>
                 </div>
                 <div class="col-12 offset-lg-2 col-lg-8">
-                  {% if user.personal.address.label_second %}
-                    <input id="label_second_field" type="text" class="form-control" value="{{ user.personal.address.label_second }}" disabled>
-                  {% else %}
-                    <input id="label_second_field" type="text" class="form-control" disabled>
-                  {% endif %}
+                  <input id="postal_code_and_city_field" type="text" class="form-control" disabled {% if user.personal.address.postal_code and user.personal.address.city %} value="{{ user.personal.address.postal_code }} {{ user.personal.address.city }}" {% endif %}>
                 </div>
                 <div class="col-12 offset-lg-2 col-lg-8">
-                  {% if user.personal.address.postal_code %}
-                    {% if user.personal.address.city %}
-                      <input id="postal_code_and_city_field" type="text" class="form-control" value="{{ user.personal.address.postal_code }} {{ user.personal.address.city }}" disabled>
-                    {% else %}
-                      <input id="postal_code_and_city_field" type="text" class="form-control" disabled>
-                    {% endif %}
-                  {% else %}
-                    <input id="postal_code_and_city_field" type="text" class="form-control" disabled>
-                  {% endif %}
-                </div>
-                <div class="col-12 offset-lg-2 col-lg-8">
-                  {% if user.personal.address.country %}
-                    <input id="country_field" type="text" class="form-control" value="{{ user.personal.address.country }}" disabled>
-                  {% else %}
-                    <input id="country_field" type="text" class="form-control" disabled>
-                  {% endif %}
+                  <input id="country_field" type="text" class="form-control" disabled {% if user.personal.address.country %} value="{{ user.personal.address.country }}" {% endif %}>
                 </div>
               </div>
               <div class="row my-3">
                 <div class="col-12">
                   <div class="custom-control custom-checkbox">
-                    {% if user.personal.has_private_profile %}
-                      <input id="confidential_checkbox" class="custom-control-input" type="checkbox" value="has_private_profile" id="confidential_check" checked disabled>
-                    {% else %}
-                      <input id="confidential_checkbox" class="custom-control-input" type="checkbox" value="has_private_profile" id="confidential_check" disabled>
-                    {% endif %}
+                    <input id="confidential_checkbox" class="custom-control-input" type="checkbox" value="has_private_profile" id="confidential_check" disabled {% if user.personal.has_private_profile %} checked {% endif %}>
                     <label class="custom-control-label" for="confidential_check">
                       Garder mes coordonnées confidentielles
                     </label>
@@ -155,7 +124,7 @@
                     <label>Certificat médical ou licence</label>
                   </div>
                   <div class="col-12 col-lg-8">
-                    <input type="text" class="form-control" value="{{ user.personal.medical_file }}" disabled>
+                    <input type="file" class="form-control fileupload-preview fileupload-exists thumbnail" value="{{ user.personal.medical_file.name }}" disabled>
                   </div>
                 </div>
                 <div class="row my-3">
@@ -163,9 +132,10 @@
                     <label>Pièce d'identité</label>
                   </div>
                   <div class="col-12 col-lg-8">
-                    <input type="text" class="form-control" value="{{ user.personal.id_file }}" disabled>
+                    <input type="file" class="form-control" value="{{ user.personal.id_file.name }}" disabled>
                   </div>
                 </div>
+                <p>Ces documents peuvent être demandés par le bureau de l'association, par exemple en cas d'inscriptions groupées à un événement.</p>
                 <div class="row my-3">
                   <div class="col-12 offset-lg-2 col-lg-8">
                     <input id="change_files_button" type="submit" class="btn btn-primary" value="Modifier">
@@ -174,7 +144,7 @@
               </div>
             </form>
           </div>
-
+          
         </div>
       </div>
 
