@@ -6,8 +6,13 @@ from django.test import TestCase
 from teamspirit.core.models import Address
 from teamspirit.profiles.models import Personal
 from teamspirit.profiles.views import (
+    add_id_file_view,
+    add_medical_file_view,
     custom_password_reset_complete_view,
     custom_password_reset_done_view,
+    drop_file_view,
+    drop_id_file_view,
+    drop_medical_file_view,
     password_changed_view,
     personal_info_view,
     phone_address_view,
@@ -210,5 +215,92 @@ class ProfilesViewsTestCase(TestCase):
         self.assertTrue(html.startswith('<!DOCTYPE html>'))
         self.assertIn(
             '<title>Team Spirit - Mise à jour des coordonnées',
+            html
+        )
+
+    def test_add_medical_file_view(self):
+        """Unit test - app ``profiles`` - view ``add_medical_file_view``
+
+        Test the 'medical file add' view.
+        """
+        view = add_medical_file_view
+        response = view(self.get_request)  # type is TemplateResponse
+        # render the response content
+        response.render()
+        html = response.content.decode('utf8')
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(html.startswith('<!DOCTYPE html>'))
+        self.assertIn(
+            '<title>Team Spirit - Mise à jour du certificat médical ou de la'
+            ' licence',
+            html
+        )
+
+    def test_add_id_file_view(self):
+        """Unit test - app ``profiles`` - view ``add_id_file_view``
+
+        Test the 'id file add' view.
+        """
+        view = add_id_file_view
+        response = view(self.get_request)  # type is TemplateResponse
+        # render the response content
+        response.render()
+        html = response.content.decode('utf8')
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(html.startswith('<!DOCTYPE html>'))
+        self.assertIn(
+            '<title>Team Spirit - Mise à jour de la pièce d\'identité',
+            html
+        )
+
+    def test_drop_medical_file_view(self):
+        """Unit test - app ``profiles`` - view ``drop_medical_file_view``
+
+        Test the 'medical file drop' view.
+        """
+        view = drop_medical_file_view
+        response = view(self.get_request)  # type is TemplateResponse
+        # render the response content
+        response.render()
+        html = response.content.decode('utf8')
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(html.startswith('<!DOCTYPE html>'))
+        self.assertIn(
+            '<title>Team Spirit - Suppression du certificat médical ou de la'
+            ' licence',
+            html
+        )
+
+    def test_drop_id_file_view(self):
+        """Unit test - app ``profiles`` - view ``drop_id_file_view``
+
+        Test the 'id file drop' view.
+        """
+        view = drop_id_file_view
+        response = view(self.get_request)  # type is TemplateResponse
+        # render the response content
+        response.render()
+        html = response.content.decode('utf8')
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(html.startswith('<!DOCTYPE html>'))
+        self.assertIn(
+            '<title>Team Spirit - Suppression de la pièce d\'identité',
+            html
+        )
+
+    def test_drop_file_view(self):
+        """Unit test - app ``profiles`` - view ``drop_file_view``
+
+        Test the 'file drop' view.
+        """
+        view = drop_file_view
+        response = view(self.get_request)  # type is TemplateResponse
+        # render the response content
+        response.render()
+        html = response.content.decode('utf8')
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(html.startswith('<!DOCTYPE html>'))
+        self.assertIn(
+            '<title>Team Spirit - Suppression d\'un fichier',
             html
         )

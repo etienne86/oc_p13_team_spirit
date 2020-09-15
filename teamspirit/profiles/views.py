@@ -12,12 +12,15 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 
 from teamspirit.profiles.forms import (
+    AddIdFileForm,
+    AddMedicalFileForm,
     AddressForm,
     ConfidentialityForm,
     CustomPasswordChangeForm,
     CustomPasswordResetForm,
     CustomSetPasswordForm,
-    PersonalFilesForm,
+    DropIdFileForm,
+    DropMedicalFileForm,
     PersonalInfoForm,
     PhoneForm,
 )
@@ -142,17 +145,74 @@ def phone_address_view(request):
     )
 
 
-class PersonalFilesView(FormView):
+class AddMedicalFileView(FormView):
 
-    template_name = 'profiles/update_personal_files.html'
-    form_class = PersonalFilesForm
+    template_name = 'profiles/add_medical_file.html'
+    form_class = AddMedicalFileForm
     success_url = reverse_lazy('profiles:profile')
 
     def get_form_kwargs(self):
-        kwargs = super(PersonalFilesView, self).get_form_kwargs()
+        kwargs = super(AddMedicalFileView, self).get_form_kwargs()
         kwargs.update({'user': self.request.user})
         return kwargs
 
 
-personal_files_view = PersonalFilesView.as_view()
-personal_files_view = login_required(personal_files_view)
+add_medical_file_view = AddMedicalFileView.as_view()
+add_medical_file_view = login_required(add_medical_file_view)
+
+
+class AddIdFileView(FormView):
+
+    template_name = 'profiles/add_id_file.html'
+    form_class = AddIdFileForm
+    success_url = reverse_lazy('profiles:profile')
+
+    def get_form_kwargs(self):
+        kwargs = super(AddIdFileView, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+
+
+add_id_file_view = AddIdFileView.as_view()
+add_id_file_view = login_required(add_id_file_view)
+
+
+class DropMedicalFileView(FormView):
+
+    template_name = 'profiles/drop_medical_file.html'
+    form_class = DropMedicalFileForm
+    success_url = reverse_lazy('profiles:drop_file')
+
+    def get_form_kwargs(self):
+        kwargs = super(DropMedicalFileView, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+
+
+drop_medical_file_view = DropMedicalFileView.as_view()
+drop_medical_file_view = login_required(drop_medical_file_view)
+
+
+class DropIdFileView(FormView):
+
+    template_name = 'profiles/drop_id_file.html'
+    form_class = DropIdFileForm
+    success_url = reverse_lazy('profiles:drop_file')
+
+    def get_form_kwargs(self):
+        kwargs = super(DropIdFileView, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+
+
+drop_id_file_view = DropIdFileView.as_view()
+drop_id_file_view = login_required(drop_id_file_view)
+
+
+class DropFileView(TemplateView):
+
+    template_name = 'profiles/drop_file.html'
+
+
+drop_file_view = DropFileView.as_view()
+drop_file_view = login_required(drop_file_view)

@@ -9,8 +9,11 @@ omit =
     tests*
     *migrations*
     runtests.py
+    *apps.py
     *wsgi*
     *asgi*
     *site-packages*
+    merge_production_dotenvs_in_dotenv.py
+    config/*
 
 ignore_errors = True

@@ -1,17 +1,19 @@
 """Contain the unit tests related to the forms in app ``profiles``."""
 
 from django.core.files.uploadedfile import UploadedFile
-# from django.core.files import File
 from django.test import TestCase
 
 from teamspirit.core.models import Address
 from teamspirit.profiles.forms import (
+    AddIdFileForm,
+    AddMedicalFileForm,
     AddressForm,
     ConfidentialityForm,
     CustomPasswordChangeForm,
     CustomPasswordResetForm,
     CustomSetPasswordForm,
-    PersonalFilesForm,
+    DropIdFileForm,
+    DropMedicalFileForm,
     PersonalInfoForm,
     PhoneForm,
 )
@@ -233,24 +235,76 @@ class ProfilesFormsTestCase(TestCase):
             expected_personal.has_private_profile
         )
 
-    def test_personal_files_form_success(self):
-        """Unit test - app ``profiles`` - form ``PersonalFilesForm``
+    def test_add_medical_file_form_success(self):
+        """Unit test - app ``profiles`` - form ``AddMedicalFileForm``
 
-        Test the personal files form with success.
+        Test the 'medical file add' form with success.
         """
         form_data = {
-            'id_file': UploadedFile(),
             'medical_file': UploadedFile(),
         }
-        form = PersonalFilesForm(user=self.user, data=form_data)
+        form = AddMedicalFileForm(user=self.user, data=form_data)
         self.assertTrue(form.is_valid())
         form.save()
         expected_personal = Personal.objects.create(
-            id_file=UploadedFile(),
             medical_file=UploadedFile(),
             address=self.address,
         )
         self.assertEqual(
-            self.user.personal.has_private_profile,
-            expected_personal.has_private_profile
+            self.user.personal.medical_file,
+            expected_personal.medical_file
+        )
+
+    def test_add_id_file_form_success(self):
+        """Unit test - app ``profiles`` - form ``AddIdFileForm``
+
+        Test the 'id file add' form with success.
+        """
+        form_data = {
+            'id_file': UploadedFile(),
+        }
+        form = AddIdFileForm(user=self.user, data=form_data)
+        self.assertTrue(form.is_valid())
+        form.save()
+        expected_personal = Personal.objects.create(
+            id_file=UploadedFile(),
+            address=self.address,
+        )
+        self.assertEqual(
+            self.user.personal.id_file,
+            expected_personal.id_file
+        )
+
+    def test_drop_medical_file_form_success(self):
+        """Unit test - app ``profiles`` - form ``DropMedicalFileForm``
+
+        Test the 'medical file drop' form with success.
+        """
+        form_data = {}
+        form = DropMedicalFileForm(user=self.user, data=form_data)
+        self.assertTrue(form.is_valid())
+        form.save()
+        expected_personal = Personal.objects.create(
+            address=self.address,
+        )
+        self.assertEqual(
+            self.user.personal.medical_file,
+            expected_personal.medical_file
+        )
+
+    def test_drop_id_file_form_success(self):
+        """Unit test - app ``profiles`` - form ``DropIdFileForm``
+
+        Test the 'id file drop' form with success.
+        """
+        form_data = {}
+        form = DropIdFileForm(user=self.user, data=form_data)
+        self.assertTrue(form.is_valid())
+        form.save()
+        expected_personal = Personal.objects.create(
+            address=self.address,
+        )
+        self.assertEqual(
+            self.user.personal.medical_file,
+            expected_personal.medical_file
         )

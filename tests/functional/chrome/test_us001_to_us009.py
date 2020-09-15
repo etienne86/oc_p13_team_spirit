@@ -22,9 +22,9 @@ US009 - En tant que Pierre, je veux connaître les adhérents intéressés par u
         pratique en groupe pour s'entraîner ensemble.
 """
 
-# import re
+import os
+import re
 
-# from django.contrib.sites.models import Site
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -143,7 +143,7 @@ class NoStaffUserStoriesAuthenticatedTestCase(StaticLiveServerTestCase):
         first_name_value = first_name_field.get_attribute("value")
         self.assertEqual(first_name_value, "Titi")
 
-    def test_update_phone_and_address_name(self):
+    def test_update_phone_and_address(self):
         """US002-AT02: successful update of phone number and address."""
         # ask for the profile page
         start_url = self.home_url + "profile/"
@@ -217,12 +217,7 @@ class NoStaffUserStoriesAuthenticatedTestCase(StaticLiveServerTestCase):
         self.assertEqual(phone_value, "99 98 97 96 95")
         label_first_field = self.driver.find_element_by_id("label_first_field")
         first_name_value = label_first_field.get_attribute("value")
-        self.assertEqual(first_name_value, "12 rue du Pont")
-        label_second_field = self.driver.find_element_by_id(
-            "label_second_field"
-        )
-        label_second_value = label_second_field.get_attribute("value")
-        self.assertEqual(label_second_value, "Appartement 3")
+        self.assertEqual(first_name_value, "12 rue du Pont - Appartement 3")
         postal_code_and_city_field = self.driver.find_element_by_id(
             "postal_code_and_city_field"
         )
@@ -237,3 +232,201 @@ class NoStaffUserStoriesAuthenticatedTestCase(StaticLiveServerTestCase):
             "confidential_checkbox"
         )
         self.assertTrue(confidentiality_checkbox.is_selected())
+
+    def test_add_then_drop_medical_file(self):
+        """US001-AT01: add then drop a medical file."""
+        # ask for the profile page
+        start_url = self.home_url + "profile/"
+        self.driver.get(start_url)
+        # click on the tab "Certificat ou licence"
+        medical_file_tab = self.driver.find_element_by_id("fichier-medical")
+        medical_file_tab.click()
+        # click on the button "Modifier"
+        WebDriverWait(
+            self.driver,
+            timeout=10
+        ).until(EC.element_to_be_clickable((
+            By.ID,
+            "add_medical_file_button"
+        ))).click()
+        # wait for page loading
+        WebDriverWait(
+            self.driver,
+            timeout=10
+        ).until(EC.url_changes(start_url))
+        # check wether the page is reachable
+        expected_url = start_url + "add_medical_file/?"
+        self.assertEqual(self.driver.current_url, expected_url)
+        # upload a file
+        add_file_button = self.driver.find_element_by_id("id_medical_file")
+        add_file_button.send_keys(
+            os.getcwd() + "/tests/functional/files/toto_medical_file.png"
+        )
+        # submit the form
+        submit_button = self.driver.find_element_by_id("submit-id-submit")
+        submit_button.click()
+        # wait for page loading
+        WebDriverWait(
+            self.driver,
+            timeout=10
+        ).until(EC.url_to_be(start_url))
+        # click on the tab "Certificat ou licence"
+        medical_file_tab = self.driver.find_element_by_id("fichier-medical")
+        medical_file_tab.click()
+        WebDriverWait(
+            self.driver,
+            timeout=10
+        ).until(EC.element_to_be_clickable((
+            By.ID,
+            "drop_medical_file_button"
+        )))
+        # check wether the file name is present and correct
+        medical_file_field = self.driver.find_element_by_id(
+            "medical_file_name"
+        )
+        medical_file_name = medical_file_field.get_attribute("value")
+        expected_regex = r'lic/LE RIGOLO_Toto/toto_medical_file.*\.png'
+        self.assertTrue(re.match(expected_regex, medical_file_name))
+        # drop the file
+        drop_file_button = self.driver.find_element_by_id(
+            "drop_medical_file_button"
+        )
+        drop_file_button.click()
+        # wait for page loading
+        expected_url = start_url + "drop_medical_file/?"
+        WebDriverWait(
+            self.driver,
+            timeout=10
+        ).until(EC.url_to_be(expected_url))
+        # click on the button "Confirmer"
+        submit_button = self.driver.find_element_by_id("submit-id-submit")
+        submit_button.click()
+        # wait for page loading
+        expected_url = start_url + "drop_file/"
+        WebDriverWait(
+            self.driver,
+            timeout=10
+        ).until(EC.url_to_be(expected_url))
+        # click on the button "Retour"
+        back_button = self.driver.find_element_by_id("back_button")
+        back_button.click()
+        # wait for page loading
+        WebDriverWait(
+            self.driver,
+            timeout=10
+        ).until(EC.url_changes(expected_url))
+        # check wether we come back at profile page
+        self.assertEqual(self.driver.current_url, start_url)
+        # click on the tab "Certificat ou licence"
+        medical_file_tab = self.driver.find_element_by_id("fichier-medical")
+        medical_file_tab.click()
+        WebDriverWait(
+            self.driver,
+            timeout=10
+        ).until(EC.element_to_be_clickable((
+            By.ID,
+            "add_medical_file_button"
+        )))
+        # check wether the file name is empty
+        medical_file_field = self.driver.find_element_by_id(
+            "medical_file_name"
+        )
+        medical_file_name = medical_file_field.get_attribute("value")
+        self.assertEqual(medical_file_name, '')
+
+    def test_add_then_drop_id_file(self):
+        """US001-AT02: add then drop an id file."""
+        # ask for the profile page
+        start_url = self.home_url + "profile/"
+        self.driver.get(start_url)
+        # click on the tab "Certificat ou licence"
+        id_file_tab = self.driver.find_element_by_id("fichier-identite")
+        id_file_tab.click()
+        # click on the button "Modifier"
+        WebDriverWait(
+            self.driver,
+            timeout=10
+        ).until(EC.element_to_be_clickable((
+            By.ID,
+            "add_id_file_button"
+        ))).click()
+        # wait for page loading
+        WebDriverWait(
+            self.driver,
+            timeout=10
+        ).until(EC.url_changes(start_url))
+        # check wether the page is reachable
+        expected_url = start_url + "add_id_file/?"
+        self.assertEqual(self.driver.current_url, expected_url)
+        # upload a file
+        add_file_button = self.driver.find_element_by_id("id_id_file")
+        add_file_button.send_keys(
+            os.getcwd() + "/tests/functional/files/toto_id_file.png"
+        )
+        # submit the form
+        submit_button = self.driver.find_element_by_id("submit-id-submit")
+        submit_button.click()
+        # wait for page loading
+        WebDriverWait(
+            self.driver,
+            timeout=10
+        ).until(EC.url_to_be(start_url))
+        # click on the tab "Certificat ou licence"
+        id_file_tab = self.driver.find_element_by_id("fichier-identite")
+        id_file_tab.click()
+        WebDriverWait(
+            self.driver,
+            timeout=10
+        ).until(EC.element_to_be_clickable((
+            By.ID,
+            "drop_id_file_button"
+        )))
+        # check wether the file name is present and correct
+        id_file_field = self.driver.find_element_by_id("id_file_name")
+        id_file_name = id_file_field.get_attribute("value")
+        expected_regex = r'id/LE RIGOLO_Toto/toto_id_file.*\.png'
+        self.assertTrue(re.match(expected_regex, id_file_name))
+        # drop the file
+        drop_file_button = self.driver.find_element_by_id(
+            "drop_id_file_button"
+        )
+        drop_file_button.click()
+        # wait for page loading
+        expected_url = start_url + "drop_id_file/?"
+        WebDriverWait(
+            self.driver,
+            timeout=10
+        ).until(EC.url_to_be(expected_url))
+        # click on the button "Confirmer"
+        submit_button = self.driver.find_element_by_id("submit-id-submit")
+        submit_button.click()
+        # wait for page loading
+        expected_url = start_url + "drop_file/"
+        WebDriverWait(
+            self.driver,
+            timeout=10
+        ).until(EC.url_to_be(expected_url))
+        # click on the button "Retour"
+        back_button = self.driver.find_element_by_id("back_button")
+        back_button.click()
+        # wait for page loading
+        WebDriverWait(
+            self.driver,
+            timeout=10
+        ).until(EC.url_changes(expected_url))
+        # check wether we come back at profile page
+        self.assertEqual(self.driver.current_url, start_url)
+        # click on the tab "Certificat ou licence"
+        id_file_tab = self.driver.find_element_by_id("fichier-identite")
+        id_file_tab.click()
+        WebDriverWait(
+            self.driver,
+            timeout=10
+        ).until(EC.element_to_be_clickable((
+            By.ID,
+            "add_id_file_button"
+        )))
+        # check wether the file name is empty
+        id_file_field = self.driver.find_element_by_id("id_file_name")
+        id_file_name = id_file_field.get_attribute("value")
+        self.assertEqual(id_file_name, '')

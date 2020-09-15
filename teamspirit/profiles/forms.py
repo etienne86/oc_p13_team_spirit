@@ -208,15 +208,15 @@ class ConfidentialityForm(ModelForm):
         return self.user.personal
 
 
-class PersonalFilesForm(ModelForm):
+class AddMedicalFileForm(ModelForm):
 
     class Meta:
         model = Personal
-        fields = ['medical_file', 'id_file']
+        fields = ['medical_file']
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
-        super(PersonalFilesForm, self).__init__(*args, **kwargs)
+        super(AddMedicalFileForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_id = 'id-personal-files-form'
         self.helper.form_class = 'form-horizontal'
@@ -226,28 +226,101 @@ class PersonalFilesForm(ModelForm):
         self.helper.layout = Layout(
             Field(
                 'medical_file',
-                # type="file",
-                value=self.user.personal.medical_file,
-                accept=".pdf, image/png, image/jpeg",
-            ),
-            Field(
-                'id_file',
-                # type="file",
-                value=self.user.personal.id_file,
                 accept=".pdf, image/png, image/jpeg",
             ),
         )
-        self.helper.add_input(Submit('submit', 'Mettre à jour'))
+        self.helper.add_input(Submit('submit', 'Soumettre'))
+        if self.is_valid():
+            self.save()
+
+    def save(self, commit=True):
+        medical_file = self.cleaned_data["medical_file"]
+        if commit and medical_file:
+            self.user.personal.medical_file = medical_file
+            self.user.personal.save()
+        return self.user.personal
+
+
+class AddIdFileForm(ModelForm):
+
+    class Meta:
+        model = Personal
+        fields = ['id_file']
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        super(AddIdFileForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_id = 'id-personal-files-form'
+        self.helper.form_class = 'form-horizontal'
+        self.helper.form_method = 'post'
+        self.helper.label_class = 'col-lg-2'
+        self.helper.field_class = 'col-lg-8'
+        self.helper.layout = Layout(
+            Field(
+                'id_file',
+                accept=".pdf, image/png, image/jpeg",
+            ),
+        )
+        self.helper.add_input(Submit('submit', 'Soumettre'))
         if self.is_valid():
             self.save()
 
     def save(self, commit=True):
         id_file = self.cleaned_data["id_file"]
-        medical_file = self.cleaned_data["medical_file"]
+        if commit and id_file:
+            self.user.personal.id_file = id_file
+            self.user.personal.save()
+        return self.user.personal
+
+
+class DropMedicalFileForm(ModelForm):
+
+    class Meta:
+        model = Personal
+        fields = []
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        super(DropMedicalFileForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_id = 'id-personal-files-form'
+        self.helper.form_class = 'form-horizontal'
+        self.helper.form_method = 'post'
+        self.helper.label_class = 'col-lg-2'
+        self.helper.field_class = 'col-lg-8'
+        self.helper.add_input(Submit('submit', 'Confirmer'))
+        if self.is_valid():
+            self.save()
+
+    def save(self, commit=True):
         if commit:
-            if id_file:
-                self.user.personal.id_file = id_file
-            if medical_file:
-                self.user.personal.medical_file = medical_file
+            self.user.personal.medical_file.delete()
+            self.user.personal.save()
+        return self.user.personal
+
+
+class DropIdFileForm(ModelForm):
+
+    class Meta:
+        model = Personal
+        fields = []
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        super(DropIdFileForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_id = 'id-personal-files-form'
+        self.helper.form_class = 'form-horizontal'
+        self.helper.form_method = 'post'
+        self.helper.label_class = 'col-lg-2'
+        self.helper.field_class = 'col-lg-8'
+        self.helper.add_input(Submit('submit', 'Confirmer'))
+        if self.is_valid():
+            self.save()
+
+    def save(self, commit=True):
+        if commit:
+            self.user.personal.id_file.delete()
             self.user.personal.save()
         return self.user.personal

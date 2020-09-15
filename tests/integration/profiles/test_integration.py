@@ -148,15 +148,28 @@ class ProfilesIntegrationTestCase(TestCase):
             'profiles/update_phone_address.html'
         )
 
-    def test_personal_files_view_with_url(self):
+    def test_medical_file_view_with_url(self):
         """Integration test - app ``profiles`` - view with url #10
 
-        Test the personal files view with url.
+        Test the 'medical file add' view with url.
         """
-        url = reverse('profiles:update_personal_files')
+        url = reverse('profiles:add_medical_file')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(
             response,
-            'profiles/update_personal_files.html'
+            'profiles/add_medical_file.html'
+        )
+
+    def test_id_file_view_with_url(self):
+        """Integration test - app ``profiles`` - view with url #11
+
+        Test the 'id file add' view with url.
+        """
+        url = reverse('profiles:add_id_file')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(
+            response,
+            'profiles/add_id_file.html'
         )

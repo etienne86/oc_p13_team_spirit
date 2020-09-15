@@ -6,8 +6,6 @@ from teamspirit.core.models import Address
 from teamspirit.profiles.managers import (
     PersonalManager,
     RoleManager,
-)
-from teamspirit.profiles.managers import (
     rename_id_file,
     rename_medical_file,
 )

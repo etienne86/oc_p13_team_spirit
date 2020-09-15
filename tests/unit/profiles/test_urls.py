@@ -87,11 +87,42 @@ class ProfilesUrlsTestCase(TestCase):
         url = reverse('profiles:update_phone_address')
         self.assertEqual(url, '/profile/update_phone_address/')
 
-    def test_personal_files_url(self):
-        """Unit test - app ``profiles`` - url ``profile/...``
+    def test_add_medical_file_url(self):
+        """Unit test - app ``profiles`` - url ``profile/add_medical_file/``
 
-        [complete url: ``profile/update_personal_files/``]
-        Test the 'personal files update' url.
+        Test the 'medical file add' url.
         """
-        url = reverse('profiles:update_personal_files')
-        self.assertEqual(url, '/profile/update_personal_files/')
+        url = reverse('profiles:add_medical_file')
+        self.assertEqual(url, '/profile/add_medical_file/')
+
+    def test_add_id_file_url(self):
+        """Unit test - app ``profiles`` - url ``profile/add_id_file/``
+
+        Test the 'id file add' url.
+        """
+        url = reverse('profiles:add_id_file')
+        self.assertEqual(url, '/profile/add_id_file/')
+
+    def test_drop_medical_file_url(self):
+        """Unit test - app ``profiles`` - url ``profile/drop_medical_file/``
+
+        Test the 'drop medical file' url.
+        """
+        url = reverse('profiles:drop_medical_file')
+        self.assertEqual(url, '/profile/drop_medical_file/')
+
+    def test_drop_id_file_url(self):
+        """Unit test - app ``profiles`` - url ``profile/drop_id_file/``
+
+        Test the 'drop id file' url.
+        """
+        url = reverse('profiles:drop_id_file')
+        self.assertEqual(url, '/profile/drop_id_file/')
+
+    def test_drop_file_url(self):
+        """Unit test - app ``profiles`` - url ``profile/drop_file/``
+
+        Test the 'drop file' url.
+        """
+        url = reverse('profiles:drop_file')
+        self.assertEqual(url, '/profile/drop_file/')
