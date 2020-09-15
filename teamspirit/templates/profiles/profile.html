@@ -124,7 +124,7 @@
                     <label>Certificat médical ou licence</label>
                   </div>
                   <div class="col-12 col-lg-8">
-                    <input type="file" class="form-control fileupload-preview fileupload-exists thumbnail" value="{{ user.personal.medical_file.name }}" disabled>
+                    <input class="form-control" value="{{ user.personal.medical_file.name }}" disabled>
                   </div>
                 </div>
                 <div class="row my-3">
@@ -132,7 +132,7 @@
                     <label>Pièce d'identité</label>
                   </div>
                   <div class="col-12 col-lg-8">
-                    <input type="file" class="form-control" value="{{ user.personal.id_file.name }}" disabled>
+                    <input class="form-control" value="{{ user.personal.id_file.name }}" disabled>
                   </div>
                 </div>
                 <p>Ces documents peuvent être demandés par le bureau de l'association, par exemple en cas d'inscriptions groupées à un événement.</p>

@@ -3,7 +3,14 @@
 from django.db import models, transaction
 
 from teamspirit.core.models import Address
-from teamspirit.profiles.managers import PersonalManager, RoleManager
+from teamspirit.profiles.managers import (
+    PersonalManager,
+    RoleManager,
+)
+from teamspirit.profiles.managers import (
+    rename_id_file,
+    rename_medical_file,
+)
 
 
 class Personal(models.Model):
@@ -31,13 +38,13 @@ class Personal(models.Model):
         null=True,
         blank=True,
         verbose_name='Pièce d\'identité',
-        upload_to='pieces_identite/',
+        upload_to=rename_id_file,
     )
     medical_file = models.FileField(
         null=True,
         blank=True,
         verbose_name='Certificat médical ou licence',
-        upload_to='certificats_licences/',
+        upload_to=rename_medical_file,
     )
 
     objects = PersonalManager()

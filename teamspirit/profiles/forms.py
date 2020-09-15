@@ -224,12 +224,17 @@ class PersonalFilesForm(ModelForm):
         self.helper.label_class = 'col-lg-2'
         self.helper.field_class = 'col-lg-8'
         self.helper.layout = Layout(
-            Field('medical_file', value=self.user.personal.medical_file),
+            Field(
+                'medical_file',
+                # type="file",
+                value=self.user.personal.medical_file,
+                accept=".pdf, image/png, image/jpeg",
+            ),
             Field(
                 'id_file',
-                type="file",
-                css_class="fileupload-preview fileupload-exists thumbnail",
-                value=self.user.personal.id_file
+                # type="file",
+                value=self.user.personal.id_file,
+                accept=".pdf, image/png, image/jpeg",
             ),
         )
         self.helper.add_input(Submit('submit', 'Mettre à jour'))
@@ -240,7 +245,9 @@ class PersonalFilesForm(ModelForm):
         id_file = self.cleaned_data["id_file"]
         medical_file = self.cleaned_data["medical_file"]
         if commit:
-            self.user.personal.id_file = id_file
-            self.user.personal.medical_file = medical_file
+            if id_file:
+                self.user.personal.id_file = id_file
+            if medical_file:
+                self.user.personal.medical_file = medical_file
             self.user.personal.save()
         return self.user.personal
