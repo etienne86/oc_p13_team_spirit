@@ -1,6 +1,5 @@
 import logging
 
-import django_heroku
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.logging import LoggingIntegration
@@ -187,4 +186,6 @@ sentry_sdk.init(
 # ------------------------------------------------------------------------------
 
 # Activate Django Heroku
+import django_heroku
+
 django_heroku.settings(locals())
