@@ -10,7 +10,7 @@
       <div class="card text-center border-solid">
         <div class="card-body">
           <h1 class="text-primary text-center">Mes coordonnées</h1>
-          <form action="{% url 'profiles:update_phone_address' %}" method="post">
+          <form class="mb-3" action="{% url 'profiles:update_phone_address' %}" method="post">
             {% csrf_token %}
             <fieldset>
               <legend>Téléphone</legend>
@@ -25,6 +25,7 @@
             </fieldset>
             <input id="submit-phone-address-form" type="submit" class="btn btn-primary" value="Mettre à jour">
           </form>
+          <a href="{% url 'profiles:profile' %}">Annuler</a>
         </div>
       </div>
     </div>
