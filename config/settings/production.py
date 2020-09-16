@@ -70,12 +70,12 @@ SECURE_CONTENT_TYPE_NOSNIFF = env.bool(
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # MEDIA
 # ------------------------------------------------------------------------------
+INSTALLED_APPS += ["storages"]  # noqa F405
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
 AWS_S3_REGION_NAME = 'eu-west-1'
 AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
-INSTALLED_APPS += ["django-storages"]  # noqa F405
 
 # TEMPLATES
 # ------------------------------------------------------------------------------
