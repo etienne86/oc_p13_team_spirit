@@ -75,7 +75,7 @@ AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
 AWS_S3_REGION_NAME = 'eu-west-1'
 AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
-INSTALLED_APPS += ["storages"]  # noqa F405
+INSTALLED_APPS += ["django-storages"]  # noqa F405
 
 # TEMPLATES
 # ------------------------------------------------------------------------------
