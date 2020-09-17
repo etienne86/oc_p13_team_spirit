@@ -2,10 +2,10 @@
 
 The emulated web browser is Chrome.
 Here are the User Stories, in French:
-US001 - En tant que Laurent, je veux poster un fichier sur la plateforme pour
-        transmettre mon certificat médical.
-US002 - En tant que Laurent, je veux indiquer mes coordonnées pour être
+US001 - En tant que Laurent, je veux indiquer mes coordonnées pour être
         joignable par d’autres adhérents.
+US002 - En tant que Laurent, je veux poster un fichier sur la plateforme pour
+        transmettre mon certificat médical.
 US003 - En tant que Laurent, je veux renseigner des informations à destination
         des adhérents pour proposer des créneaux d'entraînement.
 US004 - En tant que Claire, je veux consulter l'agenda pour connaître les
@@ -86,7 +86,7 @@ class NoStaffUserStoriesAuthenticatedTestCase(StaticLiveServerTestCase):
         super().tearDownClass()
 
     def test_update_last_name_and_first_name(self):
-        """US002-AT01: successful update of last name and first name."""
+        """US001-AT01: successful update of last name and first name."""
         # ask for the profile page
         start_url = self.home_url + "profile/"
         self.driver.get(start_url)
@@ -144,7 +144,7 @@ class NoStaffUserStoriesAuthenticatedTestCase(StaticLiveServerTestCase):
         self.assertEqual(first_name_value, "Titi")
 
     def test_update_phone_and_address(self):
-        """US002-AT02: successful update of phone number and address."""
+        """US001-AT02: successful update of phone number and address."""
         # ask for the profile page
         start_url = self.home_url + "profile/"
         self.driver.get(start_url)
@@ -234,7 +234,7 @@ class NoStaffUserStoriesAuthenticatedTestCase(StaticLiveServerTestCase):
         self.assertTrue(confidentiality_checkbox.is_selected())
 
     def test_add_then_drop_medical_file(self):
-        """US001-AT01: add then drop a medical file."""
+        """US002-AT01: add then drop a medical file."""
         # ask for the profile page
         start_url = self.home_url + "profile/"
         self.driver.get(start_url)
@@ -335,7 +335,7 @@ class NoStaffUserStoriesAuthenticatedTestCase(StaticLiveServerTestCase):
         self.assertEqual(medical_file_name, 'Aucun fichier sélectionné')
 
     def test_add_then_drop_id_file(self):
-        """US001-AT02: add then drop an id file."""
+        """US002-AT02: add then drop an id file."""
         # ask for the profile page
         start_url = self.home_url + "profile/"
         self.driver.get(start_url)
