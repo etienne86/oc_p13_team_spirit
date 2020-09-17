@@ -281,10 +281,10 @@ class NoStaffUserStoriesAuthenticatedTestCase(StaticLiveServerTestCase):
             "drop_medical_file_button"
         )))
         # check wether the file name is present and correct
-        medical_file_field = self.driver.find_element_by_id(
+        medical_file_link = self.driver.find_element_by_id(
             "medical_file_name"
         )
-        medical_file_name = medical_file_field.get_attribute("value")
+        medical_file_name = medical_file_link.text
         expected_regex = r'lic/LE RIGOLO_Toto/toto_medical_file.*\.png'
         self.assertTrue(re.match(expected_regex, medical_file_name))
         # drop the file
@@ -332,7 +332,7 @@ class NoStaffUserStoriesAuthenticatedTestCase(StaticLiveServerTestCase):
             "medical_file_name"
         )
         medical_file_name = medical_file_field.get_attribute("value")
-        self.assertEqual(medical_file_name, '')
+        self.assertEqual(medical_file_name, 'Aucun fichier sélectionné')
 
     def test_add_then_drop_id_file(self):
         """US001-AT02: add then drop an id file."""
@@ -382,8 +382,8 @@ class NoStaffUserStoriesAuthenticatedTestCase(StaticLiveServerTestCase):
             "drop_id_file_button"
         )))
         # check wether the file name is present and correct
-        id_file_field = self.driver.find_element_by_id("id_file_name")
-        id_file_name = id_file_field.get_attribute("value")
+        id_file_link = self.driver.find_element_by_id("id_file_name")
+        id_file_name = id_file_link.text
         expected_regex = r'id/LE RIGOLO_Toto/toto_id_file.*\.png'
         self.assertTrue(re.match(expected_regex, id_file_name))
         # drop the file
@@ -429,4 +429,4 @@ class NoStaffUserStoriesAuthenticatedTestCase(StaticLiveServerTestCase):
         # check wether the file name is empty
         id_file_field = self.driver.find_element_by_id("id_file_name")
         id_file_name = id_file_field.get_attribute("value")
-        self.assertEqual(id_file_name, '')
+        self.assertEqual(id_file_name, 'Aucun fichier sélectionné')

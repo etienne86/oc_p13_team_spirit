@@ -129,10 +129,10 @@
                   <div class="col-12 col-lg-8">
                   {% if user.personal.medical_file %}
                     <div class="text-left">  
-                      <a href="{{ user.personal.medical_file.url }}">{{ user.personal.medical_file.name }}</a>
+                      <a id="medical_file_name" href="{{ user.personal.medical_file.url }}">{{ user.personal.medical_file.name }}</a>
                     </div>
                   {% else %}
-                    <input id="medical_file_name" class="form-control"  value="Aucun fichier sélectionné" disabled>
+                    <input id="medical_file_name" class="form-control" value="Aucun fichier sélectionné" disabled>
                   {% endif %}
                   </div>
                 </div>
@@ -160,10 +160,10 @@
                   <div class="col-12 col-lg-8">
                     {% if user.personal.id_file %}
                       <div class="text-left">  
-                        <a href="{{ user.personal.id_file.url }}">{{ user.personal.id_file.name }}</a>
+                        <a id="id_file_name" href="{{ user.personal.id_file.url }}">{{ user.personal.id_file.name }}</a>
                       </div>
                     {% else %}
-                      <input id="id_file_name" class="form-control"  value="Aucun fichier sélectionné" disabled>
+                      <input id="id_file_name" class="form-control" value="Aucun fichier sélectionné" disabled>
                     {% endif %}
                   </div>
                 </div>
