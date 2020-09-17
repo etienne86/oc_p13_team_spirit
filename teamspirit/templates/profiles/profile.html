@@ -127,7 +127,13 @@
                     <label>Certificat médical ou licence</label>
                   </div>
                   <div class="col-12 col-lg-8">
-                    <input id="medical_file_name" class="form-control" {% if user.personal.medical_file %} value="{{ user.personal.medical_file.name }}" {% endif %} disabled>
+                  {% if user.personal.medical_file %}
+                    <div class="text-left">  
+                      <a href="{{ user.personal.medical_file.url }}">{{ user.personal.medical_file.name }}</a>
+                    </div>
+                  {% else %}
+                    <input id="medical_file_name" class="form-control"  value="Aucun fichier sélectionné" disabled>
+                  {% endif %}
                   </div>
                 </div>
                 <p>Ce document peut être demandé par le bureau de l'association, par exemple en cas d'inscriptions groupées à un événement.</p>
@@ -152,7 +158,13 @@
                     <label>Pièce d'identité</label>
                   </div>
                   <div class="col-12 col-lg-8">
-                    <input id="id_file_name" class="form-control" {% if user.personal.id_file %} value="{{ user.personal.id_file.name }}" {% endif %} disabled>
+                    {% if user.personal.id_file %}
+                      <div class="text-left">  
+                        <a href="{{ user.personal.id_file.url }}">{{ user.personal.id_file.name }}</a>
+                      </div>
+                    {% else %}
+                      <input id="id_file_name" class="form-control"  value="Aucun fichier sélectionné" disabled>
+                    {% endif %}
                   </div>
                 </div>
                 <p>Ce document peut être demandé par le bureau de l'association, par exemple en cas d'inscriptions groupées à un événement.</p>

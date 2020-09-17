@@ -10,8 +10,7 @@
       <div class="card text-center border-solid">
         <div class="card-body">
           <h1 class="text-primary text-center">Suppression de la pièce d'identité</h1>
-          <p>Confirmez-vous la suppression de ce fichier ?</p>
-          <p>{{ user.personal.id_file.name }}</p>
+          <p>Confirmez-vous la suppression de <a href="{{ user.personal.id_file.url }}">ce fichier</a> ?</p>
           <form method="post">
             {% csrf_token %}
             {% crispy form %}

@@ -10,10 +10,7 @@
       <div class="card text-center border-solid">
         <div class="card-body">
           <h1 class="text-primary text-center">Suppression du certificat médical ou de la licence</h1>
-          <p>Confirmez-vous la suppression de ce fichier ?</p>
-          <div class="col pb-3">
-            <p>{{ user.personal.medical_file.name }}</p>
-          </div>
+          <p>Confirmez-vous la suppression de <a href="{{ user.personal.medical_file.url }}">ce fichier</a> ?</p>
           <form method="post">
             {% csrf_token %}
             {% crispy form %}
