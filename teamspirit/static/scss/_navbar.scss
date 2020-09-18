@@ -1,5 +1,4 @@
 #mainNav {
-  z-index: 100;
   background-color: fade-out($secondary, 0.1);
   @include heading-font;
   .navbar-brand {
