@@ -79,6 +79,7 @@ a {
 }
 
 #mainNav {
+  z-index: 100;
   background-color: rgba(255, 224, 174, 0.9);
   font-family: 'Raleway';
 }
