@@ -6,7 +6,6 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
-# from teamspirit.profiles.models import Personal
 from teamspirit.users.managers import UserManager
 
 

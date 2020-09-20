@@ -16,24 +16,6 @@ class CatalogModelTestsCase(TestCase):
         cls.catalog = Catalog.objects.create(
             name="Catalogue de vêtements",
         )
-        # cls.product_a = Product.objects.create(
-        #     name="Débardeur homme",
-        #     image=UploadedFile(),
-        #     size="M",
-        #     is_available=True,
-        #     is_free=False,
-        #     price=25,
-        #     catalog=cls.catalog,
-        # )
-        # cls.product_b = Product.objects.create(
-        #     name="Short homme",
-        #     image=UploadedFile(),
-        #     size="XL",
-        #     is_available=True,
-        #     is_free=False,
-        #     price=25,
-        #     catalog=cls.catalog,
-        # )
 
     def test_catalog_is_catalog_instance(self):
         """Unit test - app ``catalogs`` - model ``Product`` - #1.1
@@ -51,7 +33,6 @@ class CatalogModelTestsCase(TestCase):
         self.assertEqual(self.catalog.name, "Catalogue de vêtements")
 
 
-
 class ProductModelTestsCase(TestCase):
     """Test the model ``Product``."""
 
@@ -65,7 +46,6 @@ class ProductModelTestsCase(TestCase):
         cls.product = Product.objects.create(
             name="Débardeur homme",
             image=cls.image,
-            size="M",
             is_available=True,
             is_free=False,
             price=25,
@@ -95,16 +75,8 @@ class ProductModelTestsCase(TestCase):
         self.assertIsInstance(self.product.image, File)
         self.assertEqual(self.product.image, self.image)
 
-    def test_size(self):
-        """Unit test - app ``catalogs`` - model ``Product`` - #2.4
-
-        Test the size.
-        """
-        self.assertIsInstance(self.product.size, str)
-        self.assertEqual(self.product.size, "M")
-
     def test_is_available(self):
-        """Unit test - app ``catalogs`` - model ``Product`` - #2.5
+        """Unit test - app ``catalogs`` - model ``Product`` - #2.4
 
         Test the availability.
         """
@@ -112,7 +84,7 @@ class ProductModelTestsCase(TestCase):
         self.assertEqual(self.product.is_available, True)
 
     def test_is_free(self):
-        """Unit test - app ``catalogs`` - model ``Product`` - #2.6
+        """Unit test - app ``catalogs`` - model ``Product`` - #2.5
 
         Test wether the item is free.
         """
@@ -120,7 +92,7 @@ class ProductModelTestsCase(TestCase):
         self.assertEqual(self.product.is_free, False)
 
     def test_price(self):
-        """Unit test - app ``catalogs`` - model ``Product`` - #2.7
+        """Unit test - app ``catalogs`` - model ``Product`` - #2.6
 
         Test the price.
         """
@@ -128,7 +100,7 @@ class ProductModelTestsCase(TestCase):
         self.assertEqual(self.product.price, 25)
 
     def test_catalog(self):
-        """Unit test - app ``catalogs`` - model ``Product`` - #2.8
+        """Unit test - app ``catalogs`` - model ``Product`` - #2.7
 
         Test the catalog.
         """

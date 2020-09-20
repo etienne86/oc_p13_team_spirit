@@ -46,48 +46,50 @@
   {% endblock page_title %}
 
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
-    <div class="container">
-      <a class="navbar-brand text-uppercase text-expanded font-weight-bold d-lg-none" href="/">Team Spirit</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav mx-auto custom-nowrap">
-          {% block li_home %}
+  <div class="fixed-top-lg">
+    <nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand text-uppercase text-expanded font-weight-bold d-lg-none" href="/">Team Spirit</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav mx-auto custom-nowrap">
+            {% block li_home %}
+              <li class="nav-item px-lg-4">
+                <a id="home_link" class="nav-link text-uppercase text-expanded" href="{% url 'home' %}">Accueil</a>
+              </li>
+            {% endblock li_home %}
+            {% block li_events %}
+              <li class="nav-item px-lg-4">
+                <a id="events_link" class="nav-link text-uppercase text-expanded" href="{% url 'events:events' %}">Événements</a>
+              </li>
+            {% endblock li_events %}
+            {% block li_trainings %}
             <li class="nav-item px-lg-4">
-              <a id="home_link" class="nav-link text-uppercase text-expanded" href="{% url 'home' %}">Accueil</a>
+              <a id="trainings_link" class="nav-link text-uppercase text-expanded" href="{% url 'trainings:trainings' %}">Entraînements</a>
             </li>
-          {% endblock li_home %}
-          {% block li_events %}
+            {% endblock li_trainings %}
+            {% block li_catalog %}
             <li class="nav-item px-lg-4">
-              <a id="events_link" class="nav-link text-uppercase text-expanded" href="{% url 'events:events' %}">Événements</a>
+              <a id="catalog_link" class="nav-link text-uppercase text-expanded" href="{% url 'catalogs:catalog' %}">Catalogue</a>
             </li>
-          {% endblock li_events %}
-          {% block li_trainings %}
-          <li class="nav-item px-lg-4">
-            <a id="trainings_link" class="nav-link text-uppercase text-expanded" href="{% url 'trainings:trainings' %}">Entraînements</a>
-          </li>
-          {% endblock li_trainings %}
-          {% block li_catalog %}
-          <li class="nav-item px-lg-4">
-            <a id="catalog_link" class="nav-link text-uppercase text-expanded" href="{% url 'catalogs:catalog' %}">Catalogue</a>
-          </li>
-          {% endblock li_catalog %}
-          {% block li_private_space %}
-          <li class="nav-item px-lg-4">
-            <a id="private_space_link" class="nav-link text-uppercase text-expanded" href="{% url 'profiles:profile' %}">Mon espace</a>
-          </li>
-          {% endblock li_private_space %}
-          {% block li_logout %}
-          <li class="nav-item px-lg-4">
-            <a id="logout_link" class="nav-link text-uppercase text-expanded" href="{% url 'users:logout' %}">Déconnexion</a>
-          </li>
-          {% endblock li_logout %}
-        </ul>
+            {% endblock li_catalog %}
+            {% block li_private_space %}
+            <li class="nav-item px-lg-4">
+              <a id="private_space_link" class="nav-link text-uppercase text-expanded" href="{% url 'profiles:profile' %}">Mon espace</a>
+            </li>
+            {% endblock li_private_space %}
+            {% block li_logout %}
+            <li class="nav-item px-lg-4">
+              <a id="logout_link" class="nav-link text-uppercase text-expanded" href="{% url 'users:logout' %}">Déconnexion</a>
+            </li>
+            {% endblock li_logout %}
+          </ul>
+        </div>
       </div>
-    </div>
-  </nav>
+    </nav>
+  </div>
 
   {% block section_one %}{% endblock section_one %}
 

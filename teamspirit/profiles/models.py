@@ -9,6 +9,7 @@ from teamspirit.profiles.managers import (
     rename_id_file,
     rename_medical_file,
 )
+from teamspirit.users.models import User
 
 
 class Personal(models.Model):
@@ -46,6 +47,12 @@ class Personal(models.Model):
     )
 
     objects = PersonalManager()
+
+    def __str__(self):
+        user = User.objects.get(personal=self.id)
+        result = "Informations personnelles pour " + \
+            f"{user.first_name} {user.last_name}"
+        return result
 
 
 class Role(models.Model):

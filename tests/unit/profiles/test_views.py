@@ -1,6 +1,5 @@
 """Contain the unit tests related to the views in app ``profiles``."""
 
-from django.core.files.uploadedfile import UploadedFile
 from django.http.request import HttpRequest
 from django.test import TestCase
 

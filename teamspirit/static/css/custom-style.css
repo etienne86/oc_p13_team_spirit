@@ -16,6 +16,13 @@ footer{
 }
 
 
+/* maintain navbar at top for xs, s and m screens */
+
+nav {
+  height: 100%;
+}
+
+
 /* home page rendering */
 
 .custom-nowrap {
@@ -60,3 +67,22 @@ footer{
     width: 45%;
   }
 }
+
+
+/* navbar rendering on xs, s and m screens */
+
+/* @media (max-width: 991px) {
+  .fixed-top-lg {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+  }
+  #section_one {
+    margin-top: calc(nav-height);
+  }
+} */
+
+
+

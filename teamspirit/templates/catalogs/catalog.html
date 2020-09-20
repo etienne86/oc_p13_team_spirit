@@ -1,10 +1,39 @@
-{% extends "base.html" %}
+{% extends "catalogs/base.html" %}
 {% load static i18n %}
 
-{% block li_catalog %}
-  <li class="nav-item active px-lg-4">
-    <a class="nav-link text-uppercase text-expanded" href="{% url 'catalogs:catalog' %}">Catalogue
-      <span class="sr-only">(current)</span>
-    </a>
-  </li>
-{% endblock li_catalog %}
+{% block title %}Catalogue{% endblock title %}
+
+{% block section_one %}
+<section id="section_one">
+  <div class="container p-0">
+    <div class="row">
+    {% for product in object_list %}
+      <div class="col-12 col-sm-4 p-4">
+        <div class="card h-100">
+          <div class="row">
+            <div class="col-12 text-center">
+              <a href="{{ product.image.url }}">
+                <img class="p-0 img-fluid" src="{{ product.image.url }}" alt="(photo manquante)" />
+              </a>
+              <div class="card-body">
+                <div class="text-center">
+                  <a href="{{ product.image.url }}">
+                    {% if product.name %}
+                      <p class="card-text text-muted">{{ product.name }}</p>
+                    {% else %}
+                      <p>(nom manquant)</p>
+                    {% endif %}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p>Aucun produit ne figure dans ce catalogue !</p>
+    {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock section_one %}

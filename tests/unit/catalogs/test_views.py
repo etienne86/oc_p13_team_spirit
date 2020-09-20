@@ -1,8 +1,9 @@
 """Contain the unit tests related to the views in app ``catalogs``."""
 
+from django.http.request import HttpRequest
 from django.test import TestCase
-from django.urls import reverse
 
+from teamspirit.catalogs.views import catalog_view
 from teamspirit.core.models import Address
 from teamspirit.profiles.models import Personal
 from teamspirit.users.models import User
@@ -33,13 +34,21 @@ class CatalogsViewsTestCase(TestCase):
         )
         # log this user in
         self.client.login(email="toto@mail.com", password="TopSecret")
+        # a 'get' request
+        self.get_request = HttpRequest()
+        self.get_request.method = 'get'
+        self.get_request.user = self.user
 
     def test_catalog_view(self):
         """Unit test - app ``catalogs`` - view ``catalog_view``
 
         Test the catalog view.
         """
-        url = reverse('catalogs:catalog')
-        response = self.client.get(url)
+        view = catalog_view
+        response = view(self.get_request)  # type is TemplateResponse
+        # render the response content
+        response.render()
+        html = response.content.decode('utf8')
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'catalogs/catalog.html')
+        self.assertTrue(html.startswith('<!DOCTYPE html>'))
+        self.assertIn('<title>Team Spirit - Catalogue</title>', html)

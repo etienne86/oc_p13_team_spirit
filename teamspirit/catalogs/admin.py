@@ -1,3 +1,6 @@
-# from django.contrib import admin
+from django.contrib import admin
 
-# Register your models here.
+from teamspirit.catalogs.models import Catalog, Product
+
+admin.site.register(Catalog)
+admin.site.register(Product)

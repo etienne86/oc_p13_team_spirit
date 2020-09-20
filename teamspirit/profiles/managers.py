@@ -7,12 +7,12 @@ from teamspirit.users.models import User
 
 class PersonalManager(models.Manager):
     """Manage the model ``Personal``."""
-    pass
+    # pass
 
 
 class RoleManager(models.Manager):
     """Manage the model ``Role``."""
-    pass
+    # pass
 
 
 def rename_id_file(instance, file_name):

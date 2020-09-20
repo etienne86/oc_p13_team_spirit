@@ -2,11 +2,7 @@
 
 from django.db import models
 
-
-from teamspirit.catalogs.managers import (
-    CatalogManager,
-    ProductManager,
-)
+from teamspirit.catalogs.managers import CatalogManager, ProductManager
 
 
 class Catalog(models.Model):
@@ -22,6 +18,8 @@ class Catalog(models.Model):
 
     objects = CatalogManager()
 
+    def __str__(self):
+        return f"{self.name}"
 
 
 class Product(models.Model):
@@ -39,13 +37,6 @@ class Product(models.Model):
         blank=True,
         verbose_name='Photo',
         upload_to='produits/',
-    )
-    size = models.CharField(
-        max_length=5,
-        verbose_name='Taille',
-        null=False,
-        blank=False,
-        default='(produit sans taille)',
     )
     is_available = models.BooleanField(
         null=False,
@@ -70,5 +61,8 @@ class Product(models.Model):
         on_delete=models.CASCADE,
         null=False,
     )
+
+    def __str__(self):
+        return f"{self.name}"
 
     objects = ProductManager()

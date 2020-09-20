@@ -148,7 +148,7 @@ class ProfilesIntegrationTestCase(TestCase):
             'profiles/update_phone_address.html'
         )
 
-    def test_medical_file_view_with_url(self):
+    def test_add_medical_file_view_with_url(self):
         """Integration test - app ``profiles`` - view with url #10
 
         Test the 'medical file add' view with url.
@@ -161,7 +161,7 @@ class ProfilesIntegrationTestCase(TestCase):
             'profiles/add_medical_file.html'
         )
 
-    def test_id_file_view_with_url(self):
+    def test_add_id_file_view_with_url(self):
         """Integration test - app ``profiles`` - view with url #11
 
         Test the 'id file add' view with url.
@@ -173,3 +173,52 @@ class ProfilesIntegrationTestCase(TestCase):
             response,
             'profiles/add_id_file.html'
         )
+
+    def test_drop_medical_file_view_with_url(self):
+        """Integration test - app ``profiles`` - view with url #12
+
+        Test the 'medical file drop' view with url.
+        """
+        url = reverse('profiles:drop_medical_file')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(
+            response,
+            'profiles/drop_medical_file.html'
+        )
+
+    def test_drop_id_file_view_with_url(self):
+        """Integration test - app ``profiles`` - view with url #13
+
+        Test the 'id file drop' view with url.
+        """
+        url = reverse('profiles:drop_id_file')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(
+            response,
+            'profiles/drop_id_file.html'
+        )
+
+    def test_drop_file_view_with_url(self):
+        """Integration test - app ``profiles`` - view with url #14
+
+        Test the 'file drop' view with url.
+        """
+        url = reverse('profiles:drop_file')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(
+            response,
+            'profiles/drop_file.html'
+        )
+
+    def test_catalog_view_with_url(self):
+        """Integration test - app ``catalogs`` - view with url
+
+        Test the catalog view with url.
+        """
+        url = reverse('catalogs:catalog')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'catalogs/catalog.html')
