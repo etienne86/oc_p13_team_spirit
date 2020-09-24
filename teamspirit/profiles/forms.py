@@ -218,7 +218,7 @@ class AddMedicalFileForm(ModelForm):
         self.user = kwargs.pop('user')
         super(AddMedicalFileForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
-        self.helper.form_id = 'id-personal-files-form'
+        self.helper.form_id = 'id-add-medical-file-form'
         self.helper.form_class = 'form-horizontal'
         self.helper.form_method = 'post'
         self.helper.label_class = 'col-lg-2'
@@ -251,7 +251,7 @@ class AddIdFileForm(ModelForm):
         self.user = kwargs.pop('user')
         super(AddIdFileForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
-        self.helper.form_id = 'id-personal-files-form'
+        self.helper.form_id = 'id-add-id-file-form'
         self.helper.form_class = 'form-horizontal'
         self.helper.form_method = 'post'
         self.helper.label_class = 'col-lg-2'
@@ -284,7 +284,7 @@ class DropMedicalFileForm(ModelForm):
         self.user = kwargs.pop('user')
         super(DropMedicalFileForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
-        self.helper.form_id = 'id-personal-files-form'
+        self.helper.form_id = 'id-drop-medical-file-form'
         self.helper.form_class = 'form-horizontal'
         self.helper.form_method = 'post'
         self.helper.label_class = 'col-lg-2'
@@ -310,7 +310,7 @@ class DropIdFileForm(ModelForm):
         self.user = kwargs.pop('user')
         super(DropIdFileForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
-        self.helper.form_id = 'id-personal-files-form'
+        self.helper.form_id = 'id-drop-file-form'
         self.helper.form_class = 'form-horizontal'
         self.helper.form_method = 'post'
         self.helper.label_class = 'col-lg-2'

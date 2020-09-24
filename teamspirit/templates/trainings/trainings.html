@@ -1,10 +1,22 @@
-{% extends "base.html" %}
+{% extends "trainings/base.html" %}
 {% load static i18n %}
 
-{% block li_trainings %}
-<li class="nav-item active px-lg-4">
-  <a class="nav-link text-uppercase text-expanded" href="{% url 'trainings:trainings' %}">Entraînements
-    <span class="sr-only">(current)</span>
-  </a>
-</li>
-{% endblock li_trainings %}
+{% block section_one %}
+<section id="section_one">
+  <div class="container p-3">
+    <div class="row">
+      {% for training in object_list %}
+        <div class="col">
+          <div class="card h-100">
+            <p>Entraînement proposé par {{ training.trainer }}</p>
+          </div>
+        </div>
+      {% empty %}
+        <div class="col">  
+          <p class="text-center">Aucun entraînement n'est actuellement programmé !</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock section_one %}

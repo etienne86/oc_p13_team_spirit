@@ -18,6 +18,7 @@ urlpatterns = [
     # Your stuff: custom urls includes go here
     path("catalog/", include("teamspirit.catalogs.urls")),
     path("events/", include("teamspirit.events.urls")),
+    path("shopping_cart/", include("teamspirit.preorders.urls")),
     path("profile/", include("teamspirit.profiles.urls")),
     path("trainings/", include("teamspirit.trainings.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

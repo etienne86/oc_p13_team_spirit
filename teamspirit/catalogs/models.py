@@ -1,4 +1,4 @@
-"""Contain the models related to the app ``profiles``."""
+"""Contain the models related to the app ``catalogs``."""
 
 from django.db import models
 

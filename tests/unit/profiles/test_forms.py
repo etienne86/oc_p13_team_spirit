@@ -44,7 +44,6 @@ class ProfilesFormsTestCase(TestCase):
             first_name="Toto",
             last_name="LE RIGOLO",
             personal=self.personal
-
         )
         # log this user in
         self.client.login(email="toto@mail.com", password="Password123")
@@ -178,7 +177,7 @@ class ProfilesFormsTestCase(TestCase):
         form = PhoneForm(user=self.user, data=form_data)
         self.assertTrue(form.is_valid())
         form.save()
-        expected_personal = Personal.objects.create(
+        expected_personal = Personal(
             phone_number='99 98 97 96 95',
             address=self.address
         )
@@ -202,7 +201,7 @@ class ProfilesFormsTestCase(TestCase):
         form = AddressForm(user=self.user, data=form_data)
         self.assertTrue(form.is_valid())
         form.save()
-        expected_address = Address.objects.create(
+        expected_address = Address(
             label_first="1 rue du Pont",
             label_second="",
             postal_code="75000",
@@ -225,7 +224,7 @@ class ProfilesFormsTestCase(TestCase):
         form = ConfidentialityForm(user=self.user, data=form_data)
         self.assertTrue(form.is_valid())
         form.save()
-        expected_personal = Personal.objects.create(
+        expected_personal = Personal(
             phone_number='00 00 00 00 00',
             address=self.address,
             has_private_profile=True,
@@ -246,7 +245,7 @@ class ProfilesFormsTestCase(TestCase):
         form = AddMedicalFileForm(user=self.user, data=form_data)
         self.assertTrue(form.is_valid())
         form.save()
-        expected_personal = Personal.objects.create(
+        expected_personal = Personal(
             medical_file=UploadedFile(),
             address=self.address,
         )
@@ -266,7 +265,7 @@ class ProfilesFormsTestCase(TestCase):
         form = AddIdFileForm(user=self.user, data=form_data)
         self.assertTrue(form.is_valid())
         form.save()
-        expected_personal = Personal.objects.create(
+        expected_personal = Personal(
             id_file=UploadedFile(),
             address=self.address,
         )
@@ -284,7 +283,7 @@ class ProfilesFormsTestCase(TestCase):
         form = DropMedicalFileForm(user=self.user, data=form_data)
         self.assertTrue(form.is_valid())
         form.save()
-        expected_personal = Personal.objects.create(
+        expected_personal = Personal(
             address=self.address,
         )
         self.assertEqual(
@@ -301,7 +300,7 @@ class ProfilesFormsTestCase(TestCase):
         form = DropIdFileForm(user=self.user, data=form_data)
         self.assertTrue(form.is_valid())
         form.save()
-        expected_personal = Personal.objects.create(
+        expected_personal = Personal(
             address=self.address,
         )
         self.assertEqual(

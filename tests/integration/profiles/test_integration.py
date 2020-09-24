@@ -212,13 +212,3 @@ class ProfilesIntegrationTestCase(TestCase):
             response,
             'profiles/drop_file.html'
         )
-
-    def test_catalog_view_with_url(self):
-        """Integration test - app ``catalogs`` - view with url
-
-        Test the catalog view with url.
-        """
-        url = reverse('catalogs:catalog')
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'catalogs/catalog.html')

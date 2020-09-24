@@ -5,6 +5,7 @@ from django.test import TestCase
 
 from teamspirit.catalogs.views import catalog_view
 from teamspirit.core.models import Address
+from teamspirit.preorders.views import shopping_cart_view
 from teamspirit.profiles.models import Personal
 from teamspirit.users.models import User
 

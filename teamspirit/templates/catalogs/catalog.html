@@ -7,6 +7,11 @@
 <section id="section_one">
   <div class="container p-0">
     <div class="row">
+      <div class="col text-center pt-3">
+        <a href="{% url 'preorders:shopping_cart' %}">Voir mon panier</a>
+      </div>
+    </div>
+    <div class="row">
     {% for product in object_list %}
       <div class="col-12 col-sm-4 p-4">
         <div class="card h-100">
@@ -24,6 +29,9 @@
                       <p>(nom manquant)</p>
                     {% endif %}
                   </a>
+                </div>
+                <div class="text-center">
+                  <a class="btn btn-primary" href="{% url 'preorders:add_to_cart' product.id %}">Ajouter au panier</a>
                 </div>
               </div>
             </div>

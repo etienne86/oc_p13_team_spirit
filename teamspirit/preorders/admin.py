@@ -1,3 +1,6 @@
-# from django.contrib import admin
+from django.contrib import admin
 
-# Register your models here.
+from teamspirit.preorders.models import ShoppingCart, ShoppingCartLine
+
+admin.site.register(ShoppingCart)
+admin.site.register(ShoppingCartLine)
