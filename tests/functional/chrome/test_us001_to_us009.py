@@ -518,19 +518,17 @@ class NoStaffUserStoriesAuthenticatedTestCase(StaticLiveServerTestCase):
             timeout=10
         ).until(EC.url_changes(expected_url))
         # check wether the page is reachable
-        new_url = self.home_url + "shopping_cart/drop_product/1/"
-        self.assertEqual(self.driver.current_url, new_url)
+        new_url_start = self.home_url + "shopping_cart/drop_product/"
+        self.assertTrue(self.driver.current_url.startswith(new_url_start))
         # click on the button "Confirmer"
         submit_button = self.driver.find_element_by_id("submit-id-submit")
         submit_button.click()
         # wait for page loading
+        expected_url = self.home_url + "shopping_cart/"
         WebDriverWait(
             self.driver,
             timeout=10
-        ).until(EC.url_changes(new_url))
-        # check wether the page is reachable
-        expected_url = self.home_url + "shopping_cart/"
-        self.assertEqual(self.driver.current_url, expected_url)
+        ).until(EC.url_to_be(expected_url))
         # check wether the cart is empty
         p_list = self.driver.find_elements_by_tag_name('p')
         self.assertEqual(p_list[0].text, "Montant total du panier : 0 €")
