@@ -30,7 +30,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     personal = models.ForeignKey(
         to='profiles.Personal',
         on_delete=models.CASCADE,
-        null=False,
+        null=True,
+        blank=False,
     )
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
