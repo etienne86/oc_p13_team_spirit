@@ -18,4 +18,4 @@ Several features are available with this web application:
 
 ## How to run the program
 
-Please click on the following [link](https://team-spirit.herokuapp.com//).
+Please click on the following [link](https://team-spirit.herokuapp.com/).
