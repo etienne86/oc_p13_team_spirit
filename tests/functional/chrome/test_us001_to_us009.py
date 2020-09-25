@@ -485,8 +485,8 @@ class NoStaffUserStoriesAuthenticatedTestCase(StaticLiveServerTestCase):
             timeout=10
         ).until(EC.url_changes(start_url))
         # check wether the page is reachable
-        expected_url = self.home_url + "shopping_cart/add_product/1/"
-        self.assertEqual(self.driver.current_url, expected_url)
+        expected_url_start = self.home_url + "shopping_cart/add_product/"
+        self.assertTrue(self.driver.current_url.startswith(expected_url_start))
         # update data
         last_name_field = self.driver.find_element_by_id("id_size")
         last_name_field.send_keys("M")
@@ -497,9 +497,7 @@ class NoStaffUserStoriesAuthenticatedTestCase(StaticLiveServerTestCase):
         WebDriverWait(
             self.driver,
             timeout=10
-        ).until(EC.url_changes(expected_url))
-        # check wether the page is reachable
-        self.assertEqual(self.driver.current_url, start_url)
+        ).until(EC.url_to_be(start_url))
         # click on the link "Voir mon panier"
         cart_link = self.driver.find_element_by_link_text("Voir mon panier")
         cart_link.click()
