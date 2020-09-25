@@ -83,7 +83,10 @@ class PreordersViewsTestCase(TestCase):
         html = response.content.decode('utf8')
         self.assertEqual(response.status_code, 200)
         self.assertTrue(html.startswith('<!DOCTYPE html>'))
-        self.assertIn('<title>Team Spirit - Panier de pré-commande</title>', html)
+        self.assertIn(
+            '<title>Team Spirit - Panier de pré-commande</title>',
+            html
+        )
 
     def test_add_to_cart_view(self):
         """Unit test - app ``preorders`` - view ``add_to_cart_view``
@@ -117,4 +120,7 @@ class PreordersViewsTestCase(TestCase):
         html = response.content.decode('utf8')
         self.assertEqual(response.status_code, 200)
         self.assertTrue(html.startswith('<!DOCTYPE html>'))
-        self.assertIn('<title>Team Spirit - Suppression de produit</title>', html)
+        self.assertIn(
+            '<title>Team Spirit - Suppression de produit</title>',
+            html
+        )

@@ -1,6 +1,5 @@
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Field, Layout, Submit
-from django.contrib.auth import forms as auth_forms
+from crispy_forms.layout import Submit
 from django.forms import HiddenInput, ModelForm
 
 from teamspirit.preorders.models import ShoppingCartLine

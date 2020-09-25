@@ -70,7 +70,7 @@ class PreordersFormsTestCase(TestCase):
         # process the form
         form_data = {
             'shopping_cart': self.shopping_cart,
-            'product':self.product,
+            'product': self.product,
             'quantity': 1,
             'size': 'M',
         }

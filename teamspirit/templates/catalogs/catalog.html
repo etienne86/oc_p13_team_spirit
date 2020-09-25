@@ -17,17 +17,15 @@
         <div class="card h-100">
           <div class="row">
             <div class="col-12 text-center">
-              <a href="{{ product.image.url }}">
-                <img class="p-0 img-fluid" src="{{ product.image.url }}" alt="(photo manquante)" />
+              <a href="{% if product.image %}{{ product.image.url }}{% endif %}">
+                <img class="p-0 img-fluid" src="{% if product.image %}{{ product.image.url }}{% endif %}" alt="(photo manquante)" />
               </a>
               <div class="card-body">
                 <div class="text-center">
-                  <a href="{{ product.image.url }}">
-                    {% if product.name %}
-                      <p class="card-text text-muted">{{ product.name }}</p>
-                    {% else %}
-                      <p>(nom manquant)</p>
-                    {% endif %}
+                  <a href="{% if product.image %}{{ product.image.url }}{% endif %}">
+                    <p class="card-text text-muted">
+                      {% if product.name %}{{ product.name }}{% else %}(nom manquant){% endif %}
+                    </p>
                   </a>
                 </div>
                 <div class="text-center">

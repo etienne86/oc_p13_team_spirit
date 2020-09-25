@@ -26,16 +26,18 @@ import os
 import re
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from django.core.files.uploadedfile import UploadedFile
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-# from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from seleniumlogin import force_login
 from webdriver_manager.chrome import ChromeDriverManager
 
+from teamspirit.catalogs.models import Catalog, Product
 from teamspirit.core.models import Address
+from teamspirit.preorders.models import ShoppingCart
 from teamspirit.profiles.models import Personal
 from teamspirit.users.models import User
 
@@ -79,6 +81,31 @@ class NoStaffUserStoriesAuthenticatedTestCase(StaticLiveServerTestCase):
         )
         # force login for this user
         force_login(self.user, self.driver, self.live_server_url)
+        # some other data
+        self.shopping_cart = ShoppingCart.objects.create(
+            user=self.user,
+        )
+        self.catalog = Catalog.objects.create(
+            name="Catalogue de vêtements",
+        )
+        self.file = os.getcwd() + "/tests/functional/files/survetement.jpg"
+        self.image = UploadedFile(file=self.file)
+        self.product_a = Product.objects.create(
+            name="Produit A",
+            image=self.image,
+            is_available=True,
+            is_free=False,
+            price=25,
+            catalog=self.catalog,
+        )
+        self.product_b = Product.objects.create(
+            name="Produit B",
+            image=self.image,
+            is_available=True,
+            is_free=False,
+            price=100,
+            catalog=self.catalog,
+        )
 
     @classmethod
     def tearDownClass(cls):
@@ -430,3 +457,86 @@ class NoStaffUserStoriesAuthenticatedTestCase(StaticLiveServerTestCase):
         id_file_field = self.driver.find_element_by_id("id_file_name")
         id_file_name = id_file_field.get_attribute("value")
         self.assertEqual(id_file_name, 'Aucun fichier sélectionné')
+
+    def test_consult_catalog_items(self):
+        """US007-AT01: consult the catalog items."""
+        # request the catalog page
+        start_url = self.home_url + "catalog/"
+        self.driver.get(start_url)
+        # count the number of products
+        products_list = self.driver.find_elements_by_link_text(
+            "Ajouter au panier"
+        )
+        self.assertEqual(len(products_list), 2)
+
+    def test_add_then_delete_a_product_from_shopping_cart(self):
+        """US008-AT01: add then drop a product from shopping cart."""
+        # request the catalog page
+        start_url = self.home_url + "catalog/"
+        self.driver.get(start_url)
+        # click on the first button "Ajouter au panier"
+        add_to_cart_button = self.driver.find_elements_by_link_text(
+            "Ajouter au panier"
+        )[0]
+        add_to_cart_button.click()
+        # wait for page loading
+        WebDriverWait(
+            self.driver,
+            timeout=10
+        ).until(EC.url_changes(start_url))
+        # check wether the page is reachable
+        expected_url = self.home_url + "shopping_cart/add_product/1/"
+        self.assertEqual(self.driver.current_url, expected_url)
+        # update data
+        last_name_field = self.driver.find_element_by_id("id_size")
+        last_name_field.send_keys("M")
+        # click on the button "Ajouter au panier"
+        submit_button = self.driver.find_element_by_id("submit-id-submit")
+        submit_button.click()
+        # wait for page loading
+        WebDriverWait(
+            self.driver,
+            timeout=10
+        ).until(EC.url_changes(expected_url))
+        # check wether the page is reachable
+        self.assertEqual(self.driver.current_url, start_url)
+        # click on the link "Voir mon panier"
+        cart_link = self.driver.find_element_by_link_text("Voir mon panier")
+        cart_link.click()
+        # wait for page loading
+        WebDriverWait(
+            self.driver,
+            timeout=10
+        ).until(EC.url_changes(start_url))
+        # check wether the page is reachable
+        expected_url = self.home_url + "shopping_cart/"
+        self.assertEqual(self.driver.current_url, expected_url)
+        # click on the button "Supprimer"
+        delete_button = self.driver.find_element_by_link_text("Supprimer")
+        delete_button.click()
+        # wait for page loading
+        WebDriverWait(
+            self.driver,
+            timeout=10
+        ).until(EC.url_changes(expected_url))
+        # check wether the page is reachable
+        new_url = self.home_url + "shopping_cart/drop_product/1/"
+        self.assertEqual(self.driver.current_url, new_url)
+        # click on the button "Confirmer"
+        submit_button = self.driver.find_element_by_id("submit-id-submit")
+        submit_button.click()
+        # wait for page loading
+        WebDriverWait(
+            self.driver,
+            timeout=10
+        ).until(EC.url_changes(new_url))
+        # check wether the page is reachable
+        expected_url = self.home_url + "shopping_cart/"
+        self.assertEqual(self.driver.current_url, expected_url)
+        # check wether the cart is empty
+        p_list = self.driver.find_elements_by_tag_name('p')
+        self.assertEqual(p_list[0].text, "Montant total du panier : 0 €")
+        self.assertEqual(
+            p_list[1].text,
+            "Votre panier de pré-commande est vide !"
+        )
